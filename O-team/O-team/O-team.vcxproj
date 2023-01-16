@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="flying_Armor.cpp" />
+    <ClCompile Include="flying_Attack.cpp" />
     <ClCompile Include="flying_object.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="Help.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="flying_Attack.h" />
     <ClInclude Include="flying_Armor.h" />
     <ClInclude Include="flying_object.h" />
     <ClInclude Include="GameMain.h" />
