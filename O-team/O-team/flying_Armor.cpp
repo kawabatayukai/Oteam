@@ -2,8 +2,8 @@
 #include "flying_Armor.h"
 
 //コンストラクタ
-Flying_Armor::Flying_Armor(int durability, float x, float y, float speed)
-	:durability(durability), Flying_object(x, y, 30.0f, 30.0f, speed)      //基底クラスのコンストラクタ呼び出し
+Flying_Armor::Flying_Armor(int durability, int x, int y, int speed)
+	:durability(durability), Flying_object(x, y, 30, 30, speed)      //基底クラスのコンストラクタ呼び出し
 {
 	//コンストラクタで値を渡さないとデフォルト引数で画面右端より飛んできます
 
@@ -21,7 +21,7 @@ Flying_Armor::~Flying_Armor()
 void Flying_Armor::Update()
 {
 	//右から左へ
-	x - speed;
+	x -= speed;
 }
 
 //描画
@@ -31,11 +31,14 @@ void Flying_Armor::Draw()
 	if (image != 0)
 	{
 		//画像で描画(中心座標)
-		DrawRotaGraph(0, y, 1, 0, image, TRUE);
+		DrawRotaGraph(x, y, 1, 0, image, TRUE);
 	}
 	else
 	{
 		// □ を描画
 		DrawBox(x, y, x + w, y + h, 0xffffff, TRUE);
 	}
+
+	//テスト
+	DrawFormatString(0, 0, 0xffffff, "イルヨ");
 }

@@ -9,13 +9,13 @@ class Flying_Armor : public Flying_object
 {
 public:
 	//コンストラクタ
-	Flying_Armor(int durability = 10, float x = 1200.0f, float y = 360.0f, float speed = 5);
+	Flying_Armor(int durability = 10, int x = 1200, int y = 360, int speed = 5);
 
 	//デストラクタ
 	~Flying_Armor();
 
-	void Update();    //更新
-	void Draw();      //描画
+	void Update() override;    //更新
+	void Draw() override;      //描画
 	
 private:
 	int image = 0;    //画像用変数

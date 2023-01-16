@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="flying_Armor.cpp" />
     <ClCompile Include="flying_object.cpp" />
+    <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="Help.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Ranking.cpp" />
@@ -162,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="flying_Armor.h" />
     <ClInclude Include="flying_object.h" />
+    <ClInclude Include="GameMain.h" />
     <ClInclude Include="Help.h" />
     <ClInclude Include="information.h" />
     <ClInclude Include="Ranking.h" />

@@ -48,7 +48,6 @@ int GameMode;     //モード
 ********************************************************************/
 
 void GameInit();         //ゲーム初期化
-void GameMain();         //ゲームメイン
 
 int LoadImages();        //画像読み込み
 int LoadSounds();        //音声読み込み

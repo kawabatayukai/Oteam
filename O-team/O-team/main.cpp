@@ -5,6 +5,7 @@
 #include"Ranking.h"
 #include"Result.h"
 #include"Title.h"
+#include"GameMain.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -22,7 +23,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (LoadImages() == -1) return -1;
 
 	//最初はタイトル
-	GameMode = mode::TITLE;
+	GameMode = mode::INIT;
 
 	//問題なければループ
 	while (ProcessMessage() == 0)
@@ -112,15 +113,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 void GameInit()
 {
 	//いろいろ初期化
+	GameMain_Init();
 
 	//ゲームメインへ
 	GameMode = mode::MAIN;
-}
-
-//ゲームメイン
-void GameMain()
-{
-
 }
 
 //画像読み込み

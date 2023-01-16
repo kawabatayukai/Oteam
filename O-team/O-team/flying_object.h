@@ -6,7 +6,7 @@ class Flying_object
 {
 public:
 	//コンストラクタ
-	Flying_object(float x, float y, float w, float h, float speed);
+	Flying_object(int x, int y, int w, int h, int speed);
 
 	//デストラクタ
 	~Flying_object();
@@ -14,14 +14,16 @@ public:
 	virtual void Update() = 0;   //更新
 	virtual void Draw() = 0;     //描画
 
+	bool CheckScreenOut();       //画面外にいるかチェック　true : 画面外　false : 画面内
+
 private:
 
 protected:
 
-	float x;     //ｘ座標
-	float y;     //ｙ座標
-	const float w;     //幅
-	const float h;     //高さ
+	int x;     //ｘ座標
+	int y;     //ｙ座標
+	const int w;     //幅
+	const int h;     //高さ
 
-	float speed; //スピード
+	int speed; //スピード
 };
