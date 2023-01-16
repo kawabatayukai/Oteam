@@ -3,6 +3,7 @@
 
 //Help.hで宣言した関数の定義をここに書きます
 int g_HelpImg;
+
 //ヘルプ画面描画
 void DrawHelp(int key, int& gamemode)
 {
@@ -16,7 +17,7 @@ void DrawHelp(int key, int& gamemode)
 
 	// 説明表示
 	SetFontSize(27);
-	DrawString(20, 200, "タイミングよくジャンプして防具を身につけよう", 0xffffff, 0);
+	DrawString(300, 240, "* タイミングよくジャンプして防具を身につけよう *", 0xffffff, 0);
 
 	DrawString(380, 670, "--- Bボタンを押してタイトルへ戻る ---", 0xffffff, 0);
 }
