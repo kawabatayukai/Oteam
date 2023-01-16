@@ -1,5 +1,7 @@
 #include"DxLib.h"
 #include"information.h"  //使いたい .hファイル をインクルードします
+#include"Help.h"  
+
 
 /******************************************
  * ヘルプ画面
