@@ -1,1 +1,9 @@
 #pragma once
+
+//リザルト画面のみで使う変数・関数の宣言をここに書きます
+
+//画像変数も書いてください
+
+void DrawResult(int key,int& gamemode);       //エンド描画
+
+int LoadResultImage();   //エンド画像読み込み

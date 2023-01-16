@@ -41,21 +41,14 @@ int g_OldKey;                  //前回の入力キー
 int g_NowKey;                  //今回の入力キー
 int g_KeyFlg;                  //入力キー情報
 
-
+int GameMode;     //モード
 
 /********************************************************************
 *　関数のプロトタイプ宣言
 ********************************************************************/
 
-void DrawGameTitle();    //ゲームタイトル描画
-void DrawHelp();         //ヘルプ画面描画
-void DrawResult();       //エンド描画
-
 void GameInit();         //ゲーム初期化
 void GameMain();         //ゲームメイン
-
-void DrawRanking();      //ランキング描画
-void InputRanking();     //ランキング入力
 
 int LoadImages();        //画像読み込み
 int LoadSounds();        //音声読み込み
