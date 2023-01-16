@@ -121,6 +121,8 @@ void GameInit()
 void GameMain()
 {
 
+	DrawString(30, 30, "main", 0xffffff);
+
 }
 
 //‰æ‘œ“Ç‚İ‚İ

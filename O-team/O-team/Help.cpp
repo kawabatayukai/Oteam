@@ -7,6 +7,7 @@
 void DrawHelp(int key, int& gamemode)
 {
 	//キー入力は"key",GameModeを変えたいときは"gamemode"を変更します
+	DrawString(30, 30, "help", 0xffffff);
 }
 
 //ヘルプ画像読み込み
