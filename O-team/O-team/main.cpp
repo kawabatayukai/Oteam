@@ -40,18 +40,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
  ******************************************/
 int LoadImages()
 {
-	// 
+	// ヘルプ画像読込
 	if ((g_HelpImg = LoadGraph("images/help.bmp")) == -1) return -1;
-}
-
-
-/******************************************
- * ヘルプ画面
- ******************************************/
-void DrawHelp()
-{
-	// B(2)ボタンチェックマスク(Xキー)でメニューに戻る
-	if (g_KeyFlg & PAD_INPUT_B) g_GameMode = TITLE;
-
-
 }
