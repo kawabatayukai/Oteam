@@ -3,6 +3,7 @@
 
 //Help.h‚ÅéŒ¾‚µ‚½ŠÖ”‚Ì’è‹`‚ğ‚±‚±‚É‘‚«‚Ü‚·
 int g_HelpImg;
+
 //ƒwƒ‹ƒv‰æ–Ê•`‰æ
 void DrawHelp(int key, int& gamemode)
 {
