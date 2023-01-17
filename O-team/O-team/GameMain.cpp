@@ -34,10 +34,17 @@ void GameMain_Init()
 	for (int i = 0; i < ATTACK_MAX; i++) obj_attack[i] = nullptr;
 }
 
-//ゲームメイン更新・計算
-void GameMain_Update()
+//ゲームメイン終了処理（デストラクタの代わり）
+void GameMain_Final()
 {
+	delete obj_armor;
+	delete obj_attack;
+}
 
+
+//防具  生成・更新・削除
+void Armor_Update()
+{
 	int armor_count;   //防具配列の〇番目を見ているか
 
 	//配列を一つずつみる
@@ -83,10 +90,11 @@ void GameMain_Update()
 		//生成する　　　　　　　                  耐久値   ｘ　　ｙ　 ｽﾋﾟｰﾄﾞ
 		obj_armor[armor_count] = new Flying_Armor(r_dura, 1300, r_y, r_speed);
 	}
+}
 
-
-
-
+//攻撃  生成・更新・削除
+void Attack_Update()
+{
 	int attack_count;   //防具配列の〇番目を見ているか
 
 	//配列を一つずつみる
@@ -132,6 +140,13 @@ void GameMain_Update()
 		//生成する　　　　　　　                  タイプ   ｘ　　ｙ　 ｽﾋﾟｰﾄﾞ
 		obj_attack[attack_count] = new Flying_Attack(static_cast<Attack_Type>(r_type), 1300, r_y, r_speed);
 	}
+}
+
+//ゲームメイン更新・計算
+void GameMain_Update()
+{
+	Armor_Update();
+	Attack_Update();
 }
 
 //ゲームメイン描画
