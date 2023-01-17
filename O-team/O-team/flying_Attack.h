@@ -28,6 +28,11 @@ public:
 	// 攻撃によるダメージ取得（ playerのHP(耐久値) ）
 	int GetAttackDamage(const int hp);
 
+	int GetX() const { return x; }
+	int GetY() const { return y; }
+	int GetW() const { return w; }
+	int GetH() const { return h; }
+
 private:
 	int image = 0;          //画像用変数
 

@@ -16,6 +16,11 @@ public:
 
 	void Update() override;    //XV
 	void Draw() override;      //•`‰æ
+
+	int GetX() const { return x; }
+	int GetY() const { return y; }
+	int GetW() const { return w; }
+	int GetH() const { return h; }
 	
 private:
 	int image = 0;    //‰æ‘œ—p•Ï”
