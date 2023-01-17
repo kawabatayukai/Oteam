@@ -1,11 +1,8 @@
 #include"DxLib.h"
 #include "flying_Attack.h"
 
-////ダメージをまとめたもの（my_Type(自分の攻撃タイプ)　に準ずる）(仮)
-//int damage_all[3] =
-//{
-//	
-//};
+//テスト用 color
+int colors[3] = { 0x00ffff,0x00ff00,0xff00ff };
 
 
 //コンストラクタ
@@ -42,8 +39,8 @@ void Flying_Attack::Draw()
 	}
 	else
 	{
-		// □ を描画
-		DrawBox(x, y, x + w, y + h, 0xff00ff, TRUE);
+		// □ を描画   槍：水　　鉄：緑　毒：紫
+		DrawBox(x, y, x + w, y + h, colors[static_cast<int>(my_Type)], TRUE);
 	}
 
 	//テスト
