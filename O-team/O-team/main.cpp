@@ -27,7 +27,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	GameMode = mode::INIT;
 
 	//–â‘è‚È‚¯‚ê‚Îƒ‹[ƒv
-	while (ProcessMessage() == 0)
+	while (ProcessMessage() == 0 && GameMode != mode::CLOSE)
 	{
 		//PAD“ü—Í
 		PAD_INPUT::UpdateKey();

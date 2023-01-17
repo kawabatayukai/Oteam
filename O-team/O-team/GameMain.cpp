@@ -81,6 +81,9 @@ void Armor_Update()
 	//配列に空要素があればオブジェクトを生成する
 	if (armor_count < ARMOR_MAX && obj_armor[armor_count] == nullptr)
 	{
+		//タイプ
+		int r_type = GetRand(2);       //０～２の乱数
+
 		//耐久値
 		int r_dura = 30;   // とりあえず
 
@@ -91,7 +94,7 @@ void Armor_Update()
 		int r_speed = (GetRand(3) + 1) + 5;
 
 		//生成する　　　　　　　                  耐久値   ｘ　　ｙ　 ｽﾋﾟｰﾄﾞ
-		obj_armor[armor_count] = new Flying_Armor(r_dura, 1300, r_y, r_speed);
+		obj_armor[armor_count] = new Flying_Armor(static_cast<Armor_Type>(r_type),r_dura, 1300, r_y, r_speed);
 	}
 }
 

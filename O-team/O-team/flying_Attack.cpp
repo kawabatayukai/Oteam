@@ -54,7 +54,7 @@ int Flying_Attack::GetAttackDamage(int hp)
 	{
 	case Attack_Type::SPEAR:
 
-		return 30;     //30ダメージ
+		return 10;     //10ダメージ
 		break;
 
 	case Attack_Type::IRON:
@@ -64,7 +64,7 @@ int Flying_Attack::GetAttackDamage(int hp)
 
 	case Attack_Type::POISON:
 
-		return 30;     //30ダメージ
+		return 50;     //50ダメージ
 		break;
 
 	default:
