@@ -36,7 +36,7 @@ Flying_Attack::Flying_Attack(int type, int x, int y, int speed)
 
 	case Attack_Type::IRON:
 
-		image = LoadGraph("images/iron.png");
+		image = LoadGraph("images/“S‹….png");
 		break;
 
 	case Attack_Type::POISON:
