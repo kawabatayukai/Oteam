@@ -17,8 +17,6 @@ void DrawHelp(int key, int& gamemode)
 
 	// 説明表示
 	SetFontSize(27);
-	DrawString(20, 200, "タイミングよくジャンプして防具を身につけよう", 0xffffff, 0);
-
 	DrawString(380, 670, "--- Bボタンを押してタイトルへ戻る ---", 0xffffff, 0);
 }
 
@@ -26,6 +24,6 @@ void DrawHelp(int key, int& gamemode)
 int LoadHelpImage()
 {
 	// ヘルプ画像読込
-	if ((g_HelpImg = LoadGraph("images/help.png")) == -1) return -1;
+	if ((g_HelpImg = LoadGraph("images/help3.png")) == -1) return -1;
 	return 0;
 }

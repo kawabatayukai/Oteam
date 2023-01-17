@@ -25,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (ReadRanking() == -1) return -1;
 
 	//最初はタイトル
-	GameMode = mode::RANKING;
+	GameMode = mode::INPUTNAME;
 
 	//問題なければループ
 	while (ProcessMessage() == 0)
