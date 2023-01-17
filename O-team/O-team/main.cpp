@@ -27,7 +27,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	GameMode = mode::INIT;
 
 	//問題なければループ
-	while (ProcessMessage() == 0)
+	while (ProcessMessage() == 0 && GameMode != mode::CLOSE)
 	{
 		//ESCAPEキーで終了
 		if (CheckHitKey(KEY_INPUT_ESCAPE) == 1) DxLib_End();
@@ -43,6 +43,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		ClearDrawScreen();                 //画面を初期化
 
+		DrawBox(0, 0, 1280, 720, 0xdcdcdc,TRUE);
 		switch (GameMode)
 		{
 		case mode::TITLE:
@@ -111,7 +112,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		DxLib::ScreenFlip();                      //裏画面を表画面に反映
 	}
 
-	DxLib_End();				           // ＤＸライブラリ使用の終了処理
+	DxLib::DxLib_End();				           // ＤＸライブラリ使用の終了処理
 
 	return 0;				               // ソフトの終了 
 }

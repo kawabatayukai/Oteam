@@ -4,15 +4,49 @@
 //テスト用 color
 int colors[3] = { 0x00ffff,0x00ff00,0xff00ff };
 
+//サイズ　
+struct Attack_Size
+{
+	int w;    //幅
+	int h;    //高さ
+};
+
+Attack_Size at_size[3] =
+{
+	{100,25},   //槍
+	{70,70},    //鉄
+	{44,44},    //ポーション
+};
+
+//at_size[static_cast<int>(myType)].x
 
 //コンストラクタ
-Flying_Attack::Flying_Attack(Attack_Type type, int x, int y, int speed)
-	:my_Type(type), Flying_object(x, y, 30, 30, speed)     //基底クラスのコンストラクタ呼び出し
+Flying_Attack::Flying_Attack(int type, int x, int y, int speed)
+	:my_Type(type), Flying_object(x, y, at_size[type].w, at_size[type].h, speed)     //基底クラスのコンストラクタ呼び出し
 {
 	//コンストラクタで値を渡さないとデフォルト引数で画面右端より飛んできます
 
-	//画像読み込み
-	//image = LoadGraph("images/");
+	//画像読み込み    槍・鉄球・毒　で大きさが違うので許してください
+	switch (my_Type)
+	{
+	case Attack_Type::SPEAR:
+
+		image = LoadGraph("images/spear.png");
+		break;
+
+	case Attack_Type::IRON:
+
+		image = LoadGraph("images/iron.png");
+		break;
+
+	case Attack_Type::POISON:
+
+		image = LoadGraph("images/poison.png");
+		break;
+
+	default:
+		break;
+	}
 }
 
 //デストラクタ
@@ -54,7 +88,7 @@ int Flying_Attack::GetAttackDamage(int hp)
 	{
 	case Attack_Type::SPEAR:
 
-		return 30;     //30ダメージ
+		return 10;     //10ダメージ
 		break;
 
 	case Attack_Type::IRON:
@@ -64,7 +98,7 @@ int Flying_Attack::GetAttackDamage(int hp)
 
 	case Attack_Type::POISON:
 
-		return 30;     //30ダメージ
+		return 50;     //50ダメージ
 		break;
 
 	default:
