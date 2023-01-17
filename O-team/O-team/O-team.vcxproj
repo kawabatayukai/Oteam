@@ -151,12 +151,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="flying_Armor.cpp" />
+    <ClCompile Include="flying_Attack.cpp" />
+    <ClCompile Include="flying_object.cpp" />
+    <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="Help.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Ranking.cpp" />
+    <ClCompile Include="Result.cpp" />
+    <ClCompile Include="Title.cpp" />
     <ClCompile Include="PadInput.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="flying_Attack.h" />
+    <ClInclude Include="flying_Armor.h" />
+    <ClInclude Include="flying_object.h" />
+    <ClInclude Include="GameMain.h" />
+    <ClInclude Include="Help.h" />
     <ClInclude Include="information.h" />
+    <ClInclude Include="Ranking.h" />
+    <ClInclude Include="Result.h" />
+    <ClInclude Include="Title.h" />
     <ClInclude Include="PadInput.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
