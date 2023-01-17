@@ -2,6 +2,8 @@
 #include "PadInput.h"
 
 Player::Player() {
+	Image = LoadGraph(" ");
+
 	HP = 10;
 	X = 620.f;
 	Y = 340.f;
@@ -43,6 +45,7 @@ void Player::Update() {
 
 void Player::Draw() {
 	DrawBox(X, Y, X + Width, Y + Hight, 0xffffff, TRUE);
+	DrawGraph(X, Y, Image, TRUE);
 
 	DrawFormatString(0, 50, 0xffffff, "HP = %d", HP);
 }

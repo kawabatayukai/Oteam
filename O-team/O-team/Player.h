@@ -6,6 +6,7 @@
 #pragma once
 class Player{
 private:
+	int Image;
 	int HP;                  //体力
 	float X, Y;              //X,Y座標
 	float Width;             //プレイヤーの幅
