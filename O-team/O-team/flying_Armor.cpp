@@ -39,7 +39,4 @@ void Flying_Armor::Draw()
 		// □ を描画
 		DrawBox(x, y, x + w, y + h, 0xffffff, TRUE);
 	}
-
-	//テスト
-	DrawFormatString(0, 0, 0xffffff, "イルヨ");
 }
