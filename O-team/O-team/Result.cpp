@@ -8,18 +8,13 @@ int g_ResultImg;
 //エンド描画
 void DrawResult(int key, int& gamemode, int score)
 {
-	//キー入力は"key",GameModeを変えたいときは"gamemode"を変更します
-	//タイトルに戻る
-	// スコアをどうやって持ってくるのか？リトライ、タイトル、ゲーム終了
-	//点数表示とタイトルに戻る
-
-	if (key & PAD_INPUT_B)gamemode = 0;
+	//リザルト画像表示
 	DrawGraph(0, 0,g_ResultImg,FALSE);
 
 	static int menuNo=0;
 
-	SetFontSize(46);
-
+	SetFontSize(46);//フォントサイズ設定
+	//スコア表示
 	DrawFormatString(830, 310, 0xffffff, "%d", score);
 
 	//メニューカーソルの移動処理
@@ -38,7 +33,7 @@ void DrawResult(int key, int& gamemode, int score)
 			gamemode = 2;	//ゲームメインに飛ぶ
 			break;
 		case 1:
-			gamemode = 0;	//ヘルプに飛ぶ
+			gamemode = 0;	//タイトル
 			break;
 		case 2:
 			gamemode = 7;	//エンドに飛ぶ
@@ -46,6 +41,7 @@ void DrawResult(int key, int& gamemode, int score)
 		}
 	}
 
+	//メニューカーソルの表示
 	DrawTriangle(180 + menuNo * 375, 630, 220+ menuNo * 375, 660 , 180 + menuNo * 375, 680, 0x00ff00, TRUE);
 
 }
