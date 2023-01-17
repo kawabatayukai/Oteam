@@ -24,5 +24,5 @@ public:
 	int GetY() { return (int)Y; }
 
 	bool Hit(Flying_Armor* armor);
-	bool Hit(Flying_Attack attack);
+	bool Hit(Flying_Attack* attack);
 };

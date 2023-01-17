@@ -20,14 +20,12 @@ Flying_object** obj_attack;
 Player player;
 
 //ゲームメイン初期処理（コンストラクタ代わり）
-void GameMain_Init()
-{
+void GameMain_Init(){
 	//防具10個分のメモリを確保
 	obj_armor = new Flying_object * [ARMOR_MAX];
 
 	//初期化
 	for (int i = 0; i < ARMOR_MAX; i++) obj_armor[i] = nullptr;
-
 	
 	//防具10個分のメモリを確保
 	obj_attack = new Flying_object * [ATTACK_MAX];
@@ -37,12 +35,10 @@ void GameMain_Init()
 }
 
 //ゲームメイン終了処理（デストラクタの代わり）
-void GameMain_Final()
-{
+void GameMain_Final(){
 	delete obj_armor;
 	delete obj_attack;
 }
-
 
 //防具  生成・更新・削除
 void Armor_Update()
@@ -99,8 +95,7 @@ void Armor_Update()
 }
 
 //攻撃  生成・更新・削除
-void Attack_Update()
-{
+void Attack_Update(){
 	int attack_count;   //防具配列の〇番目を見ているか
 
 	//配列を一つずつみる
@@ -111,6 +106,10 @@ void Attack_Update()
 
 		//更新　（移動）
 		obj_attack[attack_count]->Update();
+		if (player.Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])))
+		{
+			DrawString(0, 30, "Die", 0xff0000);
+		}
 
 		//画面外に到達で削除
 		if (obj_attack[attack_count]->CheckScreenOut() == true)

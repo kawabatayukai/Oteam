@@ -61,21 +61,30 @@ bool Player::Hit(Flying_Armor* armor) {
 	BX2 = armor->GetX()+ armor->GetW();
 	BY2 = armor->GetY() + armor->GetH();
 
-	//プレイヤーの右端
-	if (BX1 < X2 
-		&& Y1 < BY1 && BY1 < Y2
-		|| Y1 < BY2 && BY2 < Y2) {
+	//プレイヤーとの当たり判定
+	if ((X1 <= BX2 && BX1 <= X2 && Y1 <= BY2 && BY1 <= Y2)) {
 		return true;
 	}
 	return false;
 }
 
-bool Player::Hit(Flying_Attack attack) {
+bool Player::Hit(Flying_Attack* attack) {
 	int X1, Y1;
 	int X2, Y2;
 
 	X1 = X; Y1 = Y;
 	X2 = X + Width; Y2 = Y + Hight;
 
+	int AX1, AY1;
+	int AX2, AY2;
+
+	AX1 = attack->GetX(); AY1 = attack->GetY();
+	AX2 = attack->GetX() + attack->GetW();
+	AY2 = attack->GetY() + attack->GetH();
+
+	//プレイヤーとの当たり判定
+	if ((X1 <= AX2 && AX1 <= X2 && Y1 <= AY2 && AY1 <= Y2)) {
+		return true;
+	}
 	return false;
 }
