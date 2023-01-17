@@ -6,6 +6,10 @@
 #pragma once
 class Player{
 private:
+
+	int All_Images[4];       //プレイヤーの画像（4段階）
+	int All_Aura[7];         //オーラ
+	
 	int HP;                  //体力
 	float X, Y;              //X,Y座標
 	float Width;             //プレイヤーの幅
@@ -16,6 +20,7 @@ private:
 public:
 	Player();
 	virtual~Player();
+	void LoadImages();
 
 	void SetHP(int HP);
 	int GetHP() { return HP; }

@@ -44,6 +44,10 @@ void GameMain_Init() {
 	//最初のターンは装備
 	now_turn = Turn::CATCH;
 	frameCount = 0;
+
+
+	//画像
+	player.LoadImages();
 }
 
 //ゲームメイン終了処理（デストラクタの代わり）
@@ -98,7 +102,7 @@ void Armor_Update()
 		int r_type = GetRand(2);       //０～２の乱数
 
 		//耐久値
-		int r_dura = 30;   // とりあえず
+		int r_dura = 100;   // とりあえず
 
 		//ｙ座標（高さ）　　ｘ座標は 1300固定（画面外右側）
 		int r_y = (GetRand(10) * 60) + 60;
