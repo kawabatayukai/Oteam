@@ -1,6 +1,8 @@
 #include"DxLib.h"
 #include"information.h"  //使いたい .hファイル をインクルードします
 
+#include "Player.h"
+Player player;
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -24,6 +26,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		g_KeyFlg = g_NowKey & ~g_OldKey;
 
 		ClearDrawScreen();                 //画面を初期化
+
+		DrawLine(320, 0, 320, 720, 0xffffff, TRUE);
+		DrawLine(960, 0, 960, 720, 0xffffff, TRUE);
+
+
+		player.Update();
+		player.Draw();
+
 
 		if (g_NowKey & PAD_INPUT_A) DrawString(0, 0, "TEST", 0xffffff);
 
