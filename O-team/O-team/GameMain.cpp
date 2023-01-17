@@ -15,29 +15,42 @@
 Flying_object** obj_armor;     //基底クラス型ポインタ
 
 //攻撃の配列
-Flying_object** obj_attack;  
+Flying_object** obj_attack;
 
 Player player;
 
+//フレームをカウント
+int frameCount = 0;
+
+Turn now_turn;
+
+//テスト用
+char Turn_str[][7] = { "Catch","Attack" };
+
 //ゲームメイン初期処理（コンストラクタ代わり）
-void GameMain_Init(){
+void GameMain_Init() {
 	//防具10個分のメモリを確保
 	obj_armor = new Flying_object * [ARMOR_MAX];
 
 	//初期化
 	for (int i = 0; i < ARMOR_MAX; i++) obj_armor[i] = nullptr;
-	
+
 	//防具10個分のメモリを確保
 	obj_attack = new Flying_object * [ATTACK_MAX];
 
 	//初期化
 	for (int i = 0; i < ATTACK_MAX; i++) obj_attack[i] = nullptr;
+
+	//最初のターンは装備
+	now_turn = Turn::CATCH;
+	frameCount = 0;
 }
 
 //ゲームメイン終了処理（デストラクタの代わり）
-void GameMain_Final(){
+void GameMain_Final() {
 	delete obj_armor;
 	delete obj_attack;
+	delete& player;
 }
 
 //防具  生成・更新・削除
@@ -59,8 +72,9 @@ void Armor_Update()
 			player.SetHP(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])->GetHP());
 		}
 
-		//画面外に到達で削除
-		if (obj_armor[armor_count]->CheckScreenOut() == true)
+		//画面外に到達,またはプレイヤーとHitで削除
+		if (obj_armor[armor_count]->CheckScreenOut() == true
+			|| player.Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])) == true)
 		{
 			delete obj_armor[armor_count];         //到達したﾔﾂを削除
 			obj_armor[armor_count] = nullptr;      //削除した配列の要素を初期化
@@ -94,12 +108,16 @@ void Armor_Update()
 		int r_speed = (GetRand(3) + 1) + 5;
 
 		//生成する　　　　　　　                  耐久値   ｘ　　ｙ　 ｽﾋﾟｰﾄﾞ
-		obj_armor[armor_count] = new Flying_Armor(static_cast<Armor_Type>(r_type),r_dura, 1300, r_y, r_speed);
+		obj_armor[armor_count] = new Flying_Armor(static_cast<Armor_Type>(r_type), r_dura, 1300, r_y, r_speed);
 	}
+
+
+
+
 }
 
 //攻撃  生成・更新・削除
-void Attack_Update(){
+void Attack_Update() {
 	int attack_count;   //防具配列の〇番目を見ているか
 
 	//配列を一つずつみる
@@ -115,8 +133,9 @@ void Attack_Update(){
 			DrawString(0, 30, "Die", 0xff0000);
 		}
 
-		//画面外に到達で削除
-		if (obj_attack[attack_count]->CheckScreenOut() == true)
+		//画面外に到達、またはプレイヤーとHitで削除
+		if (obj_attack[attack_count]->CheckScreenOut() == true
+			|| player.Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])) == true)
 		{
 			delete obj_attack[attack_count];         //到達したﾔﾂを削除
 			obj_attack[attack_count] = nullptr;      //削除した配列の要素を初期化
@@ -155,8 +174,22 @@ void Attack_Update(){
 void GameMain_Update()
 {
 	player.Update();
-	Armor_Update();
-	Attack_Update();
+
+	switch (now_turn)
+	{
+	case Turn::CATCH:
+
+		Armor_Update();
+		break;
+
+	case Turn::ATTACK:
+
+		//ターン切り替え後・2秒待つ
+		if (frameCount > 120) Attack_Update();
+		break;
+	default:
+		break;
+	}
 }
 
 //ゲームメイン描画
@@ -164,25 +197,60 @@ void GameMain_Draw()
 {
 	player.Draw();
 
-	//防具の描画
-	for (int i = 0; i < ARMOR_MAX; i++)
+	switch (now_turn)
 	{
-		if (obj_armor[i] == nullptr) break;   //nullptrより後にはnullptrしかないのでループを抜ける
-		obj_armor[i]->Draw();                 //要素がある時は描画
+	case Turn::CATCH:
+
+		//防具の描画
+		for (int i = 0; i < ARMOR_MAX; i++)
+		{
+			if (obj_armor[i] == nullptr) break;   //nullptrより後にはnullptrしかないのでループを抜ける
+			obj_armor[i]->Draw();                 //要素がある時は描画
+		}
+		break;
+
+	case Turn::ATTACK:
+
+		//攻撃の描画
+		for (int i = 0; i < ATTACK_MAX; i++)
+		{
+			if (obj_attack[i] == nullptr) break;  //nullptrより後にはnullptrしかないのでループを抜ける
+			obj_attack[i]->Draw();                //要素があるときは描画
+		}
+		break;
+	default:
+		break;
 	}
 
-	//攻撃の描画
-	for (int i = 0; i < ATTACK_MAX; i++)
-	{
-		if (obj_attack[i] == nullptr) break;  //nullptrより後にはnullptrしかないのでループを抜ける
-		obj_attack[i]->Draw();                //要素があるときは描画
-	}
+	//Test
+	DrawFormatString(0, 100, 0x000000, "Now : %s", Turn_str[static_cast<int>(now_turn)]);
+	DrawFormatString(0, 130, 0x000000, "Time : %d", (frameCount / 60));
 }
 
 //ゲームメイン
-void GameMain()
+void GameMain(int &gamemode)
 {
 	GameMain_Update();    //ゲームメイン更新・計算
 
 	GameMain_Draw();      //ゲームメイン描画
+
+	//フレームを加算
+	frameCount++;
+
+
+	//Attackターンは30秒で終了
+	if (now_turn == Turn::ATTACK && frameCount % 1800 == 0)
+	{
+		//ランキング
+
+		gamemode = 6;   //リザルト画面へ
+	}
+
+	//20秒でターンを切り替え
+	if (now_turn == Turn::CATCH && frameCount % 600 == 0)
+	{
+		now_turn = Turn::ATTACK;  //攻撃を受けるターン
+		frameCount = 0;           //カウントをリセット
+	}
+
 }

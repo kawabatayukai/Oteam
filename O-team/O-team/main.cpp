@@ -43,7 +43,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		ClearDrawScreen();                 //‰æ–Ê‚ğ‰Šú‰»
 
-		DrawBox(0, 0, 1280, 720, 0xdcdcdc,TRUE);
+		DrawBox(0, 0, 1280, 720, 0xd3d3d3,TRUE);
 		switch (GameMode)
 		{
 		case mode::TITLE:
@@ -63,7 +63,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		case mode::MAIN:
 
 			//ƒQ[ƒ€ƒƒCƒ“
-			GameMain();
+			GameMain(GameMode);
 
 			break;
 
