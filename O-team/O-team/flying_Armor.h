@@ -21,6 +21,8 @@ public:
 	int GetY() const { return y; }
 	int GetW() const { return w; }
 	int GetH() const { return h; }
+
+	int GetHP() const { return durability; }
 	
 private:
 	int image = 0;    //‰æ‘œ—p•Ï”

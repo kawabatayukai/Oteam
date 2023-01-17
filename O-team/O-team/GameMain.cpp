@@ -56,6 +56,7 @@ void Armor_Update()
 		if (player.Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])))
 		{
 			DrawString(0, 20, "Hit", 0xffffff);
+			player.SetHP(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])->GetHP());
 		}
 
 		//‰æ–ÊŠO‚É“’B‚Åíœ

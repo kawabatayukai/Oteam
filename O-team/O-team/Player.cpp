@@ -2,16 +2,20 @@
 #include "PadInput.h"
 
 Player::Player() {
+	HP = 10;
 	X = 620.f;
 	Y = 340.f;
 	Width = 50.f;
 	Hight = 50.f;
 	Speed = 5.f;
-	MoveFlag = 0;
 }
 
 Player::~Player() {
 
+}
+
+void Player::SetHP(int HP) {
+	this->HP += HP;
 }
 
 void Player::Update() {
@@ -39,6 +43,8 @@ void Player::Update() {
 
 void Player::Draw() {
 	DrawBox(X, Y, X + Width, Y + Hight, 0xffffff, TRUE);
+
+	DrawFormatString(0, 50, 0xffffff, "HP = %d", HP);
 }
 
 void Player::InitPad() {

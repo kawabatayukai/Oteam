@@ -6,17 +6,18 @@
 #pragma once
 class Player{
 private:
-	int JoyPadX, JoyPadY;    //パッド入力値
+	int HP;                  //体力
 	float X, Y;              //X,Y座標
 	float Width;             //プレイヤーの幅
 	float Hight;             //プレイヤーの高さ
 	float Speed;             //移動速度
-	int MoveFlag;
+	int JoyPadX, JoyPadY;    //パッド入力値
 
 public:
 	Player();
 	virtual~Player();
 
+	void SetHP(int HP);
 	void Update();
 	void InitPad();
 	void Draw();
