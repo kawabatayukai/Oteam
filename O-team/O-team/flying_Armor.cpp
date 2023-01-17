@@ -4,7 +4,7 @@
 
 //コンストラクタ
 Flying_Armor::Flying_Armor(Armor_Type type, int durability, int x, int y, int speed)
-	:durability(durability), Flying_object(x, y, 30, 30, speed)      //基底クラスのコンストラクタ呼び出し
+	:durability(durability), Flying_object(x, y, 45, 45, speed)      //基底クラスのコンストラクタ呼び出し
 {
 	//コンストラクタで値を渡さないとデフォルト引数で画面右端より飛んできます
 

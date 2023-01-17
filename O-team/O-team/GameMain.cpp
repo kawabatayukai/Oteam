@@ -147,7 +147,7 @@ void Attack_Update(){
 		int r_speed = (GetRand(3) + 1) + 15;
 
 		//生成する　　　　　　　                  タイプ   ｘ　　ｙ　 ｽﾋﾟｰﾄﾞ
-		obj_attack[attack_count] = new Flying_Attack(static_cast<Attack_Type>(r_type), 1300, r_y, r_speed);
+		obj_attack[attack_count] = new Flying_Attack((r_type), 1300, r_y, r_speed);
 	}
 }
 

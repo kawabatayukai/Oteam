@@ -4,10 +4,25 @@
 //テスト用 color
 int colors[3] = { 0x00ffff,0x00ff00,0xff00ff };
 
+//サイズ　
+struct Attack_Size
+{
+	int w;    //幅
+	int h;    //高さ
+};
+
+Attack_Size at_size[3] =
+{
+	{100,25},    //やり
+	{70,70},    //鉄
+	{44,44},    //ポーション
+};
+
+//at_size[static_cast<int>(myType)].x
 
 //コンストラクタ
-Flying_Attack::Flying_Attack(Attack_Type type, int x, int y, int speed)
-	:my_Type(type), Flying_object(x, y, 30, 30, speed)     //基底クラスのコンストラクタ呼び出し
+Flying_Attack::Flying_Attack(int type, int x, int y, int speed)
+	:my_Type(type), Flying_object(x, y, at_size[type].w, at_size[type].h, speed)     //基底クラスのコンストラクタ呼び出し
 {
 	//コンストラクタで値を渡さないとデフォルト引数で画面右端より飛んできます
 

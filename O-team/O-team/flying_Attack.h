@@ -5,7 +5,7 @@
 //   攻撃          右から左に飛んでいく（仮）
 
 //攻撃の種類
-enum class Attack_Type
+enum Attack_Type
 {
 	SPEAR,      //槍　竹
 	IRON,       //鉄　球
@@ -17,7 +17,7 @@ class Flying_Attack : public Flying_object
 {
 public:
 	//コンストラクタ
-	Flying_Attack(Attack_Type type, int x = 1200, int y = 360, int speed = 0);
+	Flying_Attack(int type, int x = 1200, int y = 360, int speed = 0);
 
 	//デストラクタ
 	~Flying_Attack();
@@ -36,7 +36,7 @@ public:
 private:
 	int image = 0;          //画像用変数
 
-	Attack_Type my_Type;    //自分がどのタイプの攻撃か
+	int my_Type;    //自分がどのタイプの攻撃か
 
 	int damage = 0;
 };
