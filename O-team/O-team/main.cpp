@@ -21,8 +21,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//画像読み込み
 	if (LoadImages() == -1) return -1;
 
+	// ランキングデータの読込
+	if (ReadRanking() == -1) return -1;
+
 	//最初はタイトル
-	GameMode = mode::INPUTNAME;
+	GameMode = mode::RANKING;
 
 	//問題なければループ
 	while (ProcessMessage() == 0)
@@ -75,7 +78,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		case mode::INPUTNAME:
 
 			//名前入力
-			InputRanking(g_KeyFlg, GameMode);
+			InputRanking(g_KeyFlg, GameMode,g_Score);
 
 			break;
 

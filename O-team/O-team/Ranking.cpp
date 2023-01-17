@@ -4,8 +4,8 @@
 
 //Ranking.hで宣言した関数の定義をここに書きます
 int g_RankingImg;   // ランキング画像
+
 struct RankingData g_Ranking[RANKING_DATA];    // ランキングデータの変数宣言
-int g_Score;  // スコア
 
 //ランキング描画
 void DrawRanking(int key, int& gamemode)
@@ -18,17 +18,18 @@ void DrawRanking(int key, int& gamemode)
 	DrawGraph(0, 0, g_RankingImg, FALSE);
 
 	// ランキング一覧を表示
-	SetFontSize(18);
+	SetFontSize(40);
 	for (int i = 0; i < RANKING_DATA; i++)
 	{
-		DrawFormatString(30, 170 + i * 25, 0xffffff, "%2d  %-10s  %10d", g_Ranking[i].no, g_Ranking[i].name, g_Ranking[i].score);
+		DrawFormatString(350, 170 + i * 85, 0xffffff, "%2d  %-10s  %10d", g_Ranking[i].no, g_Ranking[i].name, g_Ranking[i].score);
 	}
 
-	DrawString(120, 437, "--- スペースキーを押してタイトルへ戻る ---", 0xffffff, 0);
+	SetFontSize(30);
+	DrawString(350, 650, "--- Bボタンを押してタイトルへ戻る ---", 0xffffff, 0);
 }
 
 //ランキング入力
-void InputRanking(int key, int& gamemode)
+void InputRanking(int key, int& gamemode,int score)
 {
 	//キー入力は"key",GameModeを変えたいときは"gamemode"を変更します
 	// ランキング画像表示
@@ -46,7 +47,7 @@ void InputRanking(int key, int& gamemode)
 	DrawBox(160, 305, 300, 335, 0x000055, TRUE);
 	if (KeyInputSingleCharString(170, 310, 10, g_Ranking[RANKING_DATA - 1].name, FALSE) == 1)
 	{
-		g_Ranking[RANKING_DATA - 1].score = g_Score; // ランキングデータにスコアを登録
+		g_Ranking[RANKING_DATA - 1].score = score;   // ランキングデータにスコアを登録
 		SortRanking();                               // ランキング並べ替え
 		SaveRanking();                               // ランキングデータの保存
 		gamemode = 3;                                // ゲームモードの変更
@@ -154,6 +155,6 @@ int ReadRanking(void)
 int LoadRankingImage()
 {
 	// ランキング画像読込
-	if ((g_RankingImg = LoadGraph("images/help.png")) == -1) return -1;
+	if ((g_RankingImg = LoadGraph("images/ranking.png")) == -1) return -1;
 	return 0;
 }
