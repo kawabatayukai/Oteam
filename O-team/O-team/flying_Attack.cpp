@@ -13,7 +13,7 @@ struct Attack_Size
 
 Attack_Size at_size[3] =
 {
-	{100,25},    //やり
+	{100,25},   //槍
 	{70,70},    //鉄
 	{44,44},    //ポーション
 };
@@ -26,8 +26,27 @@ Flying_Attack::Flying_Attack(int type, int x, int y, int speed)
 {
 	//コンストラクタで値を渡さないとデフォルト引数で画面右端より飛んできます
 
-	//画像読み込み
-	//image = LoadGraph("images/");
+	//画像読み込み    槍・鉄球・毒　で大きさが違うので許してください
+	switch (my_Type)
+	{
+	case Attack_Type::SPEAR:
+
+		image = LoadGraph("images/spear.png");
+		break;
+
+	case Attack_Type::IRON:
+
+		image = LoadGraph("images/iron.png");
+		break;
+
+	case Attack_Type::POISON:
+
+		image = LoadGraph("images/poison.png");
+		break;
+
+	default:
+		break;
+	}
 }
 
 //デストラクタ
