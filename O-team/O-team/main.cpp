@@ -22,7 +22,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (LoadImages() == -1) return -1;
 
 	//最初はタイトル
-	GameMode = mode::TITLE;
+	GameMode = mode::INPUTNAME;
 
 	//問題なければループ
 	while (ProcessMessage() == 0)
