@@ -9,6 +9,7 @@ private:
 	int JoyPadX, JoyPadY;    //パッド入力値
 	float X, Y;              //X,Y座標
 	float Width;             //プレイヤーの幅
+	float Hight;             //プレイヤーの高さ
 	float Speed;             //移動速度
 	int MoveFlag;
 
@@ -22,6 +23,6 @@ public:
 	int GetX() { return (int)X; }
 	int GetY() { return (int)Y; }
 
-	bool Hit(Flying_Armor armor);
+	bool Hit(Flying_Armor* armor);
 	bool Hit(Flying_Attack attack);
 };

@@ -17,7 +17,7 @@ class Flying_Attack : public Flying_object
 {
 public:
 	//コンストラクタ
-	Flying_Attack(Attack_Type type, int x = 1200, int y = 360, int speed = 10);
+	Flying_Attack(Attack_Type type, int x = 1200, int y = 360, int speed = 0);
 
 	//デストラクタ
 	~Flying_Attack();

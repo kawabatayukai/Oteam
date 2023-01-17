@@ -9,7 +9,7 @@ class Flying_Armor : public Flying_object
 {
 public:
 	//コンストラクタ
-	Flying_Armor(int durability = 10, int x = 1200, int y = 360, int speed = 5);
+	Flying_Armor(int durability = 10, int x = 1200, int y = 360, int speed = 1);
 
 	//デストラクタ
 	~Flying_Armor();

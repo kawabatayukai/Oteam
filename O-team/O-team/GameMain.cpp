@@ -57,6 +57,10 @@ void Armor_Update()
 
 		//更新　（移動）
 		obj_armor[armor_count]->Update();
+		if (player.Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])))
+		{
+			DrawString(0, 20, "Hit", 0xffffff);
+		}
 
 		//画面外に到達で削除
 		if (obj_armor[armor_count]->CheckScreenOut() == true)
