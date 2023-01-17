@@ -1,13 +1,12 @@
 #include"DxLib.h"
 #include"information.h"  //使いたい .hファイル をインクルードします
-
-#include "Player.h"
-Player player;
 #include"Help.h"
 #include"Ranking.h"
 #include"Result.h"
 #include"Title.h"
 #include"GameMain.h"
+#include "PadInput.h"
+
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -30,6 +29,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//問題なければループ
 	while (ProcessMessage() == 0)
 	{
+		//PAD入力
+		PAD_INPUT::UpdateKey();
 
 		//キー入力取得 
 		g_OldKey = g_NowKey;

@@ -3,6 +3,7 @@
 #include"flying_Armor.h"
 #include"flying_Attack.h"
 #include"flying_object.h"
+#include"Player.h"
 
 //防具最大表示数
 #define ARMOR_MAX 10 
@@ -16,6 +17,7 @@ Flying_object** obj_armor;     //基底クラス型ポインタ
 //攻撃の配列
 Flying_object** obj_attack;  
 
+Player player;
 
 //ゲームメイン初期処理（コンストラクタ代わり）
 void GameMain_Init()
@@ -145,6 +147,7 @@ void Attack_Update()
 //ゲームメイン更新・計算
 void GameMain_Update()
 {
+	player.Update();
 	Armor_Update();
 	Attack_Update();
 }
@@ -152,6 +155,8 @@ void GameMain_Update()
 //ゲームメイン描画
 void GameMain_Draw()
 {
+	player.Draw();
+
 	//防具の描画
 	for (int i = 0; i < ARMOR_MAX; i++)
 	{
