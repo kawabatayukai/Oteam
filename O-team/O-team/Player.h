@@ -7,8 +7,9 @@
 class Player{
 private:
 
-	int All_Images[4];       //プレイヤーの画像（4段階）
-	int All_Aura[7];         //オーラ
+	int All_Images[8];       //プレイヤーの画像（4段階）
+	int All_Aura[14];         //オーラ
+	int Direction;           //方向　0:右　1:左
 	
 	int HP;                  //体力
 	float X, Y;              //X,Y座標

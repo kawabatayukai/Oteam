@@ -192,6 +192,8 @@ void GameMain_Update()
 
 		//ƒ^[ƒ“Ø‚è‘Ö‚¦ŒãE2•b‘Ò‚Â
 		if (frameCount > 120) Attack_Update();
+		else DrawBox(0, 0, 1280,720, 0x000000, TRUE);  //ˆÃ“]
+
 		break;
 	default:
 		break;

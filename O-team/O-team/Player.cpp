@@ -3,7 +3,7 @@
 
 Player::Player() {
 
-
+	Direction = 0;  //最初は右向き
 
 	HP = 10;
 	X = 620.f;
@@ -22,10 +22,10 @@ Player::~Player() {
 void Player::LoadImages()
 {
 	//分割読み込み
-	LoadDivGraph("images/MikoSan01.png", 4, 4, 1, 64, 65, All_Images);
+	LoadDivGraph("images/MikoSan02.png", 8, 4, 2, 64, 65, All_Images);
 
 	//オーラ
-	LoadDivGraph("images/aura.png", 7, 7, 1, 70, 70, All_Aura);
+	LoadDivGraph("images/aura2.png", 14, 7, 2, 70, 70, All_Aura);
 }
 
 void Player::SetHP(int HP) {
@@ -40,10 +40,14 @@ void Player::Update() {
 	if (JoyPadX >= MARGIN) {
 		if (JoyPadY < MARGIN && JoyPadY > -MARGIN) X += Speed;
 		else X += Speed * Vector;
+
+		Direction = 0;   //右
 	}
 	if (JoyPadX <= -MARGIN) {
 		if (JoyPadY < MARGIN && JoyPadY > -MARGIN) X -= Speed;
 		else X -= Speed * Vector;
+
+		Direction = 1;   //左
 	}
 	if (JoyPadY <= -MARGIN) {
 		if (JoyPadX < MARGIN && JoyPadX > -MARGIN) Y += Speed;
@@ -67,6 +71,9 @@ void Player::Draw() {
 	else if (HP >= 200 && HP < 300) now = 2;  //3枚目
 	else if (HP >= 300 && HP < 400) now = 3;  //4枚目
 	else now = 3;                             //4枚目以降は変わらない
+
+	//向きによって画像を変える
+	now = now + (Direction * 4);
 	
 	//オーラ
 	if (HP >= 400)
@@ -80,6 +87,9 @@ void Player::Draw() {
 		else if (HP >= 900 && HP < 1000) now_aura = 6; //7枚目
 		else now_aura = 6;                             //7枚目以降は変わらない
 
+		now_aura = now_aura + (Direction * 7);         //向きによって画像を変える(オーラも)
+
+		//オーラの描画
 		DrawRotaGraph(X + (Width / 2), Y + (Width / 2), 1, 0, All_Aura[now_aura], TRUE);
 	}
 	//プレイヤー
