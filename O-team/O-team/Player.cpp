@@ -2,7 +2,8 @@
 #include "PadInput.h"
 
 Player::Player() {
-	Image = LoadGraph(" ");
+
+	Direction = 0;  //最初は右向き
 
 	HP = 10;
 	X = 620.f;
@@ -10,10 +11,21 @@ Player::Player() {
 	Width = 50.f;
 	Hight = 50.f;
 	Speed = 5.f;
+
+
 }
 
 Player::~Player() {
 
+}
+
+void Player::LoadImages()
+{
+	//分割読み込み
+	LoadDivGraph("images/MikoSan02.png", 8, 4, 2, 64, 65, All_Images);
+
+	//オーラ
+	LoadDivGraph("images/aura2.png", 14, 7, 2, 70, 70, All_Aura);
 }
 
 void Player::SetHP(int HP) {
@@ -28,10 +40,14 @@ void Player::Update() {
 	if (JoyPadX >= MARGIN) {
 		if (JoyPadY < MARGIN && JoyPadY > -MARGIN) X += Speed;
 		else X += Speed * Vector;
+
+		Direction = 0;   //右
 	}
 	if (JoyPadX <= -MARGIN) {
 		if (JoyPadY < MARGIN && JoyPadY > -MARGIN) X -= Speed;
 		else X -= Speed * Vector;
+
+		Direction = 1;   //左
 	}
 	if (JoyPadY <= -MARGIN) {
 		if (JoyPadX < MARGIN && JoyPadX > -MARGIN) Y += Speed;
@@ -41,11 +57,46 @@ void Player::Update() {
 		if (JoyPadX < MARGIN && JoyPadX > -MARGIN) Y -= Speed;
 		else Y -= Speed * Vector;
 	}
+
+	
 }
 
 void Player::Draw() {
-	DrawBox(X, Y, X + Width, Y + Hight, 0xffffff, TRUE);
-	DrawGraph(X, Y, Image, TRUE);
+
+	int now = 0;    //現在の画像No.
+	int now_aura = 0;    //現在の画像No.(オーラ)
+
+	if (HP < 100) now = 0;                    //1枚目　（デフォルト）
+	else if (HP >= 100 && HP < 200) now = 1;  //2枚目
+	else if (HP >= 200 && HP < 300) now = 2;  //3枚目
+	else if (HP >= 300 && HP < 400) now = 3;  //4枚目
+	else now = 3;                             //4枚目以降は変わらない
+
+	//向きによって画像を変える
+	now = now + (Direction * 4);
+	
+	//オーラ
+	if (HP >= 400)
+	{
+		if (HP < 400) now_aura = 0;                    //1枚目　（デフォルト）
+		else if (HP >= 400 && HP < 500) now_aura = 1;  //2枚目
+		else if (HP >= 500 && HP < 600) now_aura = 2;  //3枚目
+		else if (HP >= 600 && HP < 700) now_aura = 3;  //4枚目
+		else if (HP >= 700 && HP < 800) now_aura = 4;  //5枚目
+		else if (HP >= 800 && HP < 900) now_aura = 5;  //6枚目
+		else if (HP >= 900 && HP < 1000) now_aura = 6; //7枚目
+		else now_aura = 6;                             //7枚目以降は変わらない
+
+		now_aura = now_aura + (Direction * 7);         //向きによって画像を変える(オーラも)
+
+		//オーラの描画
+		DrawRotaGraph(X + (Width / 2), Y + (Width / 2), 1, 0, All_Aura[now_aura], TRUE);
+	}
+	//プレイヤー
+	DrawRotaGraph(X + (Width / 2), Y + (Width / 2), 1, 0, All_Images[now], TRUE);
+
+	
+	//DrawBox(X, Y, X + Width, Y + Hight, 0xffffff, TRUE);
 
 	DrawFormatString(0, 50, 0xffffff, "HP = %d", HP);
 }
