@@ -9,7 +9,7 @@
 #define ARMOR_MAX 10 
 
 //攻撃最大表示数
-#define ATTACK_MAX 10 
+#define ATTACK_MAX 100 
 
 //防具の配列
 Flying_object** obj_armor;     //基底クラス型ポインタ
@@ -50,7 +50,6 @@ void GameMain_Init() {
 void GameMain_Final() {
 	delete obj_armor;
 	delete obj_attack;
-	delete& player;
 }
 
 //防具  生成・更新・削除
@@ -131,6 +130,9 @@ void Attack_Update() {
 		if (player.Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])))
 		{
 			DrawString(0, 30, "Die", 0xff0000);
+
+			//ダメージを食らう
+			player.SetHP((dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetAttackDamage(player.GetHP())) * -1);
 		}
 
 		//画面外に到達、またはプレイヤーとHitで削除
@@ -238,12 +240,13 @@ void GameMain(int &gamemode)
 	frameCount++;
 
 
-	//Attackターンは30秒で終了
-	if (now_turn == Turn::ATTACK && frameCount % 1800 == 0)
+	//Attackターンは30秒で終了　または　playerのHPが0以下で終了
+	if (now_turn == Turn::ATTACK && frameCount % 1800 == 0 || player.GetHP() < 0)
 	{
 		//ランキング
 
 		gamemode = 6;   //リザルト画面へ
+		GameMain_Final();
 	}
 
 	//20秒でターンを切り替え

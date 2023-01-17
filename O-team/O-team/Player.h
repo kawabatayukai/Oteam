@@ -18,6 +18,7 @@ public:
 	virtual~Player();
 
 	void SetHP(int HP);
+	int GetHP() { return HP; }
 	void Update();
 	void InitPad();
 	void Draw();
