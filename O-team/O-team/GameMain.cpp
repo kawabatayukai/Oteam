@@ -198,7 +198,7 @@ void GameMain_Update()
 
 	case Turn::END:
 
-
+		death_frame++;
 
 		break;
 
@@ -294,7 +294,7 @@ void GameMain(int &gamemode)
 		frameCount = 0;           //カウントをリセット
 	}
 
-	if (now_turn == Turn::END && death_frame % 240 == 0)
+	if (now_turn == Turn::END && death_frame % 480 == 0)
 	{
 		gamemode = 6;   //リザルト画面へ
 		GameMain_Final();

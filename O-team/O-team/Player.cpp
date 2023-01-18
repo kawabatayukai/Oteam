@@ -122,9 +122,9 @@ void Player::Draw_Death() {
 	if (frame % 60 == 0 && now == 0) now++;
 
 	//ç∂âE
-	now = now + (Direction * 1);
+	//now = now + (Direction * 1);
 
-	DrawRotaGraph(X + (Width / 2), Y + (Width / 2), 1, 0, Death_Image[now], TRUE);
+	DrawRotaGraph(X + (Width / 2), Y + (Width / 2), 1, 0, Death_Image[now + (Direction * 2)], TRUE);
 }
 
 void Player::InitPad() {
