@@ -11,8 +11,8 @@ struct RankingData                            // ランキングデータ構造体
 	long score;
 };
 
-void DrawRanking(int key, int& gamemode);      //ランキング描画
-void InputRanking(int key, int& gamemode, int score);     //ランキング入力
+void DrawRanking(int key, int& gamemode);                    //ランキング描画  "KeyFlg"  は　押した瞬間
+void InputRanking(int nowkey, int& gamemode, int score);     //ランキング入力  "NowKey"　は　押している間　ﾃﾞｽ
 
 void SortRanking(void);  // ランキングの並べ替え
 int SaveRanking(void);   // ランキングデータの保存

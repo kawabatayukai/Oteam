@@ -1,5 +1,7 @@
 #include"DxLib.h"
 #include"Ranking.h"
+#include"Keyboard.h"
+
 #define RANKING_DATA 5    // ランキング上位５人 
 
 //Ranking.hで宣言した関数の定義をここに書きます
@@ -29,7 +31,7 @@ void DrawRanking(int key, int& gamemode)
 }
 
 //ランキング入力
-void InputRanking(int key, int& gamemode,int score)
+void InputRanking(int nowkey, int& gamemode, int score)
 {
 	//キー入力は"key",GameModeを変えたいときは"gamemode"を変更します
 	// ランキング画像表示
@@ -42,15 +44,31 @@ void InputRanking(int key, int& gamemode,int score)
 	DrawString(150, 240, "ランキングに登録します", 0xFFFFFF);
 	DrawString(150, 270, "名前を英字で入力してください", 0xFFFFFF);
 
-	// 名前の入力
-	DrawString(150, 310, "> ", 0xFFFFFF);
-	DrawBox(160, 305, 300, 335, 0x000055, TRUE);
-	if (KeyInputSingleCharString(170, 310, 10, g_Ranking[RANKING_DATA - 1].name, FALSE) == 1)
+	//// 名前の入力
+	//DrawString(150, 310, "> ", 0xFFFFFF);
+	//DrawBox(160, 305, 300, 335, 0x000055, TRUE);
+	//if (KeyInputSingleCharString(170, 310, 10, g_Ranking[RANKING_DATA - 1].name, FALSE) == 1)
+	//{
+	//	g_Ranking[RANKING_DATA - 1].score = score;   // ランキングデータにスコアを登録
+	//	SortRanking();                               // ランキング並べ替え
+	//	SaveRanking();                               // ランキングデータの保存
+	//	gamemode = 3;                                // ゲームモードの変更
+	//}
+
+	//　　↓　一文字でも入力された状態で"OK"を押すと、"1"が返ってくる
+	if (KeyBoard_PushA(nowkey, g_Ranking[RANKING_DATA - 1].name) == 1)
 	{
 		g_Ranking[RANKING_DATA - 1].score = score;   // ランキングデータにスコアを登録
 		SortRanking();                               // ランキング並べ替え
 		SaveRanking();                               // ランキングデータの保存
 		gamemode = 3;                                // ゲームモードの変更
+	}
+	else    //入力完了していない時
+	{
+		KeyBoard_Draw();                             //キーボードの描画
+		KeyBoard_Update(nowkey);                        //キーボードの更新・操作
+
+		DrawString(0, 0, "背景・キーボード・カーソルの色などは変更できます", 0xffffff);
 	}
 }
 
@@ -156,5 +174,9 @@ int LoadRankingImage()
 {
 	// ランキング画像読込
 	if ((g_RankingImg = LoadGraph("images/ranking.png")) == -1) return -1;
+
+	//キーボード画像読込
+	if (LoadKeyBoardImgaes() == -1) return -1;
+
 	return 0;
 }
