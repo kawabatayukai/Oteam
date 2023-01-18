@@ -1,4 +1,4 @@
 #pragma once
 
-void DrawGameEnd (int key, int& gamemode);//エンド画面描画
+void DrawGameEnd(int key, int& gamemode);//エンド画面描画
 int LoadEndImage();//エンド画像読込

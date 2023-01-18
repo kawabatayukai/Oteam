@@ -8,7 +8,7 @@ int g_WaitTime = 0;
 void DrawGameEnd(int key, int& gamemode)
 {
 	//エンド画像
-	DrawGraph(0,0, g_EndImg,FALSE);
+	DrawGraph(0, 0, g_EndImg, FALSE);
 	//クローズするまでの時間
 	if (++g_WaitTime > 360)gamemode = 8;
 }

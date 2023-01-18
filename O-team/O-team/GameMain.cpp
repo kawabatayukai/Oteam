@@ -47,6 +47,7 @@ void GameMain_Init() {
 	//Å‰‚Ìƒ^[ƒ“‚Í‘•”õ
 	now_turn = Turn::CATCH;
 	frameCount = 0;
+	death_frame = 0;
 
 	//‰æ‘œ
 	player.LoadImages();

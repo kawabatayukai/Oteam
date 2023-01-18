@@ -29,7 +29,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (ReadRanking() == -1) return -1;
 
 	//�ŏ��̓^�C�g��
-	GameMode = mode::INIT;
+	GameMode = mode::TITLE;
 
 	//�L�[�{�[�h�̏�����
 	KeyBoardInit();
@@ -136,13 +136,6 @@ void GameInit()
 	GameMode = mode::MAIN;
 }
 
-//�Q�[�����C��
-void GameMain()
-{
-
-	DrawString(30, 30, "main", 0xffffff);
-
-}
 
 //�摜�ǂݍ���
 int LoadImages()

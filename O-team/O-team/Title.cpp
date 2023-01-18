@@ -35,7 +35,7 @@ void DrawGameTitle(int key, int& gamemode)
 		switch (menuNo)
 		{
 		case 0:
-			gamemode = 2;	//ゲームメインに飛ぶ
+			gamemode = 1;	//ゲームメインに飛ぶ
 			break;
 		case 1:
 			gamemode = 4;	//ヘルプに飛ぶ

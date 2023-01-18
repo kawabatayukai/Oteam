@@ -30,7 +30,7 @@ void DrawResult(int key, int& gamemode, int score)
 		switch (menuNo)
 		{
 		case 0:
-			gamemode = 2;	//ゲームメインに飛ぶ
+			gamemode = 1;	//ゲームメインに飛ぶ
 			break;
 		case 1:
 			gamemode = 0;	//タイトル

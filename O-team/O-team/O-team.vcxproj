@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="End.cpp" />
     <ClCompile Include="flying_Armor.cpp" />
     <ClCompile Include="flying_Attack.cpp" />
     <ClCompile Include="flying_object.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="End.h" />
     <ClInclude Include="flying_Attack.h" />
     <ClInclude Include="flying_Armor.h" />
     <ClInclude Include="flying_object.h" />
