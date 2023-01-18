@@ -261,7 +261,7 @@ void GameMain_Draw()
 }
 
 //ゲームメイン
-void GameMain(int &gamemode)
+void GameMain(int &gamemode,int lowscore)
 {
 	GameMain_Update();    //ゲームメイン更新・計算
 
@@ -294,9 +294,16 @@ void GameMain(int &gamemode)
 		frameCount = 0;           //カウントをリセット
 	}
 
+	//死亡または30経過して8秒経過
 	if (now_turn == Turn::END && death_frame % 480 == 0)
 	{
-		gamemode = 6;   //リザルト画面へ
 		GameMain_Final();
+
+		//ランキング最低スコアと比較
+		if (player.GetHP() > lowscore)
+		{
+			gamemode = 5;  //ランキング入力へ
+		}
+		else gamemode = 6; //リザルトへ
 	}
 }
