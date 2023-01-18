@@ -1,5 +1,5 @@
 #include"DxLib.h"
-#include"information.h"  //�g������ .h�t�@�C�� ���C���N���[�h���܂�
+#include"information.h"  //使いたい .hファイル をインクルードします
 #include"Help.h"
 #include"Ranking.h"
 #include"Result.h"
@@ -10,31 +10,31 @@
 #include "PadInput.h"
 
 
-// �v���O������ WinMain ����n�܂�܂�
+// プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	SetMainWindowText("Neko");             //�^�C�g����ݒ�
-	ChangeWindowMode(TRUE);                //�E�B���h�E���[�h�ŋN��
+	SetMainWindowText("Neko");             //タイトルを設定
+	ChangeWindowMode(TRUE);                //ウィンドウモードで起動
 
-	//�E�B���h�E�T�C�Y��ݒ�
+	//ウィンドウサイズを設定
 	SetGraphMode(SCREENSIZE_X, SCREENSIZE_Y, 32);
 
-	if (DxLib_Init() == -1) return -1;     //DX���C�u�����̏���������
-	SetDrawScreen(DX_SCREEN_BACK);         //�`����ʂ𗠂ɂ���
+	if (DxLib_Init() == -1) return -1;     //DXライブラリの初期化処理
+	SetDrawScreen(DX_SCREEN_BACK);         //描画先画面を裏にする
 
-	//�摜�ǂݍ���
+	//画像読み込み
 	if (LoadImages() == -1) return -1;
 
-	// �����L���O�f�[�^�̓Ǎ�
+	// ランキングデータの読込
 	if (ReadRanking() == -1) return -1;
 
-	//�ŏ��̓^�C�g��
+	//最初はタイトル
 	GameMode = mode::TITLE;
 
-	//�L�[�{�[�h�̏�����
+	//キーボードの初期化
 	KeyBoardInit();
 
-	//���Ȃ���΃��[�v
+	//問題なければループ
 	while (ProcessMessage() == 0 && GameMode != CLOSE && !(g_KeyFlg & PAD_INPUT_START))
 	{
 		//ESCAPE�L�[�ŏI��
@@ -44,112 +44,112 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//PAD��BACK�L�[�ŏI��
 		if (PAD_INPUT::OnClick(XINPUT_BUTTON_BACK)) DxLib_End();
 
-		//�L�[���͎擾 
+		//キー入力取得
 		g_OldKey = g_NowKey;
-		g_NowKey = GetJoypadInputState(DX_INPUT_KEY_PAD1);    //��̃R���g���[���[�̓��͂��g���܂�
+		g_NowKey = GetJoypadInputState(DX_INPUT_KEY_PAD1);    //例のコントローラーの入力も使えます
 		g_KeyFlg = g_NowKey & ~g_OldKey;
 
-		ClearDrawScreen();                 //��ʂ�������
+		ClearDrawScreen();                 //画面を初期化
 
 		DrawBox(0, 0, 1280, 720, 0xd3d3d3,TRUE);
 		switch (GameMode)
 		{
 		case mode::TITLE:
 
-			//�^�C�g��
+			//タイトル
 			DrawGameTitle(g_KeyFlg, GameMode);
 
 			break;
 
 		case mode::INIT:
 
-			//������
+			//初期化
 			GameInit();
 
 			break;
 
 		case mode::MAIN:
 
-			//�Q�[�����C�� �����L���O�̈�ԉ��̃X�R�A�����炤   g_Ranking[RANKING_DATA-1].score �݂�����
+			//ゲームメイン    ランキング5番目のスコアをもらう g_Ranking[RANKING_DATA-1].score みたいな
 			GameMain(GameMode, 10);
 
 			break;
 
 		case mode::RANKING:
 
-			//�����L���O�\��
+			//ランキング表示
 			DrawRanking(g_KeyFlg, GameMode);
 
 			break;
 
 		case mode::HELP:
 
-			//�w���v�\��
+			//ヘルプ表示
 			DrawHelp(g_KeyFlg, GameMode);
 
 			break;
 
 		case mode::INPUTNAME:
 
-			//���O����
+			//名前入力
 			InputRanking(g_NowKey, GameMode,g_Score);
 
 			break;
 
 		case mode::RESULT:
 
-			//���U���g
+			//リザルト
 			DrawResult(g_KeyFlg, GameMode, g_Score);
 
 			break;
 
 		case mode::END:
 
-			//�G���h
+			//エンド
 			DrawGameEnd(g_KeyFlg, GameMode);
 			break;
 
 		case mode::CLOSE:
 
-			//����[��
+			//くろーず
 			break;
 
 		default:
 			break;
 		}
 
-		DxLib::ScreenFlip();                      //����ʂ�\��ʂɔ��f
+		DxLib::ScreenFlip();                      //裏画面を表画面に反映
 	}
 
-	DxLib::DxLib_End();				           // �c�w���C�u�����g�p�̏I������
+	DxLib::DxLib_End();				           // ＤＸライブラリ使用の終了処理
 
-	return 0;				               // �\�t�g�̏I�� 
+	return 0;				               // ソフトの終了 
 }
 
-//������
+//初期化
 void GameInit()
 {
-	//���낢�돉����
+	//ゲームメイン初期化
 	GameMain_Init();
 
-	//�Q�[�����C����
+	//ゲームメインへ
 	GameMode = mode::MAIN;
 }
 
 
-//�摜�ǂݍ���
+//画像読み込み
 int LoadImages()
 {
-	if (LoadHelpImage() == -1) return -1;     //�w���v�摜�ǂݍ���
-	if (LoadRankingImage() == -1) return -1;  //�����L���O�摜�ǂݍ���
-	if (LoadResultImage() == -1) return -1;   //���U���g�摜�ǂݍ���
-	if (LoadTitleImage() == -1) return -1;    //�^�C�g���摜�ǂݍ���
-	if (LoadEndImage() == -1) return -1;    //�G���h�摜�ǂݍ���
+	if (LoadHelpImage() == -1) return -1;     //ヘルプ画像読み込み
+	if (LoadRankingImage() == -1) return -1;  //ランキング画像読み込み
+	if (LoadResultImage() == -1) return -1;   //リザルト画像読み込み
+	if (LoadTitleImage() == -1) return -1;    //タイトル画像読み込み
+	if (LoadEndImage() == -1) return -1;      //エンド画像読み込み
 
 	return 0;
 }
 
-//�����ǂݍ���
+//音声読み込み
 int LoadSounds()
 {
 	return 0;

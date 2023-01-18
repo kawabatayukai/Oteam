@@ -12,7 +12,7 @@ void GameMain_Update();    //ゲームメイン更新・計算
 void GameMain_Draw();      //ゲームメイン描画
 void GameMain_DrawArea();  //ゲームメイン描画エリア
 
-void GameMain(int& gamemode, int lowscore);         //ゲームメイン
+void GameMain(int& gamemode, int lowscore);         //ゲームメイン  ランキング5番目のスコアをもらう
 
 //ターン
 enum class Turn
