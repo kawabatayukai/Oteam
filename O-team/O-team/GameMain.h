@@ -18,4 +18,5 @@ enum class Turn
 {
 	CATCH,     //防具をとるターン
 	ATTACK,    //攻撃に耐えるターン
+	END,       //30秒時間切れ or プレイヤーが死亡した時
 };

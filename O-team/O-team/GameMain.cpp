@@ -23,11 +23,12 @@ Player player;
 
 //フレームをカウント
 int frameCount = 0;
+int death_frame = 0;
 
 Turn now_turn;
 
 //テスト用
-char Turn_str[][7] = { "Catch","Attack" };
+char Turn_str[][7] = { "Catch","Attack","END" };
 
 //ゲームメイン初期処理（コンストラクタ代わり）
 void GameMain_Init() {
@@ -175,22 +176,32 @@ void Attack_Update() {
 //ゲームメイン更新・計算
 void GameMain_Update()
 {
-	player.Update();
+
 
 	switch (now_turn)
 	{
 	case Turn::CATCH:
 
+		player.Update();
 		Armor_Update();
 		break;
 
 	case Turn::ATTACK:
+
+		player.Update();
 
 		//ターン切り替え後・2秒待つ
 		if (frameCount > 120) Attack_Update();
 		else DrawBox(0, 0, 1280,720, 0x000000, TRUE);  //暗転
 
 		break;
+
+	case Turn::END:
+
+
+
+		break;
+
 	default:
 		break;
 	}
@@ -199,11 +210,13 @@ void GameMain_Update()
 //ゲームメイン描画
 void GameMain_Draw()
 {
-	player.Draw();
+
 
 	switch (now_turn)
 	{
 	case Turn::CATCH:
+
+		player.Draw();
 
 		//防具の描画
 		for (int i = 0; i < ARMOR_MAX; i++)
@@ -217,6 +230,8 @@ void GameMain_Draw()
 
 	case Turn::ATTACK:
 
+		player.Draw();
+
 		//攻撃の描画
 		for (int i = 0; i < ATTACK_MAX; i++)
 		{
@@ -224,6 +239,16 @@ void GameMain_Draw()
 			obj_attack[i]->Draw();                //要素があるときは描画
 		}
 		break;
+
+	case Turn::END:
+
+		//プレイヤーのHPが0以上
+		if (player.GetHP() > 0) player.Draw();       //プレイヤーを描画
+		else player.Draw_Death();
+
+
+		break;
+
 	default:
 		break;
 	}
@@ -245,19 +270,33 @@ void GameMain(int &gamemode)
 	//フレームを加算
 	frameCount++;
 
-	//Attackターンは30秒で終了　または　playerのHPが0以下で終了
+	//if (now_turn == Turn::END && frameCount % 300 == 0)
+	//{
+	//	DrawString(100, 100, "end", 0xffffff);
+	//}
+
+	//Attackターン30秒　または　playerのHPが0以下でターン切り替え　攻撃　→　エンド
 	if (now_turn == Turn::ATTACK && frameCount % 1800 == 0 || player.GetHP() < 0)
 	{
 		//ランキング
 
-		gamemode = 6;   //リザルト画面へ
-		GameMain_Final();
+		//gamemode = 6;   //リザルト画面へ
+		//GameMain_Final();
+
+		now_turn = Turn::END;     //死亡時
+		death_frame = frameCount;
 	}
 
-	//20秒でターンを切り替え
+	//20秒でターンを切り替え  装備　→　攻撃
 	if (now_turn == Turn::CATCH && frameCount % 600 == 0)
 	{
 		now_turn = Turn::ATTACK;  //攻撃を受けるターン
 		frameCount = 0;           //カウントをリセット
+	}
+
+	if (now_turn == Turn::END && death_frame % 240 == 0)
+	{
+		gamemode = 6;   //リザルト画面へ
+		GameMain_Final();
 	}
 }
