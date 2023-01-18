@@ -4,6 +4,7 @@
 #include"Ranking.h"
 #include"Result.h"
 #include"Title.h"
+#include"Keyboard.h"
 #include"GameMain.h"
 #include "PadInput.h"
 
@@ -23,8 +24,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//画像読み込み
 	if (LoadImages() == -1) return -1;
 
+	// ランキングデータの読込
+	if (ReadRanking() == -1) return -1;
+
 	//最初はタイトル
-	GameMode = mode::INIT;
+	GameMode = mode::HELP;
+
+	//キーボードの初期化
+	KeyBoardInit();
 
 	//問題なければループ
 	while (ProcessMessage() == 0 && GameMode != mode::CLOSE)
@@ -84,7 +91,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		case mode::INPUTNAME:
 
 			//名前入力
-			InputRanking(g_KeyFlg, GameMode);
+			InputRanking(g_NowKey, GameMode,g_Score);
 
 			break;
 

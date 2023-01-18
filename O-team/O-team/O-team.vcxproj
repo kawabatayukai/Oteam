@@ -156,6 +156,7 @@
     <ClCompile Include="flying_object.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="Help.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Ranking.cpp" />
     <ClCompile Include="Result.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="GameMain.h" />
     <ClInclude Include="Help.h" />
     <ClInclude Include="information.h" />
+    <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Ranking.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Title.h" />
