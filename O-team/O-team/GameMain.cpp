@@ -7,11 +7,17 @@
 
 #define DRAWAREA_X 980 //描画エリア最低値
 
+//攻撃のスピード  5 ～ 10
+#define SPEED_ATTACK (GetRand(4) + 1) + 5
+
+//防具のスピード  5 ～ 9
+#define SPEED_ARMOR  (GetRand(3) + 1) + 5
+
 //防具最大表示数
-#define ARMOR_MAX 10 
+#define ARMOR_MAX 20
 
 //攻撃最大表示数
-#define ATTACK_MAX 100 
+#define ATTACK_MAX 15
 
 //防具の配列
 Flying_object** obj_armor;     //基底クラス型ポインタ
@@ -113,7 +119,7 @@ void Armor_Update(){
 		int r_y = (GetRand(10) * 60) + 60;
 
 		//スピード（常に 5以上）
-		int r_speed = (GetRand(3) + 1) + 5;
+		int r_speed = SPEED_ARMOR;//(GetRand(3) + 1) + 5;
 
 		//生成する　　　　　　　                  耐久値   ｘ　　ｙ　 ｽﾋﾟｰﾄﾞ
 		obj_armor[armor_count] = new Flying_Armor(static_cast<Armor_Type>(r_type), r_dura, 1300, r_y, r_speed);
@@ -170,7 +176,7 @@ void Attack_Update() {
 		int r_y = (GetRand(10) * 60) + 60;
 
 		//スピード（常に 5以上）
-		int r_speed = (GetRand(3) + 1) + 15;
+		int r_speed = SPEED_ATTACK; //(GetRand(3) + 1) + 5;
 
 		//生成する　　　　　　　                  タイプ   ｘ　　ｙ　 ｽﾋﾟｰﾄﾞ
 		obj_attack[attack_count] = new Flying_Attack((r_type), 1300, r_y, r_speed);
@@ -203,6 +209,8 @@ void GameMain_Update()
 	case Turn::END:
 
 		death_frame++;
+		//プレイヤーのHPが0以上
+		if (player->GetHP() > 0) player->Update();       //プレイヤー操作可能
 
 		break;
 
@@ -287,7 +295,7 @@ void GameMain(int &gamemode,int lowscore)
 	//}
 
 	//Attackターン30秒　または　playerのHPが0以下でターン切り替え　攻撃　→　エンド
-	if (now_turn == Turn::ATTACK && frameCount % 1800 == 0 || player->GetHP() < 0)
+	if (now_turn == Turn::ATTACK && frameCount % 1200 == 0 || player->GetHP() < 0)
 	{
 		//ランキング
 
@@ -305,7 +313,7 @@ void GameMain(int &gamemode,int lowscore)
 		frameCount = 0;           //カウントをリセット
 	}
 
-	//死亡または30経過して8秒経過
+	//死亡または30経過して7秒経過
 	if (now_turn == Turn::END && death_frame % 480 == 0)
 	{
 		GameMain_Final();

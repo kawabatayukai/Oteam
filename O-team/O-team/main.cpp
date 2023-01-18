@@ -35,7 +35,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//キーボードの初期化
 	KeyBoardInit();
 
-	//FPSControll縺ｮ蛻晄悄蛹・
+	//FPSControll
 	FPSControll FpsCtrl(60.0f, 800);
 
 	//問題なければループ
@@ -140,6 +140,9 @@ void GameInit()
 {
 	//いろいろ初期化
 	GameMain_Init();
+
+	//キーボードの初期化
+	KeyBoardInit();
 
 	//ゲームメインへ
 	GameMode = mode::MAIN;

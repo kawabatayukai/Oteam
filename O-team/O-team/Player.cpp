@@ -8,12 +8,12 @@ Player::Player() {
 	Direction = 0;  //Å‰‚Í‰EŒü‚«
 
 	HP = 10;
-	Width = 64.f;
-	Hight = 65.f;
+	Width = 50.f;
+	Hight = 55.f;
 	X = MAP_X / 2 - Width;
 	Y = MAP_Y / 2 - Hight;
 
-	Speed = 5.f;
+	Speed = 6.5f;
 }
 
 Player::~Player() {
