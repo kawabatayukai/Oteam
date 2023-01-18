@@ -5,7 +5,7 @@
 #include"flying_object.h"
 #include"Player.h"
 
-#define DRAWAREA_X 980 
+#define DRAWAREA_X 980 //描画エリア最低値
 
 //防具最大表示数
 #define ARMOR_MAX 10 
@@ -252,12 +252,17 @@ void GameMain_Draw()
 	default:
 		break;
 	}
+}
 
-	//Test
-	DrawFormatString(0, 100, 0x000000, "Now : %s", Turn_str[static_cast<int>(now_turn)]);
-	DrawFormatString(0, 130, 0x000000, "Time : %d", (frameCount / 60));
+//ゲームメイン描画エリア
+void GameMain_DrawArea() {
 	//描画エリア
 	DrawBox(DRAWAREA_X, 0, 1280, 720, 0x00ddbb, TRUE);
+
+	SetFontSize(20);
+	//Test
+	DrawFormatString(1130, 100, 0x000000, "Now : %s", Turn_str[static_cast<int>(now_turn)]);
+	DrawFormatString(1130, 130, 0x000000, "Time : %d", (frameCount / 60));
 }
 
 //ゲームメイン
@@ -266,6 +271,8 @@ void GameMain(int &gamemode,int lowscore)
 	GameMain_Update();    //ゲームメイン更新・計算
 
 	GameMain_Draw();      //ゲームメイン描画
+
+	GameMain_DrawArea();  //ゲームメイン描画エリア
 
 	//フレームを加算
 	frameCount++;

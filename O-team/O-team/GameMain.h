@@ -8,8 +8,9 @@ void GameMain_Final();   //ゲームメイン終了処理（デストラクタの代わり）
 void Armor_Update();     //防具  生成・更新・削除
 void Attack_Update();    //攻撃  生成・更新・削除
 
-void GameMain_Update();  //ゲームメイン更新・計算
-void GameMain_Draw();    //ゲームメイン描画
+void GameMain_Update();    //ゲームメイン更新・計算
+void GameMain_Draw();      //ゲームメイン描画
+void GameMain_DrawArea();  //ゲームメイン描画エリア
 
 void GameMain(int& gamemode, int lowscore);         //ゲームメイン
 
