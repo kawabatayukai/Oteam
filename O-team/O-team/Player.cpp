@@ -34,8 +34,10 @@ void Player::LoadImages(){
 	LoadDivGraph("images/Mikosan_Win.png", 8, 4, 2, 64, 65, Win_Image);
 }
 
-void Player::SetHP(int HP) {
+void Player::SetHP(int HP) 
+{
 	this->HP += HP;
+	if (this->HP < 0) this->HP = 0;  //0ÇÊÇËè¨Ç≥Ç≠Ç»ÇÁÇ»Ç¢
 }
 
 void Player::Update() {

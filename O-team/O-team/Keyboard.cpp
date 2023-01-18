@@ -215,11 +215,11 @@ bool CursorControl()
 	return false;
 }
 
-//Aボタンが押された時の処理
-int KeyBoard_PushA(int nowkey, char* name)
+//Bボタンが押された時の処理
+int KeyBoard_PushB(int nowkey, char* name)
 {
 	//　Aボタンを押している間
-	if (nowkey & PAD_INPUT_A)
+	if (nowkey & PAD_INPUT_B)
 	{
 		//長押しでの連続入力のタイミングを調整（PCのような）
 		if (CursorControl() == true)
