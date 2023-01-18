@@ -14,13 +14,6 @@ void DrawHelp(int key, int& gamemode)
 
 	// ヘルプ画像表示
 	DrawGraph(0, 0, g_HelpImg, FALSE);
-
-	// 説明表示
-	SetFontSize(27);
-
-	DrawString(300, 240, "* タイミングよくジャンプして防具を身につけよう *", 0xffffff, 0);
-
-	DrawString(380, 670, "--- Bボタンを押してタイトルへ戻る ---", 0xffffff, 0);
 }
 
 //ヘルプ画像読み込み
