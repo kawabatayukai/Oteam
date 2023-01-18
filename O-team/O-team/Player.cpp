@@ -1,26 +1,25 @@
 #include "Player.h"
 #include "PadInput.h"
 
-Player::Player() {
+#define MAP_X 1280      //行動可能の範囲(幅)
+#define MAP_Y 720       //行動可能の範囲(高さ)
 
+Player::Player() {
 	Direction = 0;  //最初は右向き
 
 	HP = 10;
 	X = 620.f;
 	Y = 340.f;
-	Width = 50.f;
-	Hight = 50.f;
+	Width = 64.f;
+	Hight = 65.f;
 	Speed = 5.f;
-
-
 }
 
 Player::~Player() {
 
 }
 
-void Player::LoadImages()
-{
+void Player::LoadImages(){
 	//分割読み込み
 	LoadDivGraph("images/MikoSan02.png", 8, 4, 2, 64, 65, All_Images);
 
@@ -58,13 +57,24 @@ void Player::Update() {
 		else Y -= Speed * Vector;
 	}
 
-	
+	//画面外に出ないように
+	if (X < 0) {
+		X = 0;             //左
+	}
+	if (Y < 0) {
+		Y = 0;             //上
+	}
+	if (MAP_X < X + Width) {
+		X = MAP_X - Width;  //右
+	}
+	if (MAP_Y < Y + Hight) {
+		Y = MAP_Y - Hight;   //下
+	}
 }
 
 void Player::Draw() {
-
-	int now = 0;    //現在の画像No.
-	int now_aura = 0;    //現在の画像No.(オーラ)
+	int now = 0;        //現在の画像No.
+	int now_aura = 0;   //現在の画像No.(オーラ)
 
 	if (HP < 100) now = 0;                    //1枚目　（デフォルト）
 	else if (HP >= 100 && HP < 200) now = 1;  //2枚目
@@ -76,8 +86,7 @@ void Player::Draw() {
 	now = now + (Direction * 4);
 	
 	//オーラ
-	if (HP >= 400)
-	{
+	if (HP >= 400){
 		if (HP < 400) now_aura = 0;                    //1枚目　（デフォルト）
 		else if (HP >= 400 && HP < 500) now_aura = 1;  //2枚目
 		else if (HP >= 500 && HP < 600) now_aura = 2;  //3枚目
@@ -94,9 +103,6 @@ void Player::Draw() {
 	}
 	//プレイヤー
 	DrawRotaGraph(X + (Width / 2), Y + (Width / 2), 1, 0, All_Images[now], TRUE);
-
-	
-	//DrawBox(X, Y, X + Width, Y + Hight, 0xffffff, TRUE);
 
 	DrawFormatString(0, 50, 0xffffff, "HP = %d", HP);
 }
