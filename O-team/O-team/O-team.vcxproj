@@ -158,6 +158,7 @@
     <ClCompile Include="fps.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="Help.cpp" />
+    <ClCompile Include="Help2.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Ranking.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="fps.h" />
     <ClInclude Include="GameMain.h" />
     <ClInclude Include="Help.h" />
+    <ClInclude Include="Help2.h" />
     <ClInclude Include="information.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Ranking.h" />
