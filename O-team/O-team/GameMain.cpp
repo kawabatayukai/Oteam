@@ -210,7 +210,7 @@ void GameMain_Update()
 
 		death_frame++;
 		//プレイヤーのHPが0以上
-		if (player->GetHP() > 0) player->Update();       //プレイヤー操作可能
+		if (player->GetHP() > 0) player->Update_Win(); 
 
 		break;
 
@@ -255,7 +255,7 @@ void GameMain_Draw()
 	case Turn::END:
 
 		//プレイヤーのHPが0以上
-		if (player->GetHP() > 0) player->Draw();       //プレイヤーを描画
+		if (player->GetHP() > 0) player->Draw_Win();       //プレイヤーを描画
 		else player->Draw_Death();
 
 
@@ -299,9 +299,11 @@ void GameMain(int &gamemode,int lowscore)
 	{
 		//ランキング
 
-		//gamemode = 6;   //リザルト画面へ
-		//GameMain_Final();
-
+		//if (player->GetHP() < 0)
+		//{
+		//	
+		//}
+		player->SetWin_PointY();  //Y座標を保持
 		now_turn = Turn::END;     //死亡時
 		death_frame = frameCount;
 	}

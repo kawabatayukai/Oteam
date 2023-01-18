@@ -208,7 +208,7 @@ void KeyBoard_Update(int nowkey)
 //カーソルの移動・ボタンの長押しを調整
 bool CursorControl()
 {
-	int timing = 25;
+	int timing = 8;
 	if (frame % timing == 0) return true;
 	//frame = 0;
 
