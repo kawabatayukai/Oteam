@@ -8,6 +8,7 @@
 #include"Keyboard.h"
 #include"GameMain.h"
 #include "PadInput.h"
+#include"fps.h"
 
 
 // プログラムは WinMain から始まります
@@ -33,6 +34,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//キーボードの初期化
 	KeyBoardInit();
+
+	//FPSControllの初期化
+	FPSControll FpsCtrl(60.0f, 800);
 
 	//問題なければループ
 	while (ProcessMessage() == 0 && GameMode != CLOSE && !(g_KeyFlg & PAD_INPUT_START))
@@ -117,6 +121,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		default:
 			break;
 		}
+
+		//FPS固定処理
+		FpsCtrl.Get();
+		FpsCtrl.Wait();
+		FpsCtrl.Disp();
 
 		DxLib::ScreenFlip();                      //裏画面を表画面に反映
 	}
