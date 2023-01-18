@@ -1,17 +1,18 @@
 #include "Player.h"
 #include "PadInput.h"
 
-#define MAP_X 1280      //行動可能の範囲(幅)
+#define MAP_X 980       //行動可能の範囲(幅)
 #define MAP_Y 720       //行動可能の範囲(高さ)
 
 Player::Player() {
 	Direction = 0;  //最初は右向き
 
 	HP = 10;
-	X = 620.f;
-	Y = 340.f;
 	Width = 64.f;
 	Hight = 65.f;
+	X = MAP_X / 2 - Width;
+	Y = MAP_Y / 2 - Hight;
+
 	Speed = 5.f;
 }
 

@@ -5,6 +5,8 @@
 #include"flying_object.h"
 #include"Player.h"
 
+#define DRAWAREA_X 980 
+
 //防具最大表示数
 #define ARMOR_MAX 10 
 
@@ -45,7 +47,6 @@ void GameMain_Init() {
 	now_turn = Turn::CATCH;
 	frameCount = 0;
 
-
 	//画像
 	player.LoadImages();
 }
@@ -57,8 +58,7 @@ void GameMain_Final() {
 }
 
 //防具  生成・更新・削除
-void Armor_Update()
-{
+void Armor_Update(){
 	int armor_count;   //防具配列の〇番目を見ているか
 
 	//配列を一つずつみる
@@ -113,10 +113,6 @@ void Armor_Update()
 		//生成する　　　　　　　                  耐久値   ｘ　　ｙ　 ｽﾋﾟｰﾄﾞ
 		obj_armor[armor_count] = new Flying_Armor(static_cast<Armor_Type>(r_type), r_dura, 1300, r_y, r_speed);
 	}
-
-
-
-
 }
 
 //攻撃  生成・更新・削除
@@ -214,7 +210,9 @@ void GameMain_Draw()
 		{
 			if (obj_armor[i] == nullptr) break;   //nullptrより後にはnullptrしかないのでループを抜ける
 			obj_armor[i]->Draw();                 //要素がある時は描画
+
 		}
+
 		break;
 
 	case Turn::ATTACK:
@@ -233,6 +231,8 @@ void GameMain_Draw()
 	//Test
 	DrawFormatString(0, 100, 0x000000, "Now : %s", Turn_str[static_cast<int>(now_turn)]);
 	DrawFormatString(0, 130, 0x000000, "Time : %d", (frameCount / 60));
+	//描画エリア
+	DrawBox(DRAWAREA_X, 0, 1280, 720, 0x00ddbb, TRUE);
 }
 
 //ゲームメイン
@@ -244,7 +244,6 @@ void GameMain(int &gamemode)
 
 	//フレームを加算
 	frameCount++;
-
 
 	//Attackターンは30秒で終了　または　playerのHPが0以下で終了
 	if (now_turn == Turn::ATTACK && frameCount % 1800 == 0 || player.GetHP() < 0)
@@ -261,5 +260,4 @@ void GameMain(int &gamemode)
 		now_turn = Turn::ATTACK;  //攻撃を受けるターン
 		frameCount = 0;           //カウントをリセット
 	}
-
 }
