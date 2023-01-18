@@ -23,11 +23,11 @@ void DrawRanking(int key, int& gamemode)
 	SetFontSize(40);
 	for (int i = 0; i < RANKING_DATA; i++)
 	{
-		DrawFormatString(350, 170 + i * 85, 0xffffff, "%2d  %-10s  %10d", g_Ranking[i].no, g_Ranking[i].name, g_Ranking[i].score);
+		DrawFormatString(450, 200 + i * 86, 0xffffff, "%-10s  %10d",g_Ranking[i].name, g_Ranking[i].score);
 	}
 
 	SetFontSize(30);
-	DrawString(350, 650, "--- Bボタンを押してタイトルへ戻る ---", 0xffffff, 0);
+	//DrawString(350, 650, "--- Bボタンを押してタイトルへ戻る ---", 0xffffff, 0);
 }
 
 //ランキング入力
@@ -68,7 +68,7 @@ void InputRanking(int nowkey, int& gamemode, int score)
 		KeyBoard_Draw();                             //キーボードの描画
 		KeyBoard_Update(nowkey);                        //キーボードの更新・操作
 
-		DrawString(0, 0, "背景・キーボード・カーソルの色などは変更できます", 0xffffff);
+		//DrawString(0, 0, "背景・キーボード・カーソルの色などは変更できます", 0xffffff);
 	}
 }
 
@@ -173,7 +173,7 @@ int ReadRanking(void)
 int LoadRankingImage()
 {
 	// ランキング画像読込
-	if ((g_RankingImg = LoadGraph("images/ranking.png")) == -1) return -1;
+	if ((g_RankingImg = LoadGraph("images/input.png")) == -1) return -1;
 
 	//キーボード画像読込
 	if (LoadKeyBoardImgaes() == -1) return -1;
