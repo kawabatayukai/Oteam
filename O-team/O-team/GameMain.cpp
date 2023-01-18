@@ -19,7 +19,7 @@ Flying_object** obj_armor;     //基底クラス型ポインタ
 //攻撃の配列
 Flying_object** obj_attack;
 
-Player player;
+Player* player;
 
 //フレームをカウント
 int frameCount = 0;
@@ -44,13 +44,16 @@ void GameMain_Init() {
 	//初期化
 	for (int i = 0; i < ATTACK_MAX; i++) obj_attack[i] = nullptr;
 
+	//プレーヤーのメモリを確保・コンストラクタ呼び出し
+	player = new Player();
+
 	//最初のターンは装備
 	now_turn = Turn::CATCH;
 	frameCount = 0;
 	death_frame = 0;
 
 	//画像
-	player.LoadImages();
+	player->LoadImages();
 }
 
 //ゲームメイン終了処理（デストラクタの代わり）
@@ -71,15 +74,15 @@ void Armor_Update(){
 
 		//更新　（移動）
 		obj_armor[armor_count]->Update();
-		if (player.Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])))
+		if (player->Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])))
 		{
 			DrawString(0, 20, "Hit", 0xffffff);
-			player.SetHP(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])->GetHP());
+			player->SetHP(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])->GetHP());
 		}
 
 		//画面外に到達,またはプレイヤーとHitで削除
 		if (obj_armor[armor_count]->CheckScreenOut() == true
-			|| player.Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])) == true)
+			|| player->Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])) == true)
 		{
 			delete obj_armor[armor_count];         //到達したﾔﾂを削除
 			obj_armor[armor_count] = nullptr;      //削除した配列の要素を初期化
@@ -129,17 +132,17 @@ void Attack_Update() {
 
 		//更新　（移動）
 		obj_attack[attack_count]->Update();
-		if (player.Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])))
+		if (player->Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])))
 		{
 			DrawString(0, 30, "Die", 0xff0000);
 
 			//ダメージを食らう
-			player.SetHP((dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetAttackDamage(player.GetHP())) * -1);
+			player->SetHP((dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetAttackDamage(player->GetHP())) * -1);
 		}
 
 		//画面外に到達、またはプレイヤーとHitで削除
 		if (obj_attack[attack_count]->CheckScreenOut() == true
-			|| player.Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])) == true)
+			|| player->Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])) == true)
 		{
 			delete obj_attack[attack_count];         //到達したﾔﾂを削除
 			obj_attack[attack_count] = nullptr;      //削除した配列の要素を初期化
@@ -183,13 +186,13 @@ void GameMain_Update()
 	{
 	case Turn::CATCH:
 
-		player.Update();
+		player->Update();
 		Armor_Update();
 		break;
 
 	case Turn::ATTACK:
 
-		player.Update();
+		player->Update();
 
 		//ターン切り替え後・2秒待つ
 		if (frameCount > 120) Attack_Update();
@@ -217,7 +220,7 @@ void GameMain_Draw()
 	{
 	case Turn::CATCH:
 
-		player.Draw();
+		player->Draw();
 
 		//防具の描画
 		for (int i = 0; i < ARMOR_MAX; i++)
@@ -231,7 +234,7 @@ void GameMain_Draw()
 
 	case Turn::ATTACK:
 
-		player.Draw();
+		player->Draw();
 
 		//攻撃の描画
 		for (int i = 0; i < ATTACK_MAX; i++)
@@ -244,8 +247,8 @@ void GameMain_Draw()
 	case Turn::END:
 
 		//プレイヤーのHPが0以上
-		if (player.GetHP() > 0) player.Draw();       //プレイヤーを描画
-		else player.Draw_Death();
+		if (player->GetHP() > 0) player->Draw();       //プレイヤーを描画
+		else player->Draw_Death();
 
 
 		break;
@@ -284,7 +287,7 @@ void GameMain(int &gamemode,int lowscore)
 	//}
 
 	//Attackターン30秒　または　playerのHPが0以下でターン切り替え　攻撃　→　エンド
-	if (now_turn == Turn::ATTACK && frameCount % 1800 == 0 || player.GetHP() < 0)
+	if (now_turn == Turn::ATTACK && frameCount % 1800 == 0 || player->GetHP() < 0)
 	{
 		//ランキング
 
@@ -308,7 +311,7 @@ void GameMain(int &gamemode,int lowscore)
 		GameMain_Final();
 
 		//ランキング最低スコアと比較
-		if (player.GetHP() > lowscore)
+		if (player->GetHP() > lowscore)
 		{
 			gamemode = 5;  //ランキング入力へ
 		}
