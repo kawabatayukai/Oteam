@@ -5,6 +5,7 @@
 #include"Ranking.h"
 #include"Result.h"
 #include"Title.h"
+#include"Keyboard.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -21,8 +22,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//画像読み込み
 	if (LoadImages() == -1) return -1;
 
+	// ランキングデータの読込
+	if (ReadRanking() == -1) return -1;
+
 	//最初はタイトル
-	GameMode = mode::TITLE;
+	GameMode = mode::INPUTNAME;
+
+	//キーボードの初期化
+	KeyBoardInit();
 
 	//問題なければループ
 	while (ProcessMessage() == 0)
@@ -75,7 +82,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		case mode::INPUTNAME:
 
 			//名前入力
-			InputRanking(g_KeyFlg, GameMode);
+			InputRanking(g_NowKey, GameMode,g_Score);
 
 			break;
 
