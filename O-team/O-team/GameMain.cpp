@@ -5,6 +5,7 @@
 #include"flying_object.h"
 #include"Player.h"
 
+
 #define DRAWAREA_X 980 //描画エリア最低値
 
 //攻撃のスピード  5 ～ 10
@@ -66,6 +67,7 @@ void GameMain_Init() {
 void GameMain_Final() {
 	delete obj_armor;
 	delete obj_attack;
+	delete player;
 }
 
 //防具  生成・更新・削除
@@ -210,7 +212,7 @@ void GameMain_Update()
 
 		death_frame++;
 		//プレイヤーのHPが0以上
-		if (player->GetHP() > 0) player->Update();       //プレイヤー操作可能
+		if (player->GetHP() > 0) player->Update_Win(); 
 
 		break;
 
@@ -255,7 +257,7 @@ void GameMain_Draw()
 	case Turn::END:
 
 		//プレイヤーのHPが0以上
-		if (player->GetHP() > 0) player->Draw();       //プレイヤーを描画
+		if (player->GetHP() > 0) player->Draw_Win();       //プレイヤーを描画
 		else player->Draw_Death();
 
 
@@ -277,8 +279,8 @@ void GameMain_DrawArea() {
 	DrawFormatString(1130, 130, 0x000000, "Time : %d", (frameCount / 60));
 }
 
-//ゲームメイン
-void GameMain(int &gamemode,int lowscore)
+//ゲームメイン ランキング5番目のスコア・スコアを保持する変数をもらう
+void GameMain(int &gamemode,int lowscore, int& g_score)
 {
 	GameMain_Update();    //ゲームメイン更新・計算
 
@@ -295,13 +297,15 @@ void GameMain(int &gamemode,int lowscore)
 	//}
 
 	//Attackターン30秒　または　playerのHPが0以下でターン切り替え　攻撃　→　エンド
-	if (now_turn == Turn::ATTACK && frameCount % 1200 == 0 || player->GetHP() < 0)
+	if (now_turn == Turn::ATTACK && frameCount % 1200 == 0 || player->GetHP() <= 0)
 	{
 		//ランキング
 
-		//gamemode = 6;   //リザルト画面へ
-		//GameMain_Final();
-
+		//if (player->GetHP() < 0)
+		//{
+		//	
+		//}
+		player->SetWin_PointY();  //Y座標を保持
 		now_turn = Turn::END;     //死亡時
 		death_frame = frameCount;
 	}
@@ -316,13 +320,19 @@ void GameMain(int &gamemode,int lowscore)
 	//死亡または30経過して7秒経過
 	if (now_turn == Turn::END && death_frame % 480 == 0)
 	{
-		GameMain_Final();
+		g_score = player->GetHP();
+		
 
 		//ランキング最低スコアと比較
-		if (player->GetHP() > lowscore)
+		if (g_score > lowscore)
 		{
 			gamemode = 5;  //ランキング入力へ
+			GameMain_Final();
 		}
-		else gamemode = 6; //リザルトへ
+		else
+		{
+			gamemode = 6; //リザルトへ
+			GameMain_Final();
+		}
 	}
 }

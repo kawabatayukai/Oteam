@@ -76,7 +76,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		case mode::MAIN:
 
 			//ゲームメイン      ランキング5番目のスコアをもらう g_Ranking[RANKING_DATA-1].score みたいな
-			GameMain(GameMode, 10);
+			GameMain(GameMode, 10, g_Score);
 
 			break;
 

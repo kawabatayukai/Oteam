@@ -1,21 +1,21 @@
 #include"DxLib.h"
 #include"keyboard.h"
 
-#define CENTER_X 320      //•  720@—p‚Åì‚Á‚½ƒL[ƒ{[ƒh‚ð–³—‚â‚è’†S‚ÉŽ‚Á‚Ä‚­‚é
-#define CENTER_Y 120      //‚‚³480@@@@@@@@@@•s—v‚ÈŽž‚Í CENTER_X,Y ‚ð0‚É‚µ‚Ä‚­‚¾‚³‚¢
+#define CENTER_X 320      //ï¿½ï¿½  720ï¿½@ï¿½pï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½[ï¿½{ï¿½[ï¿½hï¿½ð–³—ï¿½ï¿½ï¿½è’†ï¿½Sï¿½ÉŽï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
+#define CENTER_Y 120      //ï¿½ï¿½ï¿½ï¿½480ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½sï¿½vï¿½ÈŽï¿½ï¿½ï¿½ CENTER_X,Y ï¿½ï¿½0ï¿½É‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 
-#define ALPHA_MAX 26      //ƒAƒ‹ƒtƒ@ƒxƒbƒg‘”
+#define ALPHA_MAX 26      //ï¿½Aï¿½ï¿½ï¿½tï¿½@ï¿½xï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
 
-#define OUT_WIDTH 45 + CENTER_X     //‰æ–Ê¶’[`ƒL[ƒ{[ƒh‚Ü‚Å‚Ì•
-#define OUT_HEIGHT 200 + CENTER_Y    //‰æ–Êã’[`ƒL[ƒ{[ƒh‚Ü‚Å‚Ì‚‚³
-#define SPACE 10          //ƒL[ŠÔ‚ÌƒXƒy[ƒX
-#define KEY_WIDTH 40      //ƒm[ƒ}ƒ‹ƒL[‚Ì•
+#define OUT_WIDTH 45 + CENTER_X     //ï¿½ï¿½Êï¿½ï¿½[ï¿½`ï¿½Lï¿½[ï¿½{ï¿½[ï¿½hï¿½Ü‚Å‚Ì•ï¿½
+#define OUT_HEIGHT 200 + CENTER_Y    //ï¿½ï¿½Êï¿½[ï¿½`ï¿½Lï¿½[ï¿½{ï¿½[ï¿½hï¿½Ü‚Å‚Ìï¿½ï¿½ï¿½
+#define SPACE 10          //ï¿½Lï¿½[ï¿½Ô‚ÌƒXï¿½yï¿½[ï¿½X
+#define KEY_WIDTH 40      //ï¿½mï¿½[ï¿½}ï¿½ï¿½ï¿½Lï¿½[ï¿½Ì•ï¿½
 
-const int CurStdX = OUT_WIDTH + SPACE + 5;    //ƒJ[ƒ\ƒ‹‚ÌXÀ•WŠî€    (u5v‚ÍƒJ[ƒ\ƒ‹‚Ì• j
-const int CurStdY = OUT_HEIGHT + SPACE + 5;   //ƒJ[ƒ\ƒ‹‚ÌYÀ•WŠî€ 
+const int CurStdX = OUT_WIDTH + SPACE + 5;    //ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Wï¿½î€    (ï¿½u5ï¿½vï¿½ÍƒJï¿½[ï¿½\ï¿½ï¿½ï¿½Ì•ï¿½ ï¿½j
+const int CurStdY = OUT_HEIGHT + SPACE + 5;   //ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Wï¿½î€ 
 
-//“ü—Í•¶Žš   iŽÀÛ‚É•\Ž¦‚³‚ê‚Ä‚¢‚éƒL[ƒ{[ƒh‚Æ“¯‚¶”z’uj
+//ï¿½ï¿½ï¿½Í•ï¿½ï¿½ï¿½   ï¿½iï¿½ï¿½ï¿½Û‚É•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Lï¿½[ï¿½{ï¿½[ï¿½hï¿½Æ“ï¿½ï¿½ï¿½ï¿½zï¿½uï¿½j
 const char AllStr[5][ALPHA_MAX / 2 + 1] = {
 	"ABCDEFGHIJKLM",
 	"NOPQRSTUVWXYZ",
@@ -25,101 +25,101 @@ const char AllStr[5][ALPHA_MAX / 2 + 1] = {
 };
 
 
-/************* •Ï” *************/
+/************* ï¿½Ïï¿½ *************/
 
-int backimage = 0;            //”wŒi‰æ‘œ
+int backimage = 0;            //ï¿½wï¿½iï¿½æ‘œ
 
-int keyboardimage = 0;        //ƒL[ƒ{[ƒh‰æ‘œ
+int keyboardimage = 0;        //ï¿½Lï¿½[ï¿½{ï¿½[ï¿½hï¿½æ‘œ
 
-int Cursorimage[2] = { 0 };   //ƒm[ƒ}ƒ‹ƒJ[ƒ\ƒ‹‰æ‘œ  0 : ’ÊíŽž@@1 : ‰Ÿ‚³‚ê‚½‚Æ‚«
-int Cancelimage[2] = { 0 };   //  u~vƒJ[ƒ\ƒ‹‰æ‘œ
-int OKimage[2] = { 0 };       //  uOKvƒJ[ƒ\ƒ‹‰æ‘œ
+int Cursorimage[2] = { 0 };   //ï¿½mï¿½[ï¿½}ï¿½ï¿½ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½æ‘œ  0 : ï¿½ÊíŽžï¿½@ï¿½@1 : ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Æ‚ï¿½
+int Cancelimage[2] = { 0 };   //  ï¿½uï¿½~ï¿½vï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½æ‘œ
+int OKimage[2] = { 0 };       //  ï¿½uOKï¿½vï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½æ‘œ
 ///////////////////////////////////////////////////////////////////////////////////////
 
-bool pushFlag = false;           //A‚ª@‰Ÿ‚³‚ê‚Ä‚¢‚é/‰Ÿ‚³‚ê‚Ä‚È‚¢ ƒtƒ‰ƒO    TRUE:‰Ÿ‚³‚ê‚Ä‚¢‚é@FALSE:‰Ÿ‚³‚ê‚Ä‚¢‚È‚¢
+bool pushFlag = false;           //Aï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚È‚ï¿½ ï¿½tï¿½ï¿½ï¿½O    TRUE:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½@FALSE:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½
 
-int frame = 0;                   //ƒtƒŒ[ƒ€‚ðƒJƒEƒ“ƒg
+int frame = 0;                   //ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½g
 
-//ˆÚ“®—Ê   (ƒL[ƒ{[ƒhZ”Ô–Ú)
+//ï¿½Ú“ï¿½ï¿½ï¿½   (ï¿½Lï¿½[ï¿½{ï¿½[ï¿½hï¿½Zï¿½Ô–ï¿½)
 int movekeyX = 0;
 int movekeyY = 0;
 
-CURSOR_TYPE CURSOR_NOW = CURSOR_TYPE::NORMAL;  //Œ»Ý‚ÌƒJ[ƒ\ƒ‹
+CURSOR_TYPE CURSOR_NOW = CURSOR_TYPE::NORMAL;  //ï¿½ï¿½ï¿½Ý‚ÌƒJï¿½[ï¿½\ï¿½ï¿½
 
-char InputName[11];              //“ü—Í‚µ‚½•¶Žš‚ª“ü‚é”z—ñ 0`9‚É•¶Žš(10•¶ŽšÏÃÞ)@10”Ô–Ú‚É‚Í \0 ‚Å‚·
-int input_Pos;                   //“ü—Í’†‚Ì”z—ñ‚ÌZ”Ô–Ú
+char InputName[11];              //ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½ 0ï¿½`9ï¿½É•ï¿½ï¿½ï¿½(10ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½@10ï¿½Ô–Ú‚É‚ï¿½ \0 ï¿½Å‚ï¿½
+int input_Pos;                   //ï¿½ï¿½ï¿½Í’ï¿½ï¿½Ì”zï¿½ï¿½ÌZï¿½Ô–ï¿½
 
 /********************************/
 
 
 
-//‰Šúˆ—
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void KeyBoardInit()
 {
-	//ƒJ[ƒ\ƒ‹‚Ì‰ŠúˆÊ’u‚Í"A"
-	movekeyX = 0;             //‚˜•ûŒü0”Ô–Ú
-	movekeyY = 0;             //‚™•ûŒü1”Ô–Ú
+	//ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Ê’uï¿½ï¿½"A"
+	movekeyX = 0;             //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½Ô–ï¿½
+	movekeyY = 0;             //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½Ô–ï¿½
 
-	//ƒJ[ƒ\ƒ‹‚Ì‰ŠúˆÊ’u‚ÍuAv‚È‚Ì‚Åƒm[ƒ}ƒ‹
+	//ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Ê’uï¿½ÍuAï¿½vï¿½È‚Ì‚Åƒmï¿½[ï¿½}ï¿½ï¿½
 	CURSOR_NOW = CURSOR_TYPE::NORMAL;
 
-	//“ü—Í•¶Žš—ñ@‰Šú‰»
+	//ï¿½ï¿½ï¿½Í•ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	for (int i = 0; i < 10; i++)
 	{
 		InputName[i] = 0;
 	}
-	InputName[10] = '\0';     //”z—ñ‚Ìˆê”ÔÅŒã‚É"\0"(I’[‚Ì–Úˆó)‚ð“ü‚ê‚Ä‚¨‚­
+	InputName[10] = '\0';     //ï¿½zï¿½ï¿½Ìˆï¿½ÔÅŒï¿½ï¿½"\0"(ï¿½Iï¿½[ï¿½Ì–Úˆï¿½)ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 
 	input_Pos = -1;           //
 
-	pushFlag = FALSE;         //Å‰‚ÍAƒ{ƒ^ƒ“‚Í‰Ÿ‚³‚ê‚Ä‚¢‚È‚¢
+	pushFlag = FALSE;         //ï¿½Åï¿½ï¿½ï¿½Aï¿½{ï¿½^ï¿½ï¿½ï¿½Í‰ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½
 }
 
-//‰æ‘œ“Ç‚Ýž‚Ý
+//ï¿½æ‘œï¿½Ç‚Ýï¿½ï¿½ï¿½
 int LoadKeyBoardImgaes()
 {
-	//”wŒi
+	//ï¿½wï¿½i
 	if ((backimage = LoadGraph("images/inputname.png")) == -1) return -1;
-	//ƒL[ƒ{[ƒh
+	//ï¿½Lï¿½[ï¿½{ï¿½[ï¿½h
 	if ((keyboardimage = LoadGraph("images/KeyBoard03.png")) == -1) return -1;
 
-	//•ªŠ„“Ç‚Ýž‚Ý@‰Ÿ‚µ‚½‚æ/‰Ÿ‚µ‚Ä‚È‚¢ ‚ª˜AŒ‹‚µ‚½‰æ‘œ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚Ýï¿½ï¿½Ý@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚È‚ï¿½ ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ‘œ
 
-	//ƒm[ƒ}ƒ‹ƒJ[ƒ\ƒ‹
+	//ï¿½mï¿½[ï¿½}ï¿½ï¿½ï¿½Jï¿½[ï¿½\ï¿½ï¿½
 	if ((LoadDivGraph("images/Link_Normal1.png", 2, 2, 1, 40, 40, Cursorimage)) == -1) return -1;
-	//u~vƒJ[ƒ\ƒ‹
+	//ï¿½uï¿½~ï¿½vï¿½Jï¿½[ï¿½\ï¿½ï¿½
 	if ((LoadDivGraph("images/Link_Cancel1.png", 2, 2, 1, 70, 40, Cancelimage)) == -1) return -1;
-	//uOKvƒJ[ƒ\ƒ‹
+	//ï¿½uOKï¿½vï¿½Jï¿½[ï¿½\ï¿½ï¿½
 	if ((LoadDivGraph("images/Link_Space1.png", 2, 2, 1, 200, 40, OKimage)) == -1) return -1;
 
 	return 0;
 }
 
-//ƒL[ƒ{[ƒh•`‰æ
+//ï¿½Lï¿½[ï¿½{ï¿½[ï¿½hï¿½`ï¿½ï¿½
 void KeyBoard_Draw()
 {
-	//”wŒi
+	//ï¿½wï¿½i
 	DrawGraph(0, 0, backimage, FALSE);
-	//ƒL[ƒ{[ƒh
+	//ï¿½Lï¿½[ï¿½{ï¿½[ï¿½h
 	DrawGraph(45 + CENTER_X, OUT_HEIGHT, keyboardimage, TRUE);
 
 
-	// ƒm[ƒ}ƒ‹(A`Z,a`z,0`9)Eu~vEu‚n‚jv‚É‚æ‚Á‚Ä‰æ‘œ•Ï‰»@ switch•¶‚Å‘€ì
-	// @@@@@@@@‰Ÿ‚·E‰Ÿ‚³‚È‚¢‚É‚æ‚Á‚Ä‰æ‘œ•Ï‰»@@@@@@@ ‰æ‘œ”z—ñ‚ð PushFlg ‚Å‘€ì
+	// ï¿½mï¿½[ï¿½}ï¿½ï¿½(Aï¿½`Z,aï¿½`z,0ï¿½`9)ï¿½Eï¿½uï¿½~ï¿½vï¿½Eï¿½uï¿½nï¿½jï¿½vï¿½É‚ï¿½ï¿½ï¿½Ä‰æ‘œï¿½Ï‰ï¿½ï¿½@ switchï¿½ï¿½ï¿½Å‘ï¿½ï¿½ï¿½
+	// ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½É‚ï¿½ï¿½ï¿½Ä‰æ‘œï¿½Ï‰ï¿½ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ ï¿½æ‘œï¿½zï¿½ï¿½ï¿½ PushFlg ï¿½Å‘ï¿½ï¿½ï¿½
 
-	//‰æ‘œ”z—ñ‚Ì 0”Ô–Ú ‚Íu‰Ÿ‚µ‚Ä‚¢‚È‚¢vƒJ[ƒ\ƒ‹@@1”Ô–Ú‚Í u‰Ÿ‚µ‚Ä‚¢‚évƒJ[ƒ\ƒ‹
+	//ï¿½æ‘œï¿½zï¿½ï¿½ï¿½ 0ï¿½Ô–ï¿½ ï¿½Íuï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½vï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½@ï¿½@1ï¿½Ô–Ú‚ï¿½ ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½vï¿½Jï¿½[ï¿½\ï¿½ï¿½
 
 	switch (CURSOR_NOW)
 	{
-	case CURSOR_TYPE::NORMAL:    //ƒm[ƒ}ƒ‹ƒJ[ƒ\ƒ‹
+	case CURSOR_TYPE::NORMAL:    //ï¿½mï¿½[ï¿½}ï¿½ï¿½ï¿½Jï¿½[ï¿½\ï¿½ï¿½
 		DrawGraph(CurStdX + KEY_WIDTH * movekeyX, CurStdY + KEY_WIDTH * movekeyY, Cursorimage[pushFlag], TRUE);
 		break;
 
-	case CURSOR_TYPE::CANCEL:    //u~vƒJ[ƒ\ƒ‹
+	case CURSOR_TYPE::CANCEL:    //ï¿½uï¿½~ï¿½vï¿½Jï¿½[ï¿½\ï¿½ï¿½
 		DrawGraph(CurStdX + KEY_WIDTH * movekeyX + 20, CurStdY + KEY_WIDTH * movekeyY, Cancelimage[pushFlag], TRUE);
 		break;
 
-	case CURSOR_TYPE::DONE:      //uOKvƒJ[ƒ\ƒ‹
+	case CURSOR_TYPE::DONE:      //ï¿½uOKï¿½vï¿½Jï¿½[ï¿½\ï¿½ï¿½
 		DrawGraph(CurStdX + KEY_WIDTH * movekeyX, CurStdY + KEY_WIDTH * movekeyY, OKimage[pushFlag], TRUE);
 		break;
 
@@ -127,85 +127,85 @@ void KeyBoard_Draw()
 		break;
 	}
 
-	//“ü—Í’†‚Ì•¶Žš‚ð•\Ž¦
+	//ï¿½ï¿½ï¿½Í’ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
 	DrawInputInfo();
 }
 
-//XV
+//ï¿½Xï¿½V
 void KeyBoard_Update(int nowkey)
 {
-	//ƒtƒŒ[ƒ€”ƒJƒEƒ“ƒg
+	//ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½g
 	frame++;
 
 
-	//¨ ‰E 
+	//ï¿½ï¿½ ï¿½E 
 	if (nowkey & PAD_INPUT_RIGHT)
 	{
 		if (CursorControl() == true)
 		{
-			movekeyX++;     //ƒ^ƒCƒ~ƒ“ƒO’²® + ˆÚ“®
+			movekeyX++;     //ï¿½^ï¿½Cï¿½~ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ + ï¿½Ú“ï¿½
 		}
-		if (movekeyX > 12) movekeyX = 0;   //‰E’[ˆÈã‚Å¶’[‚Ö
+		if (movekeyX > 12) movekeyX = 0;   //ï¿½Eï¿½[ï¿½Èï¿½Åï¿½ï¿½[ï¿½ï¿½
 
-		CURSOR_NOW = CURSOR_TYPE::NORMAL;  //Œ»Ý‚ÌƒL[‚Íƒm[ƒ}ƒ‹
+		CURSOR_NOW = CURSOR_TYPE::NORMAL;  //ï¿½ï¿½ï¿½Ý‚ÌƒLï¿½[ï¿½Íƒmï¿½[ï¿½}ï¿½ï¿½
 	}
 
-	//© ¶
+	//ï¿½ï¿½ ï¿½ï¿½
 	if (nowkey & PAD_INPUT_LEFT)
 	{
 		if (CursorControl() == true)
 		{
-			movekeyX--;     //ƒ^ƒCƒ~ƒ“ƒO’²® + ˆÚ“®
+			movekeyX--;     //ï¿½^ï¿½Cï¿½~ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ + ï¿½Ú“ï¿½
 		}
-		if (movekeyX < 0) movekeyX = 12;     //¶’[ˆÈã‚Å‰E’[‚Ö
+		if (movekeyX < 0) movekeyX = 12;     //ï¿½ï¿½ï¿½[ï¿½Èï¿½Å‰Eï¿½[ï¿½ï¿½
 
-		CURSOR_NOW = CURSOR_TYPE::NORMAL;    //Œ»Ý‚ÌƒL[‚Íƒm[ƒ}ƒ‹
+		CURSOR_NOW = CURSOR_TYPE::NORMAL;    //ï¿½ï¿½ï¿½Ý‚ÌƒLï¿½[ï¿½Íƒmï¿½[ï¿½}ï¿½ï¿½
 	}
 
-	//ª ã
+	//ï¿½ï¿½ ï¿½ï¿½
 	if (nowkey & PAD_INPUT_UP)
 	{
 
 		if (CursorControl() == true)
 		{
-			movekeyY--;     //ƒ^ƒCƒ~ƒ“ƒO’²® + ˆÚ“®
+			movekeyY--;     //ï¿½^ï¿½Cï¿½~ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ + ï¿½Ú“ï¿½
 		}
-		if (movekeyY <= 0) movekeyY = 0;     //ã’[‚ÅƒXƒgƒbƒv
+		if (movekeyY <= 0) movekeyY = 0;     //ï¿½ï¿½[ï¿½ÅƒXï¿½gï¿½bï¿½v
 
-		CURSOR_NOW = CURSOR_TYPE::NORMAL;         //Œ»Ý‚ÌƒL[‚Íƒm[ƒ}ƒ‹
+		CURSOR_NOW = CURSOR_TYPE::NORMAL;         //ï¿½ï¿½ï¿½Ý‚ÌƒLï¿½[ï¿½Íƒmï¿½[ï¿½}ï¿½ï¿½
 	}
 
-	//« ‰º
+	//ï¿½ï¿½ ï¿½ï¿½
 	if (nowkey & PAD_INPUT_DOWN)
 	{
 
 		if (CursorControl() == true)
 		{
-			movekeyY++;     //ƒ^ƒCƒ~ƒ“ƒO’²® + ˆÚ“®
+			movekeyY++;     //ï¿½^ï¿½Cï¿½~ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ + ï¿½Ú“ï¿½
 		}
 
-		CURSOR_NOW = CURSOR_TYPE::NORMAL;         //Œ»Ý‚ÌƒL[‚Íƒm[ƒ}ƒ‹
+		CURSOR_NOW = CURSOR_TYPE::NORMAL;         //ï¿½ï¿½ï¿½Ý‚ÌƒLï¿½[ï¿½Íƒmï¿½[ï¿½}ï¿½ï¿½
 	}
 
-	//u~vƒ{ƒ^ƒ“   ua`zv’i‚æ‚è‰º ‚©‚Â u9vƒL[‚æ‚è‰E‘¤
+	//ï¿½uï¿½~ï¿½vï¿½{ï¿½^ï¿½ï¿½   ï¿½uaï¿½`zï¿½vï¿½iï¿½ï¿½è‰º ï¿½ï¿½ï¿½ï¿½ ï¿½u9ï¿½vï¿½Lï¿½[ï¿½ï¿½ï¿½Eï¿½ï¿½
 	if (movekeyY == 4 && movekeyX >= 10)
 	{
-		movekeyX = 10;                       //ƒ{ƒ^ƒ“‚ÌˆÊ’u
+		movekeyX = 10;                       //ï¿½{ï¿½^ï¿½ï¿½ï¿½ÌˆÊ’u
 
-		CURSOR_NOW = CURSOR_TYPE::CANCEL;         //Œ»Ý‚ÌƒL[‚ÍƒLƒƒƒ“ƒZƒ‹u~v
+		CURSOR_NOW = CURSOR_TYPE::CANCEL;         //ï¿½ï¿½ï¿½Ý‚ÌƒLï¿½[ï¿½ÍƒLï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½uï¿½~ï¿½v
 	}
 
-	//uOKvƒ{ƒ^ƒ“   ƒL[ƒ{[ƒhÅ‰º’i‚æ‚è‰º
+	//ï¿½uOKï¿½vï¿½{ï¿½^ï¿½ï¿½   ï¿½Lï¿½[ï¿½{ï¿½[ï¿½hï¿½Å‰ï¿½ï¿½iï¿½ï¿½è‰º
 	if (movekeyY >= 5)
 	{
-		movekeyX = 4;                        //ƒ{ƒ^ƒ“‚ÌˆÊ’u
+		movekeyX = 4;                        //ï¿½{ï¿½^ï¿½ï¿½ï¿½ÌˆÊ’u
 		movekeyY = 5;
 
-		CURSOR_NOW = CURSOR_TYPE::DONE;           //Œ»Ý‚ÌƒL[‚ÍDONEuOKv
+		CURSOR_NOW = CURSOR_TYPE::DONE;           //ï¿½ï¿½ï¿½Ý‚ÌƒLï¿½[ï¿½ï¿½DONEï¿½uOKï¿½v
 	}
 }
 
-//ƒJ[ƒ\ƒ‹‚ÌˆÚ“®Eƒ{ƒ^ƒ“‚Ì’·‰Ÿ‚µ‚ð’²®
+//ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½ÌˆÚ“ï¿½ï¿½Eï¿½{ï¿½^ï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ð’²ï¿½
 bool CursorControl()
 {
 	int timing = 8;
@@ -215,58 +215,58 @@ bool CursorControl()
 	return false;
 }
 
-//Aƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½Žž‚Ìˆ—
+//Bï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½
 int KeyBoard_PushB(int nowkey, char* name)
 {
-	//@Bƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚Ä‚¢‚éŠÔ
+	//ï¿½@Aï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½
 	if (nowkey & PAD_INPUT_B)
 	{
-		//’·‰Ÿ‚µ‚Å‚Ì˜A‘±“ü—Í‚Ìƒ^ƒCƒ~ƒ“ƒO‚ð’²®iPC‚Ì‚æ‚¤‚Èj
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚Ì˜Aï¿½ï¿½ï¿½ï¿½ï¿½Í‚Ìƒ^ï¿½Cï¿½~ï¿½ï¿½ï¿½Oï¿½ð’²ï¿½ï¿½iPCï¿½Ì‚æ‚¤ï¿½Èj
 		if (CursorControl() == true)
 		{
-			// "A`Z","a`z","1`9"‚Ìã‚Å‰Ÿ‚³‚ê‚½
+			// "Aï¿½`Z","aï¿½`z","1ï¿½`9"ï¿½Ìï¿½Å‰ï¿½ï¿½ï¿½ï¿½ê‚½
 			if (CURSOR_NOW == CURSOR_TYPE::NORMAL)
 			{
-				pushFlag = true;        //‰Ÿ‚³‚ê‚Ä‚¢‚é‚æ
+				pushFlag = true;        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½
 
-				++input_Pos;            //“ü—ÍˆÊ’u‚ðˆê‚Â‰E‚É
+				++input_Pos;            //ï¿½ï¿½ï¿½ÍˆÊ’uï¿½ï¿½ï¿½ï¿½Â‰Eï¿½ï¿½
 
-				//ãŒÀ‚Í10•¶Žš   i”z—ñ‚Ì0`9j
+				//ï¿½ï¿½ï¿½ï¿½ï¿½10ï¿½ï¿½ï¿½ï¿½   ï¿½iï¿½zï¿½ï¿½ï¿½0ï¿½`9ï¿½j
 				if (input_Pos > 9) input_Pos = 9;
 
-				//•¶Žš”z—ñ‚É“ü—Í
+				//ï¿½ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½É“ï¿½ï¿½ï¿½
 				InputName[input_Pos] = AllStr[movekeyY][movekeyX];
 
 			}
-			else if (CURSOR_NOW == CURSOR_TYPE::CANCEL)                  //u~vƒL[‚Ìã‚Å‰Ÿ‚³‚ê‚½@ˆê•¶Žšíœ
+			else if (CURSOR_NOW == CURSOR_TYPE::CANCEL)                  //ï¿½uï¿½~ï¿½vï¿½Lï¿½[ï¿½Ìï¿½Å‰ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½@ï¿½ê•¶ï¿½ï¿½ï¿½íœ
 			{
-				pushFlag = true;        //‰Ÿ‚³‚ê‚Ä‚¢‚é‚æ
+				pushFlag = true;        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½
 
-				//ˆê•¶Žš‚Å‚à“ü—Í‚³‚ê‚Ä‚¢‚ê‚Îˆê•¶ŽšÁ‚·
-				if (InputName[input_Pos] != 0) InputName[input_Pos] = 0; //0 ‚Í‰½‚à“ü—Í‚³‚ê‚Ä‚¢‚È‚¢ó‘Ô
+				//ï¿½ê•¶ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Îˆê•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				if (InputName[input_Pos] != 0) InputName[input_Pos] = 0; //0 ï¿½Í‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½
 
-				input_Pos--;            //“ü—ÍˆÊ’u‚ðˆê‚Â¶‚É
+				input_Pos--;            //ï¿½ï¿½ï¿½ÍˆÊ’uï¿½ï¿½ï¿½ï¿½Âï¿½ï¿½ï¿½
 
-				//“ü—ÍˆÊ’u‚ÍÅ’á-1‚Ü‚Å
+				//ï¿½ï¿½ï¿½ÍˆÊ’uï¿½ÍÅ’ï¿½-1ï¿½Ü‚ï¿½
 				if (input_Pos < -1) input_Pos = -1;
 			}
-			else if (CURSOR_NOW == CURSOR_TYPE::DONE)                  //uOKvƒL[‚Ìã‚Å‰Ÿ‚³‚ê‚½@Šm’è
+			else if (CURSOR_NOW == CURSOR_TYPE::DONE)                  //ï¿½uOKï¿½vï¿½Lï¿½[ï¿½Ìï¿½Å‰ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½@ï¿½mï¿½ï¿½
 			{
-				//ˆê•¶Žš‚à“ü—Í‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÍŠm’è‚Å‚«‚È‚¢
+				//ï¿½ê•¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÍŠmï¿½ï¿½Å‚ï¿½ï¿½È‚ï¿½
 				if (InputName[input_Pos] != 0)
 				{
-					//ˆê•¶Žš‚Å‚à“ü—ÍƒAƒŠ
+					//ï¿½ê•¶ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ÍƒAï¿½ï¿½
 
-					InputName[input_Pos + 1] = '\0';       //ÅŒã‚Ì•¶Žš‚Ìˆê‚Â‰E‚É'\0'
+					InputName[input_Pos + 1] = '\0';       //ï¿½ÅŒï¿½Ì•ï¿½ï¿½ï¿½ï¿½Ìˆï¿½Â‰Eï¿½ï¿½'\0'
 
-					//ƒ‰ƒ“ƒLƒ“ƒO‚É“ü—Í“à—e‚ðƒZƒbƒg
+					//ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Oï¿½É“ï¿½ï¿½Í“ï¿½ï¿½eï¿½ï¿½ï¿½Zï¿½bï¿½g
 					strcpy_s(name, 11, InputName);
 
-					return 1;   //I—¹
+					return 1;   //ï¿½Iï¿½ï¿½
 				}
 				else
 				{
-					//ƒ_ƒ‚¾‚æI@@‚ÈŒø‰Ê‰¹
+					//ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½@ï¿½@ï¿½ÈŒï¿½ï¿½Ê‰ï¿½
 				}
 			}
 		}
@@ -274,21 +274,21 @@ int KeyBoard_PushB(int nowkey, char* name)
 
 	else
 	{
-		pushFlag = false;          //‰Ÿ‚³‚ê‚Ä‚¢‚È‚¢‚æ
+		pushFlag = false;          //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½
 	}
 
 	return 0;
 }
 
 
-//“ü—Íî•ñ•\Ž¦
+//ï¿½ï¿½ï¿½Íï¿½ï¿½\ï¿½ï¿½
 void DrawInputInfo()
 {
 	if (InputName[0] == 0)
 	{
 		//SetDrawBlendMode
 		SetFontSize(20);
-		DrawString(200 + CENTER_X, 125 + CENTER_Y, "E E –¼‘O‚ð“ü—Í E E", 0xffffff);
+		DrawString(200 + CENTER_X, 125 + CENTER_Y, "ï¿½E ï¿½E ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½E ï¿½E", 0xffffff);
 	}
 
 	for (int i = 0; InputName[i] != '\0'; i++)
@@ -301,10 +301,10 @@ void DrawInputInfo()
 
 //if (KeyBoard_PushA(key, g_Ranking[RANKING_DATA - 1].name) == 1)
 //{
-//	g_Ranking[RANKING_DATA - 1].score = score;   // ƒ‰ƒ“ƒLƒ“ƒOƒf[ƒ^‚ÉƒXƒRƒA‚ð“o˜^
-//	SortRanking();                               // ƒ‰ƒ“ƒLƒ“ƒO•À‚×‘Ö‚¦
-//	SaveRanking();                               // ƒ‰ƒ“ƒLƒ“ƒOƒf[ƒ^‚Ì•Û‘¶
-//	gamemode = 3;                                // ƒQ[ƒ€ƒ‚[ƒh‚Ì•ÏX
+//	g_Ranking[RANKING_DATA - 1].score = score;   // ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Oï¿½fï¿½[ï¿½^ï¿½ÉƒXï¿½Rï¿½Aï¿½ï¿½oï¿½^
+//	SortRanking();                               // ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½×‘Ö‚ï¿½
+//	SaveRanking();                               // ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Oï¿½fï¿½[ï¿½^ï¿½Ì•Û‘ï¿½
+//	gamemode = 3;                                // ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½Ì•ÏX
 //}
 //else
 //{

@@ -1,37 +1,37 @@
 #pragma once
 
-//ƒL[‚ÌŽí—Þ
+//ï¿½Lï¿½[ï¿½ÌŽï¿½ï¿½
 enum class CURSOR_TYPE
 {
-	NONE = 0,   // “ü—Í0i‚È‚É‚à‰Ÿ‚³‚ê‚Ä‚¢‚È‚¢j
-	NORMAL,     // A`B,a`b,1`9
-	CANCEL,     //u~v(‚Ð‚Æ‚ÂÁ‚·)
-	DONE,       //uOKv(Šm’è)
+	NONE = 0,   // ï¿½ï¿½ï¿½ï¿½0ï¿½iï¿½È‚É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½j
+	NORMAL,     // Aï¿½`B,aï¿½`b,1ï¿½`9
+	CANCEL,     //ï¿½uï¿½~ï¿½v(ï¿½Ð‚Æ‚Âï¿½ï¿½ï¿½)
+	DONE,       //ï¿½uOKï¿½v(ï¿½mï¿½ï¿½)
 
 	MISS = 99
 };
 
 
-//‰Šúˆ—
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void KeyBoardInit();
 
-//‰æ‘œ“Ç‚Ýž‚Ý
+//ï¿½æ‘œï¿½Ç‚Ýï¿½ï¿½ï¿½
 int LoadKeyBoardImgaes();
 
-//Œø‰Ê‰¹“Ç‚Ýž‚Ý
+//ï¿½ï¿½ï¿½Ê‰ï¿½ï¿½Ç‚Ýï¿½ï¿½ï¿½
 int LoadSounds();
 
-//•`‰æ
+//ï¿½`ï¿½ï¿½
 void KeyBoard_Draw();
 
-//XV
-void KeyBoard_Update(int nowkey);                                 //nowkey@‚Í"‰Ÿ‚³‚ê‚Ä‚¢‚é"ƒL[
-                                                                  //keyflg@ ‚Í"‰Ÿ‚³‚ê‚½uŠÔ"ƒL[
-//ƒJ[ƒ\ƒ‹‚ÌˆÚ“®Eƒ{ƒ^ƒ“‚Ì’·‰Ÿ‚µ‚ð’²®
+//ï¿½Xï¿½V
+void KeyBoard_Update(int nowkey);                                 //nowkeyï¿½@ï¿½ï¿½"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½"ï¿½Lï¿½[
+                                                                  //keyflgï¿½@ ï¿½ï¿½"ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½uï¿½ï¿½"ï¿½Lï¿½[
+//ï¿½Jï¿½[ï¿½\ï¿½ï¿½ï¿½ÌˆÚ“ï¿½ï¿½Eï¿½{ï¿½^ï¿½ï¿½ï¿½Ì’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ð’²ï¿½
 bool CursorControl();
 
-//Aƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½Žž‚Ìˆ—  “ü—Í‚ªI‚í‚é‚Æ 1 ‚ª•Ô‚Á‚Ä‚­‚é
+//Bï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½  ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ 1 ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 int KeyBoard_PushB(int nowkey, char* name);
 
-//“ü—Íî•ñ•\Ž¦
+//ï¿½ï¿½ï¿½Íï¿½ï¿½\ï¿½ï¿½
 void DrawInputInfo();
