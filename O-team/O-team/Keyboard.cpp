@@ -79,9 +79,9 @@ void KeyBoardInit()
 int LoadKeyBoardImgaes()
 {
 	//背景
-	if ((backimage = LoadGraph("images/InputRankBack.png")) == -1) return -1;
+	if ((backimage = LoadGraph("images/input.png")) == -1) return -1;
 	//キーボード
-	if ((keyboardimage = LoadGraph("images/KeyBoard05.png")) == -1) return -1;
+	if ((keyboardimage = LoadGraph("images/KeyBoard03.png")) == -1) return -1;
 
 	//分割読み込み　押したよ/押してない が連結した画像
 
@@ -208,7 +208,7 @@ void KeyBoard_Update(int nowkey)
 //カーソルの移動・ボタンの長押しを調整
 bool CursorControl()
 {
-	int timing = 8;
+	int timing = 25;
 	if (frame % timing == 0) return true;
 	//frame = 0;
 
