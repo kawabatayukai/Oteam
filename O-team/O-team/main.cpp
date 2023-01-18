@@ -5,6 +5,7 @@
 #include"Ranking.h"
 #include"Result.h"
 #include"Title.h"
+#include"End.h"
 #include"Keyboard.h"
 
 // プログラムは WinMain から始まります
@@ -32,7 +33,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	KeyBoardInit();
 
 	//問題なければループ
-	while (ProcessMessage() == 0)
+	while (ProcessMessage() == 0 && GameMode != CLOSE && !(g_KeyFlg & PAD_INPUT_START))
 	{
 
 		//キー入力取得 
@@ -89,13 +90,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		case mode::RESULT:
 
 			//リザルト
-			DrawResult(g_KeyFlg, GameMode);
+			DrawResult(g_KeyFlg, GameMode, g_Score);
 
 			break;
 
 		case mode::END:
 
 			//エンド
+			DrawGameEnd(g_KeyFlg, GameMode);
 			break;
 
 		case mode::CLOSE:
@@ -128,6 +130,8 @@ void GameInit()
 void GameMain()
 {
 
+	DrawString(30, 30, "main", 0xffffff);
+
 }
 
 //画像読み込み
@@ -137,6 +141,7 @@ int LoadImages()
 	if (LoadRankingImage() == -1) return -1;  //ランキング画像読み込み
 	if (LoadResultImage() == -1) return -1;   //リザルト画像読み込み
 	if (LoadTitleImage() == -1) return -1;    //タイトル画像読み込み
+	if (LoadEndImage() == -1) return -1;    //エンド画像読み込み
 
 	return 0;
 }

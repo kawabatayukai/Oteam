@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="End.cpp" />
     <ClCompile Include="Help.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="End.h" />
     <ClInclude Include="Help.h" />
     <ClInclude Include="information.h" />
     <ClInclude Include="Keyboard.h" />
