@@ -79,18 +79,18 @@ void KeyBoardInit()
 int LoadKeyBoardImgaes()
 {
 	//背景
-	if ((backimage = LoadGraph("images/InputRankBack.png")) == -1) return -1;
+	if ((backimage = LoadGraph("images/inputname.png")) == -1) return -1;
 	//キーボード
-	if ((keyboardimage = LoadGraph("images/KeyBoard05.png")) == -1) return -1;
+	if ((keyboardimage = LoadGraph("images/KeyBoard03.png")) == -1) return -1;
 
 	//分割読み込み　押したよ/押してない が連結した画像
 
 	//ノーマルカーソル
-	if ((LoadDivGraph("images/Link_Normal.png", 2, 2, 1, 40, 40, Cursorimage)) == -1) return -1;
+	if ((LoadDivGraph("images/Link_Normal1.png", 2, 2, 1, 40, 40, Cursorimage)) == -1) return -1;
 	//「×」カーソル
-	if ((LoadDivGraph("images/Link_Cancel.png", 2, 2, 1, 70, 40, Cancelimage)) == -1) return -1;
+	if ((LoadDivGraph("images/Link_Cancel1.png", 2, 2, 1, 70, 40, Cancelimage)) == -1) return -1;
 	//「OK」カーソル
-	if ((LoadDivGraph("images/Link_Space.png", 2, 2, 1, 200, 40, OKimage)) == -1) return -1;
+	if ((LoadDivGraph("images/Link_Space1.png", 2, 2, 1, 200, 40, OKimage)) == -1) return -1;
 
 	return 0;
 }
@@ -208,7 +208,7 @@ void KeyBoard_Update(int nowkey)
 //カーソルの移動・ボタンの長押しを調整
 bool CursorControl()
 {
-	int timing = 8;
+	int timing = 25;
 	if (frame % timing == 0) return true;
 	//frame = 0;
 

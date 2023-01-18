@@ -4,12 +4,15 @@
 
 //画像変数はshare.hに書いてください
 
+
+
 struct RankingData                            // ランキングデータ構造体
 {
 	int  no;
 	char name[11];
 	long score;
 };
+
 
 void DrawRanking(int key, int& gamemode);                    //ランキング描画  "KeyFlg"  は　押した瞬間
 void InputRanking(int nowkey, int& gamemode, int score);     //ランキング入力  "NowKey"　は　押している間　ﾃﾞｽ
