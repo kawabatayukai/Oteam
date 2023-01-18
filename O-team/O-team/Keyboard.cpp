@@ -1,21 +1,21 @@
 #include"DxLib.h"
 #include"keyboard.h"
 
-#define CENTER_X 320      //��  720�@�p�ō�����L�[�{�[�h�𖳗���蒆�S�Ɏ����Ă���
-#define CENTER_Y 120      //����480�@�@�@�@�@�@�@�@�@�@�s�v�Ȏ��� CENTER_X,Y ��0�ɂ��Ă�������
+#define CENTER_X 320      //幅  720　用で作ったキーボードを無理やり中心に持ってくる
+#define CENTER_Y 120      //高さ480　　　　　　　　　　不要な時は CENTER_X,Y を0にしてください
 
 
-#define ALPHA_MAX 26      //�A���t�@�x�b�g����
+#define ALPHA_MAX 26      //アルファベット総数
 
-#define OUT_WIDTH 45 + CENTER_X     //��ʍ��[�`�L�[�{�[�h�܂ł̕�
-#define OUT_HEIGHT 200 + CENTER_Y    //��ʏ�[�`�L�[�{�[�h�܂ł̍���
-#define SPACE 10          //�L�[�Ԃ̃X�y�[�X
-#define KEY_WIDTH 40      //�m�[�}���L�[�̕�
+#define OUT_WIDTH 45 + CENTER_X     //画面左端～キーボードまでの幅
+#define OUT_HEIGHT 200 + CENTER_Y    //画面上端～キーボードまでの高さ
+#define SPACE 10          //キー間のスペース
+#define KEY_WIDTH 40      //ノーマルキーの幅
 
-const int CurStdX = OUT_WIDTH + SPACE + 5;    //�J�[�\����X���W�    (�u5�v�̓J�[�\���̕� �j
-const int CurStdY = OUT_HEIGHT + SPACE + 5;   //�J�[�\����Y���W� 
+const int CurStdX = OUT_WIDTH + SPACE + 5;    //カーソルのX座標基準    (「5」はカーソルの幅 ）
+const int CurStdY = OUT_HEIGHT + SPACE + 5;   //カーソルのY座標基準 
 
-//���͕���   �i���ۂɕ\������Ă���L�[�{�[�h�Ɠ����z�u�j
+//入力文字   （実際に表示されているキーボードと同じ配置）
 const char AllStr[5][ALPHA_MAX / 2 + 1] = {
 	"ABCDEFGHIJKLM",
 	"NOPQRSTUVWXYZ",
@@ -25,101 +25,101 @@ const char AllStr[5][ALPHA_MAX / 2 + 1] = {
 };
 
 
-/************* �ϐ� *************/
+/************* 変数 *************/
 
-int backimage = 0;            //�w�i�摜
+int backimage = 0;            //背景画像
 
-int keyboardimage = 0;        //�L�[�{�[�h�摜
+int keyboardimage = 0;        //キーボード画像
 
-int Cursorimage[2] = { 0 };   //�m�[�}���J�[�\���摜  0 : �ʏ펞�@�@1 : �����ꂽ�Ƃ�
-int Cancelimage[2] = { 0 };   //  �u�~�v�J�[�\���摜
-int OKimage[2] = { 0 };       //  �uOK�v�J�[�\���摜
+int Cursorimage[2] = { 0 };   //ノーマルカーソル画像  0 : 通常時　　1 : 押されたとき
+int Cancelimage[2] = { 0 };   //  「×」カーソル画像
+int OKimage[2] = { 0 };       //  「OK」カーソル画像
 ///////////////////////////////////////////////////////////////////////////////////////
 
-bool pushFlag = false;           //A���@������Ă���/������ĂȂ� �t���O    TRUE:������Ă���@FALSE:������Ă��Ȃ�
+bool pushFlag = false;           //Aが　押されている/押されてない フラグ    TRUE:押されている　FALSE:押されていない
 
-int frame = 0;                   //�t���[�����J�E���g
+int frame = 0;                   //フレームをカウント
 
-//�ړ���   (�L�[�{�[�h�Z�Ԗ�)
+//移動量   (キーボード〇番目)
 int movekeyX = 0;
 int movekeyY = 0;
 
-CURSOR_TYPE CURSOR_NOW = CURSOR_TYPE::NORMAL;  //���݂̃J�[�\��
+CURSOR_TYPE CURSOR_NOW = CURSOR_TYPE::NORMAL;  //現在のカーソル
 
-char InputName[11];              //���͂�������������z�� 0�`9�ɕ���(10�������)�@10�Ԗڂɂ� \0 �ł�
-int input_Pos;                   //���͒��̔z��́Z�Ԗ�
+char InputName[11];              //入力した文字が入る配列 0～9に文字(10文字ﾏﾃﾞ)　10番目には \0 です
+int input_Pos;                   //入力中の配列の〇番目
 
 /********************************/
 
 
 
-//��������
+//初期処理
 void KeyBoardInit()
 {
-	//�J�[�\���̏����ʒu��"A"
-	movekeyX = 0;             //������0�Ԗ�
-	movekeyY = 0;             //������1�Ԗ�
+	//カーソルの初期位置は"A"
+	movekeyX = 0;             //ｘ方向0番目
+	movekeyY = 0;             //ｙ方向1番目
 
-	//�J�[�\���̏����ʒu�́uA�v�Ȃ̂Ńm�[�}��
+	//カーソルの初期位置は「A」なのでノーマル
 	CURSOR_NOW = CURSOR_TYPE::NORMAL;
 
-	//���͕�����@������
+	//入力文字列　初期化
 	for (int i = 0; i < 10; i++)
 	{
 		InputName[i] = 0;
 	}
-	InputName[10] = '\0';     //�z��̈�ԍŌ��"\0"(�I�[�̖ڈ�)�����Ă���
+	InputName[10] = '\0';     //配列の一番最後に"\0"(終端の目印)を入れておく
 
 	input_Pos = -1;           //
 
-	pushFlag = FALSE;         //�ŏ���A�{�^���͉�����Ă��Ȃ�
+	pushFlag = FALSE;         //最初はAボタンは押されていない
 }
 
-//�摜�ǂݍ���
+//画像読み込み
 int LoadKeyBoardImgaes()
 {
-	//�w�i
+	//背景
 	if ((backimage = LoadGraph("images/inputname.png")) == -1) return -1;
-	//�L�[�{�[�h
+	//キーボード
 	if ((keyboardimage = LoadGraph("images/KeyBoard03.png")) == -1) return -1;
 
-	//�����ǂݍ��݁@��������/�����ĂȂ� ���A�������摜
+	//分割読み込み　押したよ/押してない が連結した画像
 
-	//�m�[�}���J�[�\��
+	//ノーマルカーソル
 	if ((LoadDivGraph("images/Link_Normal1.png", 2, 2, 1, 40, 40, Cursorimage)) == -1) return -1;
-	//�u�~�v�J�[�\��
+	//「×」カーソル
 	if ((LoadDivGraph("images/Link_Cancel1.png", 2, 2, 1, 70, 40, Cancelimage)) == -1) return -1;
-	//�uOK�v�J�[�\��
+	//「OK」カーソル
 	if ((LoadDivGraph("images/Link_Space1.png", 2, 2, 1, 200, 40, OKimage)) == -1) return -1;
 
 	return 0;
 }
 
-//�L�[�{�[�h�`��
+//キーボード描画
 void KeyBoard_Draw()
 {
-	//�w�i
+	//背景
 	DrawGraph(0, 0, backimage, FALSE);
-	//�L�[�{�[�h
+	//キーボード
 	DrawGraph(45 + CENTER_X, OUT_HEIGHT, keyboardimage, TRUE);
 
 
-	// �m�[�}��(A�`Z,a�`z,0�`9)�E�u�~�v�E�u�n�j�v�ɂ���ĉ摜�ω��@ switch���ő���
-	// �@�@�@�@�@�@�@�@�����E�����Ȃ��ɂ���ĉ摜�ω��@�@�@�@�@�@�@ �摜�z��� PushFlg �ő���
+	// ノーマル(A～Z,a～z,0～9)・「×」・「ＯＫ」によって画像変化　 switch文で操作
+	// 　　　　　　　　押す・押さないによって画像変化　　　　　　　 画像配列を PushFlg で操作
 
-	//�摜�z��� 0�Ԗ� �́u�����Ă��Ȃ��v�J�[�\���@�@1�Ԗڂ� �u�����Ă���v�J�[�\��
+	//画像配列の 0番目 は「押していない」カーソル　　1番目は 「押している」カーソル
 
 	switch (CURSOR_NOW)
 	{
-	case CURSOR_TYPE::NORMAL:    //�m�[�}���J�[�\��
+	case CURSOR_TYPE::NORMAL:    //ノーマルカーソル
 		DrawGraph(CurStdX + KEY_WIDTH * movekeyX, CurStdY + KEY_WIDTH * movekeyY, Cursorimage[pushFlag], TRUE);
 		break;
 
-	case CURSOR_TYPE::CANCEL:    //�u�~�v�J�[�\��
+	case CURSOR_TYPE::CANCEL:    //「×」カーソル
 		DrawGraph(CurStdX + KEY_WIDTH * movekeyX + 20, CurStdY + KEY_WIDTH * movekeyY, Cancelimage[pushFlag], TRUE);
 		break;
 
-	case CURSOR_TYPE::DONE:      //�uOK�v�J�[�\��
+	case CURSOR_TYPE::DONE:      //「OK」カーソル
 		DrawGraph(CurStdX + KEY_WIDTH * movekeyX, CurStdY + KEY_WIDTH * movekeyY, OKimage[pushFlag], TRUE);
 		break;
 
@@ -127,85 +127,85 @@ void KeyBoard_Draw()
 		break;
 	}
 
-	//���͒��̕�����\��
+	//入力中の文字を表示
 	DrawInputInfo();
 }
 
-//�X�V
+//更新
 void KeyBoard_Update(int nowkey)
 {
-	//�t���[�����J�E���g
+	//フレーム数カウント
 	frame++;
 
 
-	//�� �E 
+	//→ 右 
 	if (nowkey & PAD_INPUT_RIGHT)
 	{
 		if (CursorControl() == true)
 		{
-			movekeyX++;     //�^�C�~���O���� + �ړ�
+			movekeyX++;     //タイミング調整 + 移動
 		}
-		if (movekeyX > 12) movekeyX = 0;   //�E�[�ȏ�ō��[��
+		if (movekeyX > 12) movekeyX = 0;   //右端以上で左端へ
 
-		CURSOR_NOW = CURSOR_TYPE::NORMAL;  //���݂̃L�[�̓m�[�}��
+		CURSOR_NOW = CURSOR_TYPE::NORMAL;  //現在のキーはノーマル
 	}
 
-	//�� ��
+	//← 左
 	if (nowkey & PAD_INPUT_LEFT)
 	{
 		if (CursorControl() == true)
 		{
-			movekeyX--;     //�^�C�~���O���� + �ړ�
+			movekeyX--;     //タイミング調整 + 移動
 		}
-		if (movekeyX < 0) movekeyX = 12;     //���[�ȏ�ŉE�[��
+		if (movekeyX < 0) movekeyX = 12;     //左端以上で右端へ
 
-		CURSOR_NOW = CURSOR_TYPE::NORMAL;    //���݂̃L�[�̓m�[�}��
+		CURSOR_NOW = CURSOR_TYPE::NORMAL;    //現在のキーはノーマル
 	}
 
-	//�� ��
+	//↑ 上
 	if (nowkey & PAD_INPUT_UP)
 	{
 
 		if (CursorControl() == true)
 		{
-			movekeyY--;     //�^�C�~���O���� + �ړ�
+			movekeyY--;     //タイミング調整 + 移動
 		}
-		if (movekeyY <= 0) movekeyY = 0;     //��[�ŃX�g�b�v
+		if (movekeyY <= 0) movekeyY = 0;     //上端でストップ
 
-		CURSOR_NOW = CURSOR_TYPE::NORMAL;         //���݂̃L�[�̓m�[�}��
+		CURSOR_NOW = CURSOR_TYPE::NORMAL;         //現在のキーはノーマル
 	}
 
-	//�� ��
+	//↓ 下
 	if (nowkey & PAD_INPUT_DOWN)
 	{
 
 		if (CursorControl() == true)
 		{
-			movekeyY++;     //�^�C�~���O���� + �ړ�
+			movekeyY++;     //タイミング調整 + 移動
 		}
 
-		CURSOR_NOW = CURSOR_TYPE::NORMAL;         //���݂̃L�[�̓m�[�}��
+		CURSOR_NOW = CURSOR_TYPE::NORMAL;         //現在のキーはノーマル
 	}
 
-	//�u�~�v�{�^��   �ua�`z�v�i��艺 ���� �u9�v�L�[���E��
+	//「×」ボタン   「a～z」段より下 かつ 「9」キーより右側
 	if (movekeyY == 4 && movekeyX >= 10)
 	{
-		movekeyX = 10;                       //�{�^���̈ʒu
+		movekeyX = 10;                       //ボタンの位置
 
-		CURSOR_NOW = CURSOR_TYPE::CANCEL;         //���݂̃L�[�̓L�����Z���u�~�v
+		CURSOR_NOW = CURSOR_TYPE::CANCEL;         //現在のキーはキャンセル「×」
 	}
 
-	//�uOK�v�{�^��   �L�[�{�[�h�ŉ��i��艺
+	//「OK」ボタン   キーボード最下段より下
 	if (movekeyY >= 5)
 	{
-		movekeyX = 4;                        //�{�^���̈ʒu
+		movekeyX = 4;                        //ボタンの位置
 		movekeyY = 5;
 
-		CURSOR_NOW = CURSOR_TYPE::DONE;           //���݂̃L�[��DONE�uOK�v
+		CURSOR_NOW = CURSOR_TYPE::DONE;           //現在のキーはDONE「OK」
 	}
 }
 
-//�J�[�\���̈ړ��E�{�^���̒������𒲐�
+//カーソルの移動・ボタンの長押しを調整
 bool CursorControl()
 {
 	int timing = 8;
@@ -215,58 +215,58 @@ bool CursorControl()
 	return false;
 }
 
-//B�{�^���������ꂽ���̏���
+//Bボタンが押された時の処理
 int KeyBoard_PushB(int nowkey, char* name)
 {
-	//�@A�{�^���������Ă����
+	//　Aボタンを押している間
 	if (nowkey & PAD_INPUT_B)
 	{
-		//�������ł̘A�����͂̃^�C�~���O�𒲐��iPC�̂悤�ȁj
+		//長押しでの連続入力のタイミングを調整（PCのような）
 		if (CursorControl() == true)
 		{
-			// "A�`Z","a�`z","1�`9"�̏�ŉ����ꂽ
+			// "A～Z","a～z","1～9"の上で押された
 			if (CURSOR_NOW == CURSOR_TYPE::NORMAL)
 			{
-				pushFlag = true;        //������Ă����
+				pushFlag = true;        //押されているよ
 
-				++input_Pos;            //���͈ʒu����E��
+				++input_Pos;            //入力位置を一つ右に
 
-				//�����10����   �i�z���0�`9�j
+				//上限は10文字   （配列の0～9）
 				if (input_Pos > 9) input_Pos = 9;
 
-				//�����z��ɓ���
+				//文字配列に入力
 				InputName[input_Pos] = AllStr[movekeyY][movekeyX];
 
 			}
-			else if (CURSOR_NOW == CURSOR_TYPE::CANCEL)                  //�u�~�v�L�[�̏�ŉ����ꂽ�@�ꕶ���폜
+			else if (CURSOR_NOW == CURSOR_TYPE::CANCEL)                  //「×」キーの上で押された　一文字削除
 			{
-				pushFlag = true;        //������Ă����
+				pushFlag = true;        //押されているよ
 
-				//�ꕶ���ł����͂���Ă���Έꕶ������
-				if (InputName[input_Pos] != 0) InputName[input_Pos] = 0; //0 �͉������͂���Ă��Ȃ����
+				//一文字でも入力されていれば一文字消す
+				if (InputName[input_Pos] != 0) InputName[input_Pos] = 0; //0 は何も入力されていない状態
 
-				input_Pos--;            //���͈ʒu�������
+				input_Pos--;            //入力位置を一つ左に
 
-				//���͈ʒu�͍Œ�-1�܂�
+				//入力位置は最低-1まで
 				if (input_Pos < -1) input_Pos = -1;
 			}
-			else if (CURSOR_NOW == CURSOR_TYPE::DONE)                  //�uOK�v�L�[�̏�ŉ����ꂽ�@�m��
+			else if (CURSOR_NOW == CURSOR_TYPE::DONE)                  //「OK」キーの上で押された　確定
 			{
-				//�ꕶ�������͂���Ă��Ȃ��ꍇ�͊m��ł��Ȃ�
+				//一文字も入力されていない場合は確定できない
 				if (InputName[input_Pos] != 0)
 				{
-					//�ꕶ���ł����̓A��
+					//一文字でも入力アリ
 
-					InputName[input_Pos + 1] = '\0';       //�Ō�̕����̈�E��'\0'
+					InputName[input_Pos + 1] = '\0';       //最後の文字の一つ右に'\0'
 
-					//�����L���O�ɓ��͓��e���Z�b�g
+					//ランキングに入力内容をセット
 					strcpy_s(name, 11, InputName);
 
-					return 1;   //�I��
+					return 1;   //終了
 				}
 				else
 				{
-					//�_������I�@�@�Ȍ��ʉ�
+					//ダメだよ！　　な効果音
 				}
 			}
 		}
@@ -274,21 +274,21 @@ int KeyBoard_PushB(int nowkey, char* name)
 
 	else
 	{
-		pushFlag = false;          //������Ă��Ȃ���
+		pushFlag = false;          //押されていないよ
 	}
 
 	return 0;
 }
 
 
-//���͏��\��
+//入力情報表示
 void DrawInputInfo()
 {
 	if (InputName[0] == 0)
 	{
 		//SetDrawBlendMode
 		SetFontSize(20);
-		DrawString(200 + CENTER_X, 125 + CENTER_Y, "�E �E ���O����� �E �E", 0xffffff);
+		DrawString(200 + CENTER_X, 125 + CENTER_Y, "・　・　名前を入力　・　・", 0xffffff);
 	}
 
 	for (int i = 0; InputName[i] != '\0'; i++)
@@ -301,10 +301,10 @@ void DrawInputInfo()
 
 //if (KeyBoard_PushA(key, g_Ranking[RANKING_DATA - 1].name) == 1)
 //{
-//	g_Ranking[RANKING_DATA - 1].score = score;   // �����L���O�f�[�^�ɃX�R�A��o�^
-//	SortRanking();                               // �����L���O���בւ�
-//	SaveRanking();                               // �����L���O�f�[�^�̕ۑ�
-//	gamemode = 3;                                // �Q�[�����[�h�̕ύX
+//	g_Ranking[RANKING_DATA - 1].score = score;   // ランキングデータにスコアを登録
+//	SortRanking();                               // ランキング並べ替え
+//	SaveRanking();                               // ランキングデータの保存
+//	gamemode = 3;                                // ゲームモードの変更
 //}
 //else
 //{
