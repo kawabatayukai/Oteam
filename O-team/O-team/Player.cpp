@@ -8,12 +8,12 @@ Player::Player() {
 	Direction = 0;  //最初は右向き
 
 	HP = 10;
-	Width = 64.f;
-	Hight = 65.f;
+	Width = 50.f;
+	Hight = 55.f;
 	X = MAP_X / 2 - Width;
 	Y = MAP_Y / 2 - Hight;
 
-	Speed = 5.f;
+	Speed = 6.5f;
 }
 
 Player::~Player() {
@@ -29,10 +29,15 @@ void Player::LoadImages(){
 
 	//死亡時
 	LoadDivGraph("images/Mikosan_Death3.png", 4, 2, 2, 60, 55, Death_Image);
+
+	//攻撃を耐えた
+	LoadDivGraph("images/Mikosan_Win.png", 8, 4, 2, 64, 65, Win_Image);
 }
 
-void Player::SetHP(int HP) {
+void Player::SetHP(int HP) 
+{
 	this->HP += HP;
+	if (this->HP < 0) this->HP = 0;  //0より小さくならない
 }
 
 void Player::Update() {
@@ -77,30 +82,28 @@ void Player::Update() {
 }
 
 void Player::Draw() {
-	int now = 0;        //現在の画像No.
-	int now_aura = 0;   //現在の画像No.(オーラ)
 
-	if (HP < 100) now = 0;                    //1枚目　（デフォルト）
-	else if (HP >= 100 && HP < 200) now = 1;  //2枚目
-	else if (HP >= 200 && HP < 300) now = 2;  //3枚目
-	else if (HP >= 300 && HP < 400) now = 3;  //4枚目
+	if (HP < 300) now = 0;                    //1枚目　（デフォルト）
+	else if (HP >= 300 && HP < 600) now = 1;  //2枚目
+	else if (HP >= 600 && HP < 900) now = 2;  //3枚目
+	else if (HP >= 900 && HP < 1200) now = 3; //4枚目
 	else now = 3;                             //4枚目以降は変わらない
 
 	//向きによって画像を変える
 	now = now + (Direction * 4);
 	
 	//オーラ
-	if (HP >= 400){
-		if (HP < 400) now_aura = 0;                    //1枚目　（デフォルト）
-		else if (HP >= 400 && HP < 500) now_aura = 1;  //2枚目
-		else if (HP >= 500 && HP < 600) now_aura = 2;  //3枚目
-		else if (HP >= 600 && HP < 700) now_aura = 3;  //4枚目
-		else if (HP >= 700 && HP < 800) now_aura = 4;  //5枚目
-		else if (HP >= 800 && HP < 900) now_aura = 5;  //6枚目
-		else if (HP >= 900 && HP < 1000) now_aura = 6; //7枚目
-		else now_aura = 6;                             //7枚目以降は変わらない
+	if (HP >= 1200){
+		if (HP < 1200) now_aura = 0;                     //1枚目　（デフォルト）
+		else if (HP >= 1200 && HP < 1500) now_aura = 1;  //2枚目
+		else if (HP >= 1500 && HP < 1800) now_aura = 2;  //3枚目
+		else if (HP >= 1800 && HP < 2100) now_aura = 3;  //4枚目
+		else if (HP >= 2100 && HP < 2400) now_aura = 4;  //5枚目
+		else if (HP >= 2400 && HP < 2700) now_aura = 5;  //6枚目
+		else if (HP >= 2700 && HP < 3000) now_aura = 6;  //7枚目
+		else now_aura = 6;                               //7枚目以降は変わらない
 
-		now_aura = now_aura + (Direction * 7);         //向きによって画像を変える(オーラも)
+		now_aura = now_aura + (Direction * 7);           //向きによって画像を変える(オーラも)
 
 		//オーラの描画
 		DrawRotaGraph(X + (Width / 2), Y + (Width / 2), 1, 0, All_Aura[now_aura], TRUE);
@@ -125,6 +128,50 @@ void Player::Draw_Death() {
 	//now = now + (Direction * 1);
 
 	DrawRotaGraph(X + (Width / 2), Y + (Width / 2), 1, 0, Death_Image[now + (Direction * 2)], TRUE);
+}
+
+//耐えたときの描画
+void Player::Draw_Win()
+{
+	if (HP < 100) now = 0;                    //1枚目　（デフォルト）
+	else if (HP >= 100 && HP < 200) now = 1;  //2枚目
+	else if (HP >= 200 && HP < 300) now = 2;  //3枚目
+	else if (HP >= 300 && HP < 400) now = 3;  //4枚目
+	else now = 3;                             //4枚目以降は変わらない
+
+	//向きによって画像を変える
+	now = now + (Direction * 4);
+
+
+	DrawRotaGraph(X + (Width / 2), Y + (Width / 2), 1, 0, Win_Image[now], TRUE);
+}
+
+#define Gravity 1.0f      //重力
+//耐えたとき跳ねる
+void Player::Update_Win()
+{
+
+
+	//ジャンプ
+	if (Y == win_pointY)
+	{
+		old_y = Y;
+		g_add = -17.5f;    //重力加速度をマイナス値に
+	}
+
+	y_add = (Y - old_y) + g_add;  //今回の落下距離を
+	old_y = Y;                    //1フレーム前のｙ座標
+	Y += y_add;                   //落下距離をｙ座標に加算する
+	g_add = Gravity;              //重力加速度を初期化する
+
+	if (Y > win_pointY) Y = win_pointY;
+
+}
+
+//耐えた時の座標を保持する
+void Player::SetWin_PointY()
+{
+	win_pointY = Y;
 }
 
 void Player::InitPad() {

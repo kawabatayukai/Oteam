@@ -1,6 +1,7 @@
 #include"DxLib.h"
-#include"information.h"  //ä½¿ã„ãŸã„ .hãƒ•ã‚¡ã‚¤ãƒ« ã‚’ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ã—ã¾ã™
+#include"information.h"  //g‚¢‚½‚¢ .hƒtƒ@ƒCƒ‹ ‚ğƒCƒ“ƒNƒ‹[ƒh‚µ‚Ü‚·
 #include"Help.h"
+#include"Help2.h"
 #include"Ranking.h"
 #include"Result.h"
 #include"Title.h"
@@ -11,154 +12,164 @@
 #include"fps.h"
 
 
-// ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã¯ WinMain ã‹ã‚‰å§‹ã¾ã‚Šã¾ã™
+// ƒvƒƒOƒ‰ƒ€‚Í WinMain ‚©‚çn‚Ü‚è‚Ü‚·
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	SetMainWindowText("Neko");             //ã‚¿ã‚¤ãƒˆãƒ«ã‚’è¨­å®š
-	ChangeWindowMode(TRUE);                //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰ã§èµ·å‹•
+	SetMainWindowText("Neko");             //ƒ^ƒCƒgƒ‹‚ğİ’è
+	ChangeWindowMode(TRUE);                //ƒEƒBƒ“ƒhƒEƒ‚[ƒh‚Å‹N“®
 
-	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã‚’è¨­å®š
+	//ƒEƒBƒ“ƒhƒEƒTƒCƒY‚ğİ’è
 	SetGraphMode(SCREENSIZE_X, SCREENSIZE_Y, 32);
 
-	if (DxLib_Init() == -1) return -1;     //DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®åˆæœŸåŒ–å‡¦ç†
-	SetDrawScreen(DX_SCREEN_BACK);         //æç”»å…ˆç”»é¢ã‚’è£ã«ã™ã‚‹
+	if (DxLib_Init() == -1) return -1;     //DXƒ‰ƒCƒuƒ‰ƒŠ‚Ì‰Šú‰»ˆ—
+	SetDrawScreen(DX_SCREEN_BACK);         //•`‰ææ‰æ–Ê‚ğ— ‚É‚·‚é
 
-	//ç”»åƒèª­ã¿è¾¼ã¿
+	//‰æ‘œ“Ç‚İ‚İ
 	if (LoadImages() == -1) return -1;
 
-	// ãƒ©ãƒ³ã‚­ãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã®èª­è¾¼
+	// ƒ‰ƒ“ƒLƒ“ƒOƒf[ƒ^‚Ì“Ç
 	if (ReadRanking() == -1) return -1;
 
-	//æœ€åˆã¯ã‚¿ã‚¤ãƒˆãƒ«
+	//Å‰‚Íƒ^ƒCƒgƒ‹
 	GameMode = mode::TITLE;
 
-	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®åˆæœŸåŒ–
+	//ƒL[ƒ{[ƒh‚Ì‰Šú‰»
 	KeyBoardInit();
 
-	//FPSControllã®åˆæœŸåŒ–
+	//FPSControll
 	FPSControll FpsCtrl(60.0f, 800);
 
-	//å•é¡Œãªã‘ã‚Œã°ãƒ«ãƒ¼ãƒ—
+	//–â‘è‚È‚¯‚ê‚Îƒ‹[ƒv
 	while (ProcessMessage() == 0 && GameMode != CLOSE && !(g_KeyFlg & PAD_INPUT_START))
 	{
-		//ESCAPEï¿½Lï¿½[ï¿½ÅIï¿½ï¿½
+		//ESCAPEE½LE½[E½ÅIE½E½
 		if (CheckHitKey(KEY_INPUT_ESCAPE) == 1) DxLib_End();
-		//PADï¿½ï¿½ï¿½ï¿½
+		//PADE½E½E½E½
 		PAD_INPUT::UpdateKey();
-		//PADï¿½ï¿½BACKï¿½Lï¿½[ï¿½ÅIï¿½ï¿½
+		//PADE½E½BACKE½LE½[E½ÅIE½E½
 		if (PAD_INPUT::OnClick(XINPUT_BUTTON_BACK)) DxLib_End();
 
-		//ã‚­ãƒ¼å…¥åŠ›å–å¾—
+		//ƒL[“ü—Íæ“¾ 
 		g_OldKey = g_NowKey;
-		g_NowKey = GetJoypadInputState(DX_INPUT_KEY_PAD1);    //ä¾‹ã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã®å…¥åŠ›ã‚‚ä½¿ãˆã¾ã™
+		g_NowKey = GetJoypadInputState(DX_INPUT_KEY_PAD1);    //—á‚ÌƒRƒ“ƒgƒ[ƒ‰[‚Ì“ü—Í‚àg‚¦‚Ü‚·
 		g_KeyFlg = g_NowKey & ~g_OldKey;
 
-		ClearDrawScreen();                 //ç”»é¢ã‚’åˆæœŸåŒ–
+		ClearDrawScreen();                 //‰æ–Ê‚ğ‰Šú‰»
 
 		DrawBox(0, 0, 1280, 720, 0xd3d3d3,TRUE);
 		switch (GameMode)
 		{
 		case mode::TITLE:
 
-			//ã‚¿ã‚¤ãƒˆãƒ«
+			//ƒ^ƒCƒgƒ‹
 			DrawGameTitle(g_KeyFlg, GameMode);
 
 			break;
 
 		case mode::INIT:
 
-			//åˆæœŸåŒ–
+			//‰Šú‰»
 			GameInit();
 
 			break;
 
 		case mode::MAIN:
 
-			//ã‚²ãƒ¼ãƒ ãƒ¡ã‚¤ãƒ³    ãƒ©ãƒ³ã‚­ãƒ³ã‚°5ç•ªç›®ã®ã‚¹ã‚³ã‚¢ã‚’ã‚‚ã‚‰ã† g_Ranking[RANKING_DATA-1].score ã¿ãŸã„ãª
-			GameMain(GameMode, 10);
+			//ƒQ[ƒ€ƒƒCƒ“      ƒ‰ƒ“ƒLƒ“ƒO5”Ô–Ú‚ÌƒXƒRƒA‚ğ‚à‚ç‚¤ g_Ranking[RANKING_DATA-1].score ‚İ‚½‚¢‚È
+			GameMain(GameMode, 10, g_Score);
 
 			break;
 
 		case mode::RANKING:
 
-			//ãƒ©ãƒ³ã‚­ãƒ³ã‚°è¡¨ç¤º
+			//ƒ‰ƒ“ƒLƒ“ƒO•\¦
 			DrawRanking(g_KeyFlg, GameMode);
 
 			break;
 
 		case mode::HELP:
 
-			//ãƒ˜ãƒ«ãƒ—è¡¨ç¤º
+			//ƒwƒ‹ƒv•\¦
 			DrawHelp(g_KeyFlg, GameMode);
 
 			break;
 
 		case mode::INPUTNAME:
 
-			//åå‰å…¥åŠ›
+			//–¼‘O“ü—Í
 			InputRanking(g_NowKey, GameMode,g_Score);
 
 			break;
 
 		case mode::RESULT:
 
-			//ãƒªã‚¶ãƒ«ãƒˆ
+			//ƒŠƒUƒ‹ƒg
 			DrawResult(g_KeyFlg, GameMode, g_Score);
 
 			break;
 
 		case mode::END:
 
-			//ã‚¨ãƒ³ãƒ‰
+			//ƒGƒ“ƒh
 			DrawGameEnd(g_KeyFlg, GameMode);
 			break;
 
 		case mode::CLOSE:
 
-			//ãã‚ãƒ¼ãš
+			//‚­‚ë[‚¸
+			break;
+
+		case mode::HELP2:
+
+			DrawHelp2(g_KeyFlg, GameMode);
 			break;
 
 		default:
 			break;
 		}
 
-		//FPSå›ºå®šå‡¦ç†
+		//FPSŒÅ’èˆ—
 		FpsCtrl.Get();
 		FpsCtrl.Wait();
 		FpsCtrl.Disp();
 
-		DxLib::ScreenFlip();                      //è£ç”»é¢ã‚’è¡¨ç”»é¢ã«åæ˜ 
+		DxLib::ScreenFlip();                      //— ‰æ–Ê‚ğ•\‰æ–Ê‚É”½‰f
 	}
 
-	DxLib::DxLib_End();				           // ï¼¤ï¼¸ãƒ©ã‚¤ãƒ–ãƒ©ãƒªä½¿ç”¨ã®çµ‚äº†å‡¦ç†
+	DxLib::DxLib_End();				           // ‚c‚wƒ‰ƒCƒuƒ‰ƒŠg—p‚ÌI—¹ˆ—
 
-	return 0;				               // ã‚½ãƒ•ãƒˆã®çµ‚äº† 
+	return 0;				               // ƒ\ƒtƒg‚ÌI—¹ 
 }
 
-//åˆæœŸåŒ–
+//‰Šú‰»
 void GameInit()
 {
-	//ã‚²ãƒ¼ãƒ ãƒ¡ã‚¤ãƒ³åˆæœŸåŒ–
+	//‚¢‚ë‚¢‚ë‰Šú‰»
 	GameMain_Init();
 
-	//ã‚²ãƒ¼ãƒ ãƒ¡ã‚¤ãƒ³ã¸
+	//ƒL[ƒ{[ƒh‚Ì‰Šú‰»
+	KeyBoardInit();
+
+	//ƒQ[ƒ€ƒƒCƒ“‚Ö
 	GameMode = mode::MAIN;
 }
 
 
-//ç”»åƒèª­ã¿è¾¼ã¿
+//‰æ‘œ“Ç‚İ‚İ
 int LoadImages()
 {
-	if (LoadHelpImage() == -1) return -1;     //ãƒ˜ãƒ«ãƒ—ç”»åƒèª­ã¿è¾¼ã¿
-	if (LoadRankingImage() == -1) return -1;  //ãƒ©ãƒ³ã‚­ãƒ³ã‚°ç”»åƒèª­ã¿è¾¼ã¿
-	if (LoadResultImage() == -1) return -1;   //ãƒªã‚¶ãƒ«ãƒˆç”»åƒèª­ã¿è¾¼ã¿
-	if (LoadTitleImage() == -1) return -1;    //ã‚¿ã‚¤ãƒˆãƒ«ç”»åƒèª­ã¿è¾¼ã¿
-	if (LoadEndImage() == -1) return -1;      //ã‚¨ãƒ³ãƒ‰ç”»åƒèª­ã¿è¾¼ã¿
+	if (LoadHelpImage() == -1) return -1;     //ƒwƒ‹ƒv‰æ‘œ“Ç‚İ‚İ
+	if (LoadHelp2Image() == -1) return -1;    //ƒwƒ‹ƒv2‰æ‘œ“Ç‚İ‚İ
+	if (LoadRankingImage() == -1) return -1;  //ƒ‰ƒ“ƒLƒ“ƒO‰æ‘œ“Ç‚İ‚İ
+	if (LoadResultImage() == -1) return -1;   //ƒŠƒUƒ‹ƒg‰æ‘œ“Ç‚İ‚İ
+	if (LoadTitleImage() == -1) return -1;    //ƒ^ƒCƒgƒ‹‰æ‘œ“Ç‚İ‚İ
+	if (LoadEndImage() == -1) return -1;      //ƒGƒ“ƒh‰æ‘œ“Ç‚İ‚İ
+	if (LoadGameMainImages() == -1) return -1;//ƒQ[ƒ€ƒƒCƒ“‰æ‘œ“Ç‚İ‚İ
 
 	return 0;
 }
 
-//éŸ³å£°èª­ã¿è¾¼ã¿
+//‰¹º“Ç‚İ‚İ
 int LoadSounds()
 {
 	return 0;

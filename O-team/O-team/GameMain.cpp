@@ -5,13 +5,20 @@
 #include"flying_object.h"
 #include"Player.h"
 
+
 #define DRAWAREA_X 980 //描画エリア最低値
 
+//攻撃のスピード  5 ～ 10
+#define SPEED_ATTACK (GetRand(4) + 1) + 5
+
+//防具のスピード  5 ～ 9
+#define SPEED_ARMOR  (GetRand(3) + 1) + 5
+
 //防具最大表示数
-#define ARMOR_MAX 10 
+#define ARMOR_MAX 25
 
 //攻撃最大表示数
-#define ATTACK_MAX 100 
+#define ATTACK_MAX 15
 
 //防具の配列
 Flying_object** obj_armor;     //基底クラス型ポインタ
@@ -19,19 +26,35 @@ Flying_object** obj_armor;     //基底クラス型ポインタ
 //攻撃の配列
 Flying_object** obj_attack;
 
+//プレイヤー
 Player* player;
 
 //フレームをカウント
 int frameCount = 0;
 int death_frame = 0;
 
+//現在のターン
 Turn now_turn;
+
+int image_R_area;      //右の描画エリア画像  
+float now_hp = 0.0f;   //現在のHP（右エリア内のゲージで使用）
+int font_handle;       //フォント
 
 //テスト用
 char Turn_str[][7] = { "Catch","Attack","END" };
 
+//ゲームメイン画像読み込み
+int LoadGameMainImages()
+{
+	//右の描画エリア画像
+	if ((image_R_area = LoadGraph("images/RightBox.png")) == -1) return -1;
+
+	return 0;
+}
+
 //ゲームメイン初期処理（コンストラクタ代わり）
-void GameMain_Init() {
+void GameMain_Init() 
+{
 	//防具10個分のメモリを確保
 	obj_armor = new Flying_object * [ARMOR_MAX];
 
@@ -49,17 +72,27 @@ void GameMain_Init() {
 
 	//最初のターンは装備
 	now_turn = Turn::CATCH;
+
 	frameCount = 0;
 	death_frame = 0;
 
+	now_hp = 0.0f;
+
 	//画像
 	player->LoadImages();
+
+	//ゲームメイン内で使うフォントを作成      NULL のところにWindows標準装備のフォントが使えそう（?）
+	font_handle = CreateFontToHandle(NULL, 30, 10, DX_FONTTYPE_ANTIALIASING_8X8);
 }
 
 //ゲームメイン終了処理（デストラクタの代わり）
 void GameMain_Final() {
 	delete obj_armor;
 	delete obj_attack;
+	delete player;
+
+	//フォントを削除
+	DeleteFontToHandle(font_handle);
 }
 
 //防具  生成・更新・削除
@@ -76,8 +109,12 @@ void Armor_Update(){
 		obj_armor[armor_count]->Update();
 		if (player->Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])))
 		{
-			DrawString(0, 20, "Hit", 0xffffff);
+			//DrawString(0, 20, "Hit", 0xffffff);
+
+			//HPが増える
 			player->SetHP(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])->GetHP());
+
+			//now_hp += 50;      //右エリア内ゲージはいくらでも増える
 		}
 
 		//画面外に到達,またはプレイヤーとHitで削除
@@ -113,7 +150,7 @@ void Armor_Update(){
 		int r_y = (GetRand(10) * 60) + 60;
 
 		//スピード（常に 5以上）
-		int r_speed = (GetRand(3) + 1) + 5;
+		int r_speed = SPEED_ARMOR;//(GetRand(3) + 1) + 5;
 
 		//生成する　　　　　　　                  耐久値   ｘ　　ｙ　 ｽﾋﾟｰﾄﾞ
 		obj_armor[armor_count] = new Flying_Armor(static_cast<Armor_Type>(r_type), r_dura, 1300, r_y, r_speed);
@@ -134,8 +171,6 @@ void Attack_Update() {
 		obj_attack[attack_count]->Update();
 		if (player->Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])))
 		{
-			DrawString(0, 30, "Die", 0xff0000);
-
 			//ダメージを食らう
 			player->SetHP((dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetAttackDamage(player->GetHP())) * -1);
 		}
@@ -170,7 +205,7 @@ void Attack_Update() {
 		int r_y = (GetRand(10) * 60) + 60;
 
 		//スピード（常に 5以上）
-		int r_speed = (GetRand(3) + 1) + 15;
+		int r_speed = SPEED_ATTACK; //(GetRand(3) + 1) + 5;
 
 		//生成する　　　　　　　                  タイプ   ｘ　　ｙ　 ｽﾋﾟｰﾄﾞ
 		obj_attack[attack_count] = new Flying_Attack((r_type), 1300, r_y, r_speed);
@@ -180,7 +215,9 @@ void Attack_Update() {
 //ゲームメイン更新・計算
 void GameMain_Update()
 {
-
+	//右エリア内ゲージ用
+	now_hp = static_cast<float>(player->GetHP() * 0.5);
+	if (now_hp < 0.0f) now_hp = 0.0f;  //0より下がらない
 
 	switch (now_turn)
 	{
@@ -203,6 +240,8 @@ void GameMain_Update()
 	case Turn::END:
 
 		death_frame++;
+		//プレイヤーのHPが0以上
+		if (player->GetHP() > 0) player->Update_Win(); 
 
 		break;
 
@@ -247,7 +286,7 @@ void GameMain_Draw()
 	case Turn::END:
 
 		//プレイヤーのHPが0以上
-		if (player->GetHP() > 0) player->Draw();       //プレイヤーを描画
+		if (player->GetHP() > 0) player->Draw_Win();       //プレイヤーを描画
 		else player->Draw_Death();
 
 
@@ -260,17 +299,25 @@ void GameMain_Draw()
 
 //ゲームメイン描画エリア
 void GameMain_DrawArea() {
-	//描画エリア
-	DrawBox(DRAWAREA_X, 0, 1280, 720, 0x00ddbb, TRUE);
+	////描画エリア
+	//DrawBox(DRAWAREA_X, 0, 1280, 720, 0x00ddbb, TRUE);
 
-	SetFontSize(20);
-	//Test
-	DrawFormatString(1130, 100, 0x000000, "Now : %s", Turn_str[static_cast<int>(now_turn)]);
-	DrawFormatString(1130, 130, 0x000000, "Time : %d", (frameCount / 60));
+	//SetFontSize(20);
+	////Test
+	//DrawFormatString(1130, 100, 0x000000, "Now : %s", Turn_str[static_cast<int>(now_turn)]);
+	//DrawFormatString(1130, 130, 0x000000, "Time : %d", (frameCount / 60));
+
+	DrawBox(1150, 80, 1250, 700, 0x1f1006, TRUE);                            //ゲージの後ろ
+
+	//(float型が使えるDrawBoxらしいです)  ゲージ
+	DrawBoxAA(1150.0f, (690.0f - now_hp), 1250.0f, 690.0f, 0xff0000, TRUE);  
+	DrawGraph(0, 0, image_R_area, TRUE);                                     //右エリア画像
+
+	DrawFormatStringToHandle(1130, 20, 0xffffff, font_handle, "HP : %d", player->GetHP());
 }
 
-//ゲームメイン
-void GameMain(int &gamemode,int lowscore)
+//ゲームメイン ランキング5番目のスコア・スコアを保持する変数をもらう
+void GameMain(int &gamemode,int lowscore, int& g_score)
 {
 	GameMain_Update();    //ゲームメイン更新・計算
 
@@ -287,13 +334,15 @@ void GameMain(int &gamemode,int lowscore)
 	//}
 
 	//Attackターン30秒　または　playerのHPが0以下でターン切り替え　攻撃　→　エンド
-	if (now_turn == Turn::ATTACK && frameCount % 1800 == 0 || player->GetHP() < 0)
+	if (now_turn == Turn::ATTACK && frameCount % 1200 == 0 || player->GetHP() <= 0)
 	{
 		//ランキング
 
-		//gamemode = 6;   //リザルト画面へ
-		//GameMain_Final();
-
+		//if (player->GetHP() < 0)
+		//{
+		//	
+		//}
+		player->SetWin_PointY();  //Y座標を保持
 		now_turn = Turn::END;     //死亡時
 		death_frame = frameCount;
 	}
@@ -305,16 +354,22 @@ void GameMain(int &gamemode,int lowscore)
 		frameCount = 0;           //カウントをリセット
 	}
 
-	//死亡または30経過して8秒経過
+	//死亡または30経過して7秒経過
 	if (now_turn == Turn::END && death_frame % 480 == 0)
 	{
-		GameMain_Final();
+		g_score = player->GetHP();
+		
 
 		//ランキング最低スコアと比較
-		if (player->GetHP() > lowscore)
+		if (g_score > lowscore)
 		{
 			gamemode = 5;  //ランキング入力へ
+			GameMain_Final();
 		}
-		else gamemode = 6; //リザルトへ
+		else
+		{
+			gamemode = 6; //リザルトへ
+			GameMain_Final();
+		}
 	}
 }

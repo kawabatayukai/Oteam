@@ -30,8 +30,8 @@ void KeyBoard_Update(int nowkey);                                 //nowkey@‚Í"‰
 //ƒJ[ƒ\ƒ‹‚ÌˆÚ“®Eƒ{ƒ^ƒ“‚Ì’·‰Ÿ‚µ‚ğ’²®
 bool CursorControl();
 
-//Aƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚Ìˆ—  “ü—Í‚ªI‚í‚é‚Æ 1 ‚ª•Ô‚Á‚Ä‚­‚é
-int KeyBoard_PushA(int nowkey, char* name);
+//Bƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚Ìˆ—  “ü—Í‚ªI‚í‚é‚Æ 1 ‚ª•Ô‚Á‚Ä‚­‚é
+int KeyBoard_PushB(int nowkey, char* name);
 
 //“ü—Íî•ñ•\¦
 void DrawInputInfo();

@@ -9,7 +9,7 @@ Flying_Armor::Flying_Armor(Armor_Type type, int durability, int x, int y, int sp
 	//コンストラクタで値を渡さないとデフォルト引数で画面右端より飛んできます
 
 	//画像読み込み
-	//image = LoadGraph("images/");
+	image = LoadGraph("images/huku.png");
 }
 
 //デストラクタ
