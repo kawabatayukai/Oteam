@@ -19,15 +19,16 @@ Flying_object** obj_armor;     //基底クラス型ポインタ
 //攻撃の配列
 Flying_object** obj_attack;
 
-Player player;
+Player* player;
 
 //フレームをカウント
 int frameCount = 0;
+int death_frame = 0;
 
 Turn now_turn;
 
 //テスト用
-char Turn_str[][7] = { "Catch","Attack" };
+char Turn_str[][7] = { "Catch","Attack","END" };
 
 //ゲームメイン初期処理（コンストラクタ代わり）
 void GameMain_Init() {
@@ -43,12 +44,16 @@ void GameMain_Init() {
 	//初期化
 	for (int i = 0; i < ATTACK_MAX; i++) obj_attack[i] = nullptr;
 
+	//プレーヤーのメモリを確保・コンストラクタ呼び出し
+	player = new Player();
+
 	//最初のターンは装備
 	now_turn = Turn::CATCH;
 	frameCount = 0;
+	death_frame = 0;
 
 	//画像
-	player.LoadImages();
+	player->LoadImages();
 }
 
 //ゲームメイン終了処理（デストラクタの代わり）
@@ -69,15 +74,15 @@ void Armor_Update(){
 
 		//更新　（移動）
 		obj_armor[armor_count]->Update();
-		if (player.Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])))
+		if (player->Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])))
 		{
 			DrawString(0, 20, "Hit", 0xffffff);
-			player.SetHP(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])->GetHP());
+			player->SetHP(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])->GetHP());
 		}
 
 		//画面外に到達,またはプレイヤーとHitで削除
 		if (obj_armor[armor_count]->CheckScreenOut() == true
-			|| player.Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])) == true)
+			|| player->Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])) == true)
 		{
 			delete obj_armor[armor_count];         //到達したﾔﾂを削除
 			obj_armor[armor_count] = nullptr;      //削除した配列の要素を初期化
@@ -127,17 +132,17 @@ void Attack_Update() {
 
 		//更新　（移動）
 		obj_attack[attack_count]->Update();
-		if (player.Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])))
+		if (player->Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])))
 		{
 			DrawString(0, 30, "Die", 0xff0000);
 
 			//ダメージを食らう
-			player.SetHP((dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetAttackDamage(player.GetHP())) * -1);
+			player->SetHP((dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetAttackDamage(player->GetHP())) * -1);
 		}
 
 		//画面外に到達、またはプレイヤーとHitで削除
 		if (obj_attack[attack_count]->CheckScreenOut() == true
-			|| player.Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])) == true)
+			|| player->Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])) == true)
 		{
 			delete obj_attack[attack_count];         //到達したﾔﾂを削除
 			obj_attack[attack_count] = nullptr;      //削除した配列の要素を初期化
@@ -175,22 +180,32 @@ void Attack_Update() {
 //ゲームメイン更新・計算
 void GameMain_Update()
 {
-	player.Update();
+
 
 	switch (now_turn)
 	{
 	case Turn::CATCH:
 
+		player->Update();
 		Armor_Update();
 		break;
 
 	case Turn::ATTACK:
+
+		player->Update();
 
 		//ターン切り替え後・2秒待つ
 		if (frameCount > 120) Attack_Update();
 		else DrawBox(0, 0, 1280,720, 0x000000, TRUE);  //暗転
 
 		break;
+
+	case Turn::END:
+
+		death_frame++;
+
+		break;
+
 	default:
 		break;
 	}
@@ -199,11 +214,13 @@ void GameMain_Update()
 //ゲームメイン描画
 void GameMain_Draw()
 {
-	player.Draw();
+
 
 	switch (now_turn)
 	{
 	case Turn::CATCH:
+
+		player->Draw();
 
 		//防具の描画
 		for (int i = 0; i < ARMOR_MAX; i++)
@@ -217,6 +234,8 @@ void GameMain_Draw()
 
 	case Turn::ATTACK:
 
+		player->Draw();
+
 		//攻撃の描画
 		for (int i = 0; i < ATTACK_MAX; i++)
 		{
@@ -224,6 +243,16 @@ void GameMain_Draw()
 			obj_attack[i]->Draw();                //要素があるときは描画
 		}
 		break;
+
+	case Turn::END:
+
+		//プレイヤーのHPが0以上
+		if (player->GetHP() > 0) player->Draw();       //プレイヤーを描画
+		else player->Draw_Death();
+
+
+		break;
+
 	default:
 		break;
 	}
@@ -241,7 +270,7 @@ void GameMain_DrawArea() {
 }
 
 //ゲームメイン
-void GameMain(int &gamemode)
+void GameMain(int &gamemode,int lowscore)
 {
 	GameMain_Update();    //ゲームメイン更新・計算
 
@@ -252,19 +281,40 @@ void GameMain(int &gamemode)
 	//フレームを加算
 	frameCount++;
 
-	//Attackターンは30秒で終了　または　playerのHPが0以下で終了
-	if (now_turn == Turn::ATTACK && frameCount % 1800 == 0 || player.GetHP() < 0)
+	//if (now_turn == Turn::END && frameCount % 300 == 0)
+	//{
+	//	DrawString(100, 100, "end", 0xffffff);
+	//}
+
+	//Attackターン30秒　または　playerのHPが0以下でターン切り替え　攻撃　→　エンド
+	if (now_turn == Turn::ATTACK && frameCount % 1800 == 0 || player->GetHP() < 0)
 	{
 		//ランキング
 
-		gamemode = 6;   //リザルト画面へ
-		GameMain_Final();
+		//gamemode = 6;   //リザルト画面へ
+		//GameMain_Final();
+
+		now_turn = Turn::END;     //死亡時
+		death_frame = frameCount;
 	}
 
-	//20秒でターンを切り替え
+	//20秒でターンを切り替え  装備　→　攻撃
 	if (now_turn == Turn::CATCH && frameCount % 600 == 0)
 	{
 		now_turn = Turn::ATTACK;  //攻撃を受けるターン
 		frameCount = 0;           //カウントをリセット
+	}
+
+	//死亡または30経過して8秒経過
+	if (now_turn == Turn::END && death_frame % 480 == 0)
+	{
+		GameMain_Final();
+
+		//ランキング最低スコアと比較
+		if (player->GetHP() > lowscore)
+		{
+			gamemode = 5;  //ランキング入力へ
+		}
+		else gamemode = 6; //リザルトへ
 	}
 }

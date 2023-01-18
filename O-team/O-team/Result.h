@@ -4,6 +4,6 @@
 
 //画像変数も書いてください
 
-void DrawResult(int key,int& gamemode);       //エンド描画
+void DrawResult(int key,int& gamemode,int score);       //エンド描画
 
 int LoadResultImage();   //エンド画像読み込み

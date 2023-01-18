@@ -9,6 +9,7 @@ private:
 	int All_Images[8];       //プレイヤーの画像（4段階）
 	int All_Aura[14];        //オーラ
 	int Direction;           //方向　0:右　1:左
+	int Death_Image[4];         //死亡時の画像
 	
 	int HP;                  //体力
 	float X, Y;              //X,Y座標
@@ -27,6 +28,7 @@ public:
 	void Update();
 	void InitPad();
 	void Draw();
+	void Draw_Death();    //死亡時の描画
 	int GetX() { return (int)X; }
 	int GetY() { return (int)Y; }
 

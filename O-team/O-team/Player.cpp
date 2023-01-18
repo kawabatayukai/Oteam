@@ -26,6 +26,9 @@ void Player::LoadImages(){
 
 	//ÉIÅ[Éâ
 	LoadDivGraph("images/aura2.png", 14, 7, 2, 70, 70, All_Aura);
+
+	//éÄñSéû
+	LoadDivGraph("images/Mikosan_Death3.png", 4, 2, 2, 60, 55, Death_Image);
 }
 
 void Player::SetHP(int HP) {
@@ -106,6 +109,22 @@ void Player::Draw() {
 	DrawRotaGraph(X + (Width / 2), Y + (Width / 2), 1, 0, All_Images[now], TRUE);
 
 	DrawFormatString(0, 50, 0xffffff, "HP = %d", HP);
+}
+
+//éÄñSéûÇÃï`âÊ
+void Player::Draw_Death() {
+
+	// ﬂ¿ØÅ@ ﬁ¿›
+
+	static int frame;
+	frame++;
+	static int now = 0;
+	if (frame % 60 == 0 && now == 0) now++;
+
+	//ç∂âE
+	//now = now + (Direction * 1);
+
+	DrawRotaGraph(X + (Width / 2), Y + (Width / 2), 1, 0, Death_Image[now + (Direction * 2)], TRUE);
 }
 
 void Player::InitPad() {
