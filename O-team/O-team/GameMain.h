@@ -11,7 +11,7 @@ void Attack_Update();    //攻撃  生成・更新・削除
 void GameMain_Update();  //ゲームメイン更新・計算
 void GameMain_Draw();    //ゲームメイン描画
 
-void GameMain(int &gamemode);         //ゲームメイン
+void GameMain(int& gamemode, int lowscore);         //ゲームメイン
 
 //ターン
 enum class Turn
