@@ -164,7 +164,7 @@ int LoadImages()
 	if (LoadResultImage() == -1) return -1;   //リザルト画像読み込み
 	if (LoadTitleImage() == -1) return -1;    //タイトル画像読み込み
 	if (LoadEndImage() == -1) return -1;      //エンド画像読み込み
-
+	if (LoadGameMainImages() == -1) return -1;//ゲームメイン画像読み込み
 
 	return 0;
 }
