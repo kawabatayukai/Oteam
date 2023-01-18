@@ -1,25 +1,33 @@
 #include"DxLib.h"
 #include"Help.h"
 
-//Help.h‚ÅéŒ¾‚µ‚½ŠÖ”‚Ì’è‹`‚ð‚±‚±‚É‘‚«‚Ü‚·
+//Help.hï¿½ÅéŒ¾ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½ï¿½Ì’ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
 int g_HelpImg;
 
-//ƒwƒ‹ƒv‰æ–Ê•`‰æ
+//ï¿½wï¿½ï¿½ï¿½vï¿½ï¿½Ê•`ï¿½ï¿½
 void DrawHelp(int key, int& gamemode)
 {
-	//ƒL[“ü—Í‚Í"key",GameMode‚ð•Ï‚¦‚½‚¢‚Æ‚«‚Í"gamemode"‚ð•ÏX‚µ‚Ü‚·
+	// ï¿½wï¿½ï¿½ï¿½vï¿½æ‘œï¿½\ï¿½ï¿½
+	DrawGraph(0, 0, g_HelpImg, FALSE);
+
+	//ï¿½Lï¿½[ï¿½ï¿½ï¿½Í‚ï¿½"key",GameModeï¿½ï¿½Ï‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½"gamemode"ï¿½ï¿½ÏXï¿½ï¿½ï¿½Ü‚ï¿½
 	
-	// B(2)ƒ{ƒ^ƒ“ƒ`ƒFƒbƒNƒ}ƒXƒN(XƒL[)‚Åƒƒjƒ…[‚É–ß‚é
+	// B(2)ï¿½{ï¿½^ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½}ï¿½Xï¿½N(Xï¿½Lï¿½[)ï¿½Åƒï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½É–ß‚ï¿½
 	if (key & PAD_INPUT_B) gamemode = 0;
 
-	// ƒwƒ‹ƒv‰æ‘œ•\Ž¦
-	DrawGraph(0, 0, g_HelpImg, FALSE);
+	if (key & PAD_INPUT_RIGHT) gamemode = 9;
+
+		// ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
+	//SetFontSize(27);
+	//DrawString(300, 240, "* ï¿½^ï¿½Cï¿½~ï¿½ï¿½ï¿½Oï¿½æ‚­ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Ä–hï¿½ï¿½ï¿½gï¿½É‚Â‚ï¿½ï¿½æ‚¤ *", 0xffffff, 0);
+
+	//DrawString(380, 670, "--- Bï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äƒ^ï¿½Cï¿½gï¿½ï¿½ï¿½Ö–ß‚ï¿½ ---", 0xffffff, 0);
 }
 
-//ƒwƒ‹ƒv‰æ‘œ“Ç‚Ýž‚Ý
+//ï¿½wï¿½ï¿½ï¿½vï¿½æ‘œï¿½Ç‚Ýï¿½ï¿½ï¿½
 int LoadHelpImage()
 {
-	// ƒwƒ‹ƒv‰æ‘œ“Çž
+	// ï¿½wï¿½ï¿½ï¿½vï¿½æ‘œï¿½Çï¿½
 	if ((g_HelpImg = LoadGraph("images/help1.png")) == -1) return -1;
 	return 0;
 }
