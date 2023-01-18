@@ -1,6 +1,7 @@
 #include"DxLib.h"
 #include"information.h"  //使いたい .hファイル をインクルードします
 #include"Help.h"
+#include"Help2.h"
 #include"Ranking.h"
 #include"Result.h"
 #include"Title.h"
@@ -118,6 +119,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//くろーず
 			break;
 
+		case mode::HELP2:
+
+			DrawHelp2(g_KeyFlg, GameMode);
+			break;
+
 		default:
 			break;
 		}
@@ -153,6 +159,7 @@ void GameInit()
 int LoadImages()
 {
 	if (LoadHelpImage() == -1) return -1;     //ヘルプ画像読み込み
+	if (LoadHelp2Image() == -1) return -1;    //ヘルプ2画像読み込み
 	if (LoadRankingImage() == -1) return -1;  //ランキング画像読み込み
 	if (LoadResultImage() == -1) return -1;   //リザルト画像読み込み
 	if (LoadTitleImage() == -1) return -1;    //タイトル画像読み込み
