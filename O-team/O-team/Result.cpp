@@ -34,6 +34,8 @@ void DrawResult(int key, int& gamemode, int score)
 		//スコア表示
 		DrawFormatString(830, 350, 0xff4040, "%d", score);
 
+		DrawString(300, 650, "---Aボタンを押してください---",0xff4040);
+
 		break;
 
 	case 1://選択画面
