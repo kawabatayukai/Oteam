@@ -1,37 +1,37 @@
 #pragma once
 
-//�L�[�̎��
+//キーの種類
 enum class CURSOR_TYPE
 {
-	NONE = 0,   // ����0�i�Ȃɂ�������Ă��Ȃ��j
-	NORMAL,     // A�`B,a�`b,1�`9
-	CANCEL,     //�u�~�v(�ЂƂ���)
-	DONE,       //�uOK�v(�m��)
+	NONE = 0,   // 入力0（なにも押されていない）
+	NORMAL,     // A～B,a～b,1～9
+	CANCEL,     //「×」(ひとつ消す)
+	DONE,       //「OK」(確定)
 
 	MISS = 99
 };
 
 
-//��������
+//初期処理
 void KeyBoardInit();
 
-//�摜�ǂݍ���
+//画像読み込み
 int LoadKeyBoardImgaes();
 
-//���ʉ��ǂݍ���
+//効果音読み込み
 int LoadSounds();
 
-//�`��
+//描画
 void KeyBoard_Draw();
 
-//�X�V
-void KeyBoard_Update(int nowkey);                                 //nowkey�@��"������Ă���"�L�[
-                                                                  //keyflg�@ ��"�����ꂽ�u��"�L�[
-//�J�[�\���̈ړ��E�{�^���̒������𒲐�
+//更新
+void KeyBoard_Update(int nowkey);                                 //nowkey　は"押されている"キー
+//keyflg　 は"押された瞬間"キー
+//カーソルの移動・ボタンの長押しを調整
 bool CursorControl();
 
-//B�{�^���������ꂽ���̏���  ���͂��I���� 1 ���Ԃ��Ă���
+//Bボタンが押された時の処理  入力が終わると 1 が返ってくる
 int KeyBoard_PushB(int nowkey, char* name);
 
-//���͏��\��
+//入力情報表示
 void DrawInputInfo();

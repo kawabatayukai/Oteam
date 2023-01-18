@@ -287,6 +287,7 @@ void DrawInputInfo()
 	if (InputName[0] == 0)
 	{
 		//SetDrawBlendMode
+
 		SetFontSize(20);
 		DrawString(200 + CENTER_X, 125 + CENTER_Y, "・　・　名前を入力　・　・", 0xffffff);
 	}
