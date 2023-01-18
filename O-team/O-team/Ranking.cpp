@@ -56,7 +56,7 @@ void InputRanking(int nowkey, int& gamemode, int score)
 	//}
 
 	//　　↓　一文字でも入力された状態で"OK"を押すと、"1"が返ってくる
-	if (KeyBoard_PushA(nowkey, g_Ranking[RANKING_DATA - 1].name) == 1)
+	if (KeyBoard_PushB(nowkey, g_Ranking[RANKING_DATA - 1].name) == 1)
 	{
 		g_Ranking[RANKING_DATA - 1].score = score;   // ランキングデータにスコアを登録
 		SortRanking();                               // ランキング並べ替え

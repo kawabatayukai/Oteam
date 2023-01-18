@@ -208,7 +208,7 @@ void KeyBoard_Update(int nowkey)
 //カーソルの移動・ボタンの長押しを調整
 bool CursorControl()
 {
-	int timing = 25;
+	int timing = 8;
 	if (frame % timing == 0) return true;
 	//frame = 0;
 
@@ -216,10 +216,10 @@ bool CursorControl()
 }
 
 //Aボタンが押された時の処理
-int KeyBoard_PushA(int nowkey, char* name)
+int KeyBoard_PushB(int nowkey, char* name)
 {
-	//　Aボタンを押している間
-	if (nowkey & PAD_INPUT_A)
+	//　Bボタンを押している間
+	if (nowkey & PAD_INPUT_B)
 	{
 		//長押しでの連続入力のタイミングを調整（PCのような）
 		if (CursorControl() == true)
