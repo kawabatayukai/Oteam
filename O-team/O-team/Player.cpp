@@ -111,7 +111,7 @@ void Player::Draw() {
 	//ƒvƒŒƒCƒ„[
 	DrawRotaGraph(X + (Width / 2), Y + (Width / 2), 1, 0, All_Images[now], TRUE);
 
-	DrawFormatString(0, 50, 0xffffff, "HP = %d", HP);
+	//DrawFormatString(0, 50, 0xffffff, "HP = %d", HP);
 }
 
 //€–S‚Ì•`‰æ

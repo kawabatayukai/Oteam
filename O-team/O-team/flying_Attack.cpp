@@ -78,7 +78,7 @@ void Flying_Attack::Draw()
 	}
 
 	//テスト
-	DrawFormatString(0, 0, 0xffffff, "イルヨ");
+	//DrawFormatString(0, 0, 0xffffff, "イルヨ");
 }
 
 // 攻撃によるダメージ取得（ playerのHP(耐久値) ）
