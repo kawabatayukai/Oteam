@@ -22,5 +22,6 @@ int SaveRanking(void);   // ランキングデータの保存
 int ReadRanking(void);   // ランキングデータの読込
 
 int LoadRankingImage();                        //ランキング画像読み込み
+int LoadRankingSounds();                       //ランキングサウンド読み込み
 
 

@@ -7,4 +7,4 @@
 void DrawGameTitle(int key, int& gamemode);    //ゲームタイトル描画
 
 int LoadTitleImage();     //タイトル画像読み込み
-
+int LoadTitleSounds();    //サウンド読み込み

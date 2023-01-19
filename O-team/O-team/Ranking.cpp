@@ -180,3 +180,8 @@ int LoadRankingImage()
 
 	return 0;
 }
+
+//ランキングサウンド読み込み
+int LoadRankingSounds() {
+
+}
