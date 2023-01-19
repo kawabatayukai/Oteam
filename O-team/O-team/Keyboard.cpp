@@ -250,7 +250,7 @@ int KeyBoard_PushB(int nowkey, char* name)
 		{
 			// "A～Z","a～z","1～9"の上で押された
 			PlaySoundMem(ClickKeyboard, DX_PLAYTYPE_BACK);
-			// "A�`Z","a�`z","1�`9"�̏�ŉ����ꂽ
+			// "A～Z","a～z","1～9"の上で押された
 			if (CURSOR_NOW == CURSOR_TYPE::NORMAL)
 			{
 				pushFlag = true;        //押されているよ
@@ -268,33 +268,40 @@ int KeyBoard_PushB(int nowkey, char* name)
 			{
 				pushFlag = true;        //押されているよ
 
-				//一文字でも入力されていれば一文字消す
-				if (InputName[input_Pos] != 0) InputName[input_Pos] = 0; //0 は何も入力されていない状態
+				if (input_Pos >= 0)
+				{
+					//一文字でも入力されていれば一文字消す
+					if (InputName[input_Pos] != 0) InputName[input_Pos] = 0; //0 は何も入力されていない状態
 
-				input_Pos--;            //入力位置を一つ左に
+					input_Pos--;            //入力位置を一つ左に
 
-				//入力位置は最低-1まで
-				if (input_Pos < -1) input_Pos = -1;
+					//入力位置は最低-1まで
+					if (input_Pos < -1) input_Pos = -1;
+				}
+
 			}
 			else if (CURSOR_NOW == CURSOR_TYPE::DONE)                  //「OK」キーの上で押された　確定
 			{
-				//一文字も入力されていない場合は確定できない
-				if (InputName[input_Pos] != 0)
+				if (input_Pos >= 0)
 				{
-					//一文字でも入力アリ
+					//一文字も入力されていない場合は確定できない
+					if (InputName[input_Pos] != 0)
+					{
+						//一文字でも入力アリ
 
-					InputName[input_Pos + 1] = '\0';       //最後の文字の一つ右に'\0'
+						InputName[input_Pos + 1] = '\0';       //最後の文字の一つ右に'\0'
 
-					//ランキングに入力内容をセット
-					strcpy_s(name, 11, InputName);
+						//ランキングに入力内容をセット
+						strcpy_s(name, 11, InputName);
 
-					DeleteFontToHandle(key_font);
-					StopSoundMem(KeyboardBGM);
-					return 1;   //終了
-				}
-				else
-				{
-					//ダメだよ！　　な効果音
+						DeleteFontToHandle(key_font);
+						StopSoundMem(KeyboardBGM);
+						return 1;   //終了
+					}
+					else
+					{
+						//ダメだよ！　　な効果音
+					}
 				}
 			}
 		}
