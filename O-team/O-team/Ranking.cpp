@@ -181,4 +181,7 @@ int LoadRankingImage()
 	return 0;
 }
 
-int LoadRankingSounds();
+//ランキングサウンド読み込み
+int LoadRankingSounds() {
+
+}
