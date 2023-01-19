@@ -5,6 +5,8 @@
 //画像変数はshare.hに書いてください
 
 
+#define RANKING_DATA 5    // ランキング上位５人 
+
 
 struct RankingData                            // ランキングデータ構造体
 {
@@ -12,7 +14,7 @@ struct RankingData                            // ランキングデータ構造体
 	char name[11];
 	long score;
 };
-
+extern RankingData g_Ranking[RANKING_DATA];    // ランキングデータの変数宣言 ()
 
 void DrawRanking(int key, int& gamemode);                    //ランキング描画  "KeyFlg"  は　押した瞬間
 void InputRanking(int nowkey, int& gamemode, int score);     //ランキング入力  "NowKey"　は　押している間　ﾃﾞｽ

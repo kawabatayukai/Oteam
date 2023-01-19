@@ -92,7 +92,7 @@ void DrawResult(int key, int& gamemode, int score)
 			switch (menuNo)
 			{
 			case 0:
-				gamemode = 2;	//ゲームメインに飛ぶ
+				gamemode = 1;	//ゲームメインに飛ぶ
 				break;
 			case 1:
 				gamemode = 0;	//タイトル
@@ -135,7 +135,7 @@ void JampImg(void)
 
 	}
 
-	if (++gWaitTime > 220) {
+	if (++gWaitTime > 90) {
 		flg = TRUE;
 		y = -40;
 
@@ -146,7 +146,7 @@ void JampImg(void)
 		}
 	}
 
-	if (++gWaitTime > 500) {
+	if (++gWaitTime > 130) {
 		flg = FALSE;
 		gWaitTime = 0;
 	}
@@ -163,7 +163,7 @@ void WalkImg(void) {
 
 	}
 
-	if (++gWaitTime > 220) {
+	if (++gWaitTime > 90) {
 		flg = TRUE;
 
 		if (flg == TRUE) {
@@ -173,7 +173,7 @@ void WalkImg(void) {
 		}
 	}
 
-	if (++gWaitTime > 500) {
+	if (++gWaitTime > 130) {
 		flg = FALSE;
 		gWaitTime = 0;
 	}
@@ -195,7 +195,7 @@ void SleepImg(void) {
 	{
 		DrawRotaGraph(655, 545, 2.5, 0, g_Miko[5], TRUE);
 
-		if (++gWaitTime > 420)
+		if (++gWaitTime > 90)
 		{
 			flg = TRUE;
 		}
@@ -208,7 +208,7 @@ void SleepImg(void) {
 	}
 
 
-	if (++gWaitTime > 500) {
+	if (++gWaitTime > 130) {
 		gWaitTime = 0;
 	}
 

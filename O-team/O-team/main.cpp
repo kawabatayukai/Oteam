@@ -15,7 +15,7 @@
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	SetMainWindowText("Neko");             //タイトルを設定
+	SetMainWindowText("TsukemonoGatari");             //タイトルを設定
 	ChangeWindowMode(TRUE);                //ウィンドウモードで起動
 
 	//ウィンドウサイズを設定
@@ -79,7 +79,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		case mode::MAIN:
 
 			//ゲームメイン      ランキング5番目のスコアをもらう g_Ranking[RANKING_DATA-1].score みたいな
-			GameMain(GameMode, 10, g_Score);
+			GameMain(GameMode, g_Ranking[RANKING_DATA - 1].score, g_Score);
 
 			break;
 

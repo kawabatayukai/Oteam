@@ -78,10 +78,10 @@ int LoadGameMainImages()
 	//吹き出し
 	if ((image_hukidashi = LoadGraph("images/GameMain/RightBox2.png")) == -1) return -1;
 
-	//Clear or Over  �ł�
+	//Clear or Over  
 	LoadDivGraph("images/GameMain/Game_CorO.png", 2, 2, 1, 1280, 720, image_CorO);
 
-	//�w�i
+	//背景
 	LoadDivGraph("images/GameMain/BackLink.png", 2, 2, 1, 1280, 720, image_Back);
 
 	LoadDivGraph("images/Strings.png", 8, 8, 1, 120, 40, Talk_images);
@@ -89,7 +89,7 @@ int LoadGameMainImages()
 	return 0;
 }
 
-//�Q�[���T�E���h�Ǎ���
+//ゲームメイン音声読み込み
 int LoadGameMainSounds() {
 	if ((GameMainBGM = LoadSoundMem("sounds/bgm/GameMain.wav")) == -1) return -1;
 	if ((RankUpSE = LoadSoundMem("sounds/se/RankUp.wav")) == -1) return -1;
@@ -99,25 +99,25 @@ int LoadGameMainSounds() {
 	if ((PoisonSE = LoadSoundMem("sounds/se/Doku.wav")) == -1) return -1;
 }
 
-//�Q�[�����C�����������i�R���X�g���N�^����j
+//ゲームメイン初期処理（コンストラクタの代わり）
 void GameMain_Init() 
 {
-	//�h��10���̃��������m��
+	//防具のメモリを確保
 	obj_armor = new Flying_object * [ARMOR_MAX];
 
-	//������
+	//初期化
 	for (int i = 0; i < ARMOR_MAX; i++) obj_armor[i] = nullptr;
 
-	//�h��10���̃��������m��
+	//攻撃のメモリを確保
 	obj_attack = new Flying_object * [ATTACK_MAX];
 
-	//������
+	//初期化
 	for (int i = 0; i < ATTACK_MAX; i++) obj_attack[i] = nullptr;
 
-	//�v���[���[�̃��������m�ہE�R���X�g���N�^�Ăяo��
+	//プレイヤーのメモリを確保
 	player = new Player();
 
-	//�ŏ��̃^�[���͑���
+	//ターンを初期化
 	now_turn = Turn::CATCH;
 
 	frameCount = 0;
@@ -127,101 +127,101 @@ void GameMain_Init()
 	talk_num = 0;
 	talk_frame = 0;
 
-	//�摜
+	//プレイヤー画像
 	player->LoadImages();
 
-	//�Q�[�����C�����Ŏg���t�H���g���쐬      NULL �̂Ƃ����Windows�W�������̃t�H���g���g�������i?�j
+	//フォントを作成
 	font_handle = CreateFontToHandle(NULL, 30, 10, DX_FONTTYPE_ANTIALIASING_8X8);
 }
 
-//�Q�[�����C���I�������i�f�X�g���N�^�̑���j
+//ゲームメイン終了処理（デストラクタの代わり）
 void GameMain_Final() {
 	delete obj_armor;
 	delete obj_attack;
 	delete player;
 
-	//�t�H���g���폜
+	//フォントを削除
 	DeleteFontToHandle(font_handle);
 }
 
-//�h��  �����E�X�V�E�폜
+//防具  生成・更新・削除
 void Armor_Update(){
-	int armor_count;   //�h��z��́Z�Ԗڂ����Ă��邩
+	int armor_count;   //現在配列の〇番目を見ている
 
-	//�z�������݂�
+	//配列をみる
 	for (armor_count = 0; armor_count < ARMOR_MAX; armor_count++)
 	{
-		//nullptr����ɂ�nullptr�����Ȃ��̂Ń��[�v�𔲂���
+		//nullptrより後には要素なし
 		if (obj_armor[armor_count] == nullptr) break;
 
-		//�X�V�@�i�ړ��j
+		//防具の更新
 		obj_armor[armor_count]->Update();
 		if (player->Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])))
 		{
 			//DrawString(0, 20, "Hit", 0xffffff);
 
-			//HP��������
+			//HPが増える
 			player->SetHP(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])->GetHP());
 
-			//����ׂ�
+			//しゃべる
 			talk_num = 5;
 		}
 
-		//��ʊO�ɓ��B,�܂��̓v���C���[��Hit�ō폜
+		//画面外 or Hitで削除
 		if (obj_armor[armor_count]->CheckScreenOut() == true
 			|| player->Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])) == true)
 		{
-			delete obj_armor[armor_count];         //���B�������폜
-			obj_armor[armor_count] = nullptr;      //�폜�����z��̗v�f��������
+			delete obj_armor[armor_count];         //削除
+			obj_armor[armor_count] = nullptr;      //削除元を初期化
 
-			//�z����l�߂�
+			//詰める
 			for (int i = armor_count; i < (ARMOR_MAX - 1); i++)
 			{
-				//���̗v�f�� nullptr �Ȃ�l�߂�K�v���Ȃ��̂Ŕ�����
+				//nullptrより後には要素なし
 				if (obj_armor[i + 1] == nullptr) break;
 
-				obj_armor[i] = obj_armor[i + 1];   //�l�߂�
-				obj_armor[i + 1] = nullptr;        //�l�߂�ꂽ�v�f�͏�����
+				obj_armor[i] = obj_armor[i + 1];   //詰める
+				obj_armor[i + 1] = nullptr;        //詰めた元を初期化
 			}
 			armor_count--;
 		}
 	}
 
-	//�z��ɋ�v�f������΃I�u�W�F�N�g�𐶐�����
+	//生成
 	if (armor_count < ARMOR_MAX && obj_armor[armor_count] == nullptr)
 	{
-		//�^�C�v
-		int r_type = GetRand(2);       //�O�`�Q�̗���
+		//種類
+		int r_type = GetRand(2);       
 
-		//�ϋv�l
+		//耐久地
 		int r_dura = 100;   // �Ƃ肠����
 
-		//�����W�i�����j�@�@�����W�� 1300�Œ�i��ʊO�E���j
+		//高さ
 		int r_y = (GetRand(10) * 60) + 60;
 
-		//�X�s�[�h�i��� 5�ȏ�j
+		//スピード
 		int r_speed = SPEED_ARMOR;//(GetRand(3) + 1) + 5;
 
-		//��������@�@�@�@�@�@�@                  �ϋv�l   ���@�@���@ ��߰��
+		//生成
 		obj_armor[armor_count] = new Flying_Armor(static_cast<Armor_Type>(r_type), r_dura, 1300, r_y, r_speed);
 	}
 }
 
-//�U��  �����E�X�V�E�폜
+//攻撃  生成・更新・削除
 void Attack_Update() {
-	int attack_count;   //�h��z��́Z�Ԗڂ����Ă��邩
+	int attack_count;   //現在配列の〇番目を見ている
 
-	//�z�������݂�
+	//配列をみる
 	for (attack_count = 0; attack_count < ATTACK_MAX; attack_count++)
 	{
-		//nullptr����ɂ�nullptr�����Ȃ��̂Ń��[�v�𔲂���
+		//nullptrより後には要素なし
 		if (obj_attack[attack_count] == nullptr) break;
 
-		//�X�V�@�i�ړ��j
+		//攻撃の更新
 		obj_attack[attack_count]->Update();
 		if (player->Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])))
 		{
-			//�_���[�W��H�炤
+			//ダメージを食らう
 			player->SetHP((dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetAttackDamage(player->GetHP())) * -1);
 			switch (dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetType())
 			{
@@ -242,44 +242,44 @@ void Attack_Update() {
 			}
 		}
 
-		//��ʊO�ɓ��B�A�܂��̓v���C���[��Hit�ō폜
+		//画面外 or Hitで削除
 		if (obj_attack[attack_count]->CheckScreenOut() == true
 			|| player->Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])) == true)
 		{
-			delete obj_attack[attack_count];         //���B�������폜
-			obj_attack[attack_count] = nullptr;      //�폜�����z��̗v�f��������
+			delete obj_attack[attack_count];         //削除
+			obj_attack[attack_count] = nullptr;      //削除元を初期化
 
-			//�z����l�߂�
+			//詰める
 			for (int i = attack_count; i < (ATTACK_MAX - 1); i++)
 			{
-				//���̗v�f�� nullptr �Ȃ�l�߂�K�v���Ȃ��̂Ŕ�����
+				//nullptrより後には要素なし
 				if (obj_attack[i + 1] == nullptr) break;
 
-				obj_attack[i] = obj_attack[i + 1];   //�l�߂�
-				obj_attack[i + 1] = nullptr;        //�l�߂�ꂽ�v�f�͏�����
+				obj_attack[i] = obj_attack[i + 1];   //詰める
+				obj_attack[i + 1] = nullptr;        //詰めた元を初期化
 			}
 			attack_count--;
 		}
 	}
 
-	//�z��ɋ�v�f������΃I�u�W�F�N�g�𐶐�����
+	//生成
 	if (attack_count < ATTACK_MAX && obj_attack[attack_count] == nullptr)
 	{
-		//�^�C�v
+		//種類
 		int r_type = GetRand(2);       //�O�`�Q�̗���
 
-		//�����W�i�����j�@�@�����W�� 1300�Œ�i��ʊO�E���j
+		//高さ
 		int r_y = (GetRand(10) * 60) + 60;
 
-		//�X�s�[�h�i��� 5�ȏ�j
+		//スピード
 		int r_speed = SPEED_ATTACK; //(GetRand(3) + 1) + 5;
 
-		//��������@�@�@�@�@�@�@                  �^�C�v   ���@�@���@ ��߰��
+		//生成
 		obj_attack[attack_count] = new Flying_Attack((r_type), 1300, r_y, r_speed);
 	}
 }
 
-//�Q�[�����C���X�V�E�v�Z
+//ゲームメイン更新・計算
 void GameMain_Update()
 {
 	//�E�G���A���Q�[�W�p
@@ -334,7 +334,7 @@ void GameMain_Update()
 	}
 }
 
-//�Q�[�����C���`��
+//ゲームメイン描画
 void GameMain_Draw()
 {
 
@@ -402,7 +402,7 @@ void GameMain_Draw()
 	}
 }
 
-//�Q�[�����C���`��G���A
+//ゲームメイン描画エリア
 void GameMain_DrawArea() {
 	////�`��G���A
 	//DrawBox(DRAWAREA_X, 0, 1280, 720, 0x00ddbb, TRUE);
@@ -439,7 +439,7 @@ void GameMain_DrawArea() {
 	else{}
 }
 
-//�Q�[�����C�� �����L���O5�Ԗڂ̃X�R�A�E�X�R�A��ێ�����ϐ������炤
+//ゲームメイン  ランキング5番目のスコア・スコアを保持する変数をもらう
 void GameMain(int &gamemode,int lowscore, int& g_score)
 {
 	GameMain_Update();    //�Q�[�����C���X�V�E�v�Z

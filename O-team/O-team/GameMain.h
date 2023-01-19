@@ -3,7 +3,7 @@
 // 更新・計算(Update) と 描画(Draw)  の処理を分けると良いです
 
 int LoadGameMainImages();//ゲームメイン画像読み込み
-int LoadGameMainSounds();        //ゲームメイン画像読み込み
+int LoadGameMainSounds();//ゲームメイン画像読み込み
 void GameMain_Init();    //ゲームメイン初期処理（コンストラクタの代わり）
 void GameMain_Final();   //ゲームメイン終了処理（デストラクタの代わり）
 
