@@ -52,7 +52,6 @@ int font_handle;       //�t�H���g
 //�T�E���h�p�ϐ�
 int GameMainBGM;
 int GetSE;
-int RankUpSE;
 
 int SpearSE;
 int IronSE;
@@ -91,7 +90,6 @@ int LoadGameMainImages()
 //�Q�[���T�E���h�Ǎ���
 int LoadGameMainSounds() {
 	if ((GameMainBGM = LoadSoundMem("sounds/bgm/GameMain.wav")) == -1) return -1;
-	if ((RankUpSE = LoadSoundMem("sounds/se/RankUp.wav")) == -1) return -1;
 	if ((GetSE = LoadSoundMem("sounds/se/Get.wav")) == -1) return -1;
 	if ((SpearSE = LoadSoundMem("sounds/se/Takeyari.wav")) == -1) return -1;
 	if ((IronSE = LoadSoundMem("sounds/se/Tekkyu.wav")) == -1) return -1;
@@ -101,7 +99,9 @@ int LoadGameMainSounds() {
 //�Q�[�����C�����������i�R���X�g���N�^����j
 void GameMain_Init() 
 {
-	//�h��10���̃��������m��
+	LoadGameMainSounds();
+
+	//防具10個分のメモリを確保
 	obj_armor = new Flying_object * [ARMOR_MAX];
 
 	//������
@@ -162,7 +162,10 @@ void Armor_Update(){
 			//HP��������
 			player->SetHP(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])->GetHP());
 
-			//����ׂ�
+			//ChangeNextPlayVolumeSoundMem(   , RankUpSE);  //次に流す音量を調整  ～２５５  255が通常
+			PlaySoundMem(GetSE, DX_PLAYTYPE_BACK);
+
+			//しゃべる
 			talk_num = 5;
 		}
 
@@ -225,14 +228,18 @@ void Attack_Update() {
 			switch (dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetType())
 			{
 			case Attack_Type::SPEAR:
+				PlaySoundMem(SpearSE, DX_PLAYTYPE_BACK);
 				talk_num = 1;
 				break;
 
 			case Attack_Type::IRON:
+				PlaySoundMem(IronSE, DX_PLAYTYPE_BACK);
 				talk_num = 2;
 				break;
 
 			case Attack_Type::POISON:
+				ChangeNextPlayVolumeSoundMem(200, PoisonSE);  //次に流す音量を調整  ～２５５  255が通常
+				PlaySoundMem(PoisonSE, DX_PLAYTYPE_BACK);
 				talk_num = 3;
 				break;
 
@@ -281,7 +288,10 @@ void Attack_Update() {
 //�Q�[�����C���X�V�E�v�Z
 void GameMain_Update()
 {
-	//�E�G���A���Q�[�W�p
+	ChangeNextPlayVolumeSoundMem(180, GameMainBGM);  //次に流す音量を調整  ～２５５  255が通常
+	PlaySoundMem(GameMainBGM, DX_PLAYTYPE_LOOP, FALSE);
+
+	//右エリア内ゲージ用
 	now_hp = static_cast<float>(player->GetHP() * 0.5);
 	if (now_hp < 0.0f) now_hp = 0.0f;  //0��艺����Ȃ�
 
@@ -329,6 +339,7 @@ void GameMain_Update()
 		break;
 
 	default:
+		StopSoundMem(GameMainBGM);
 		break;
 	}
 }
@@ -336,7 +347,6 @@ void GameMain_Update()
 //�Q�[�����C���`��
 void GameMain_Draw()
 {
-
 
 	switch (now_turn)
 	{
@@ -480,17 +490,18 @@ void GameMain(int &gamemode,int lowscore, int& g_score)
 	if (now_turn == Turn::END && death_frame % 480 == 0)
 	{
 		g_score = player->GetHP();
-		
 
-		//�����L���O�Œ�X�R�A�Ɣ�r
+		//ランキング最低スコアと比較
 		if (g_score > lowscore)
 		{
-			gamemode = 5;  //�����L���O���͂�
+			StopSoundMem(GameMainBGM);
+			gamemode = 5;  //ランキング入力へ
 			GameMain_Final();
 		}
 		else
 		{
-			gamemode = 6; //���U���g��
+			StopSoundMem(GameMainBGM);
+			gamemode = 6; //リザルトへ
 			GameMain_Final();
 		}
 	}

@@ -13,3 +13,6 @@ void SleepImg();
 
 int LoadResultImage();   //リザルト画像読み込み
 
+int LoadResultImage();   //エンド画像読み込み
+
+int LoadResultSounds();   //サウンド読み込み
