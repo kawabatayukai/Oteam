@@ -31,9 +31,15 @@ int backimage = 0;            //背景画像
 
 int keyboardimage = 0;        //キーボード画像
 
-int Cursorimage[2] = { 0 };   //ノーマルカーソル画像  0 : 通常時　　1 : 押されたとき
-int Cancelimage[2] = { 0 };   //  「×」カーソル画像
-int OKimage[2] = { 0 };       //  「OK」カーソル画像
+int Cursorimage[2] = { 0 };   //�m�[�}���J�[�\���摜  0 : �ʏ펞�@�@1 : �����ꂽ�Ƃ�
+int Cancelimage[2] = { 0 };   //  �u�~�v�J�[�\���摜
+int OKimage[2] = { 0 };       //  �uOK�v�J�[�\���摜
+
+//�T�E���h�p
+int KeyboardBGM;
+int ClickKeyboard;
+int CursorMoveKeyboard;
+
 ///////////////////////////////////////////////////////////////////////////////////////
 
 bool pushFlag = false;           //Aが　押されている/押されてない フラグ    TRUE:押されている　FALSE:押されていない
@@ -53,9 +59,7 @@ int key_font = 0;                //キーボードで使用するフォント
 
 /********************************/
 
-
-
-//初期処理
+//��������
 void KeyBoardInit()
 {
 	//カーソルの初期位置は"A"
@@ -98,10 +102,19 @@ int LoadKeyBoardImgaes()
 	return 0;
 }
 
-//キーボード描画
+//�T�E���h�ǂݍ���
+int LoadKeyBoardSounds() {
+	if ((KeyboardBGM = LoadSoundMem("sounds/bgm/Ranking.wav")) == -1)return -1;
+	if ((ClickKeyboard = LoadSoundMem("sounds/se/Click.wav")) == -1) return -1;
+	if ((CursorMoveKeyboard = LoadSoundMem("sounds/se/CursorMove.wav")) == -1) return -1;
+}
+
+//�L�[�{�[�h�`��
 void KeyBoard_Draw()
 {
-	//背景
+	ChangeNextPlayVolumeSoundMem(110, KeyboardBGM);  //���ɗ������ʂ𒲐�  �`�Q�T�T  255���ʏ�
+	PlaySoundMem(KeyboardBGM, DX_PLAYTYPE_LOOP, FALSE);
+	//�w�i
 	DrawGraph(0, 0, backimage, FALSE);
 	//キーボード
 	DrawGraph(45 + CENTER_X, OUT_HEIGHT, keyboardimage, TRUE);
@@ -146,7 +159,9 @@ void KeyBoard_Update(int nowkey)
 	{
 		if (CursorControl() == true)
 		{
-			movekeyX++;     //タイミング調整 + 移動
+			movekeyX++;     //�^�C�~���O���� + �ړ�
+			ChangeNextPlayVolumeSoundMem(180, CursorMoveKeyboard);
+			PlaySoundMem(CursorMoveKeyboard, DX_PLAYTYPE_BACK);
 		}
 		if (movekeyX > 12) movekeyX = 0;   //右端以上で左端へ
 
@@ -158,7 +173,9 @@ void KeyBoard_Update(int nowkey)
 	{
 		if (CursorControl() == true)
 		{
-			movekeyX--;     //タイミング調整 + 移動
+			movekeyX--;     //�^�C�~���O���� + �ړ�
+			ChangeNextPlayVolumeSoundMem(180, CursorMoveKeyboard);
+			PlaySoundMem(CursorMoveKeyboard, DX_PLAYTYPE_BACK);
 		}
 		if (movekeyX < 0) movekeyX = 12;     //左端以上で右端へ
 
@@ -171,7 +188,9 @@ void KeyBoard_Update(int nowkey)
 
 		if (CursorControl() == true)
 		{
-			movekeyY--;     //タイミング調整 + 移動
+			movekeyY--;     //�^�C�~���O���� + �ړ�
+			ChangeNextPlayVolumeSoundMem(180, CursorMoveKeyboard);
+			PlaySoundMem(CursorMoveKeyboard, DX_PLAYTYPE_BACK);
 		}
 		if (movekeyY <= 0) movekeyY = 0;     //上端でストップ
 
@@ -185,6 +204,9 @@ void KeyBoard_Update(int nowkey)
 		if (CursorControl() == true)
 		{
 			movekeyY++;     //タイミング調整 + 移動
+			movekeyY++;     //�^�C�~���O���� + �ړ�
+			ChangeNextPlayVolumeSoundMem(180, CursorMoveKeyboard);
+			PlaySoundMem(CursorMoveKeyboard, DX_PLAYTYPE_BACK);
 		}
 
 		CURSOR_NOW = CURSOR_TYPE::NORMAL;         //現在のキーはノーマル
@@ -228,6 +250,8 @@ int KeyBoard_PushB(int nowkey, char* name)
 		if (CursorControl() == true)
 		{
 			// "A～Z","a～z","1～9"の上で押された
+			PlaySoundMem(ClickKeyboard, DX_PLAYTYPE_BACK);
+			// "A�`Z","a�`z","1�`9"�̏�ŉ����ꂽ
 			if (CURSOR_NOW == CURSOR_TYPE::NORMAL)
 			{
 				pushFlag = true;        //押されているよ
@@ -268,6 +292,8 @@ int KeyBoard_PushB(int nowkey, char* name)
 					DeleteFontToHandle(key_font);
 
 					return 1;   //終了
+					StopSoundMem(KeyboardBGM);
+					return 1;   //�I��
 				}
 				else
 				{

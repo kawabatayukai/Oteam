@@ -43,6 +43,16 @@ int image_hukidashi;   //吹き出し
 float now_hp = 0.0f;   //現在のHP（右エリア内のゲージで使用）
 int font_handle;       //フォント
 
+//サウンド用変数
+int GameMainBGM;
+int GetSE;
+int RankUpSE;
+
+int SpearSE;
+int IronSE;
+int PoisonSE;
+
+
 //テスト用
 char Turn_str[][7] = { "Catch","Attack","END" };
 
@@ -65,6 +75,16 @@ int LoadGameMainImages()
 	LoadDivGraph("images/BackLink.png", 2, 2, 1, 1280, 720, image_Back);
 
 	return 0;
+}
+
+//ゲームサウンド読込み
+int LoadGameMainSounds() {
+	if ((GameMainBGM = LoadSoundMem("sounds/bgm/GameMain.wav")) == -1) return -1;
+	if ((RankUpSE = LoadSoundMem("sounds/se/RankUp.wav")) == -1) return -1;
+	if ((GetSE = LoadSoundMem("sounds/se/Get.wav")) == -1) return -1;
+	if ((SpearSE = LoadSoundMem("sounds/se/竹槍.wav")) == -1) return -1;
+	if ((IronSE = LoadSoundMem("sounds/se/鉄球.wav")) == -1) return -1;
+	if ((PoisonSE = LoadSoundMem("sounds/se/毒.wav")) == -1) return -1;
 }
 
 //ゲームメイン初期処理（コンストラクタ代わり）
