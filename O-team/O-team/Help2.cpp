@@ -12,8 +12,7 @@ void DrawHelp2(int key, int& gamemode)
 
 
 	//次に流す音量を調整  ～２５５  255が通常
-	ChangeNextPlayVolumeSoundMem(220, ClickHelp2);
-	ChangeNextPlayVolumeSoundMem(200, CursorMoveHelp2);
+	ChangeNextPlayVolumeSoundMem(180, CursorMoveHelp2);
 	// B(2)ボタンチェックマスク(Xキー)でメニューに戻る
 	if (key & PAD_INPUT_B) {
 		PlaySoundMem(ClickHelp2, DX_PLAYTYPE_BACK);

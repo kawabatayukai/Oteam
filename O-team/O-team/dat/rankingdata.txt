@@ -2,4 +2,4 @@
  2     CDEFGU        389
  3      neko1        105
  4      neko2        102
- 5      neko3        101
+ 5          r          0

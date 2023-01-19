@@ -1,5 +1,6 @@
 #include"DxLib.h"
 #include"Title.h"
+#include"Ranking.h"
 
 //Title.h‚ÅéŒ¾‚µ‚½ŠÖ”‚Ì’è‹`‚ğ‚±‚±‚É‘‚«‚Ü‚·
 
@@ -42,7 +43,7 @@ void DrawGameTitle(int key, int& gamemode)
 
 	//DrawGraph(0, 30, gNumberImg[tempScore % 10], TRUE);
 
-	ChangeNextPlayVolumeSoundMem(200, CursorMove);  //Ÿ‚É—¬‚·‰¹—Ê‚ğ’²®  `‚Q‚T‚T  255‚ª’Êí
+	ChangeNextPlayVolumeSoundMem(180, CursorMove);  //Ÿ‚É—¬‚·‰¹—Ê‚ğ’²®  `‚Q‚T‚T  255‚ª’Êí
 	//ƒƒjƒ…[ƒJ[ƒ\ƒ‹‚ÌˆÚ“®ˆ—
 	if (key & PAD_INPUT_DOWN) {
 		PlaySoundMem(CursorMove, DX_PLAYTYPE_BACK);
@@ -76,7 +77,6 @@ void DrawGameTitle(int key, int& gamemode)
 		}
 	
 
-	ChangeNextPlayVolumeSoundMem(220, Click);  //Ÿ‚É—¬‚·‰¹—Ê‚ğ’²®  `‚Q‚T‚T  255‚ª’Êí
 	if (key & PAD_INPUT_B)
 	{
 		PlaySoundMem(Click, DX_PLAYTYPE_BACK);
@@ -93,6 +93,7 @@ void DrawGameTitle(int key, int& gamemode)
 		case 2:
 			StopSoundMem(TitleBGM);
 			LoadTitleSounds();
+			LoadRankingSounds();
 			gamemode = 3;	//ƒ‰ƒ“ƒLƒ“ƒO‚É”ò‚Ô
 			break;
 		case 3:

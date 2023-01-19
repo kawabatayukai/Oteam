@@ -19,7 +19,7 @@ void KeyBoardInit();
 int LoadKeyBoardImgaes();
 
 //Œø‰Ê‰¹“Ç‚İ‚İ
-int LoadSounds();
+int LoadKeyBoardSounds();
 
 //•`‰æ
 void KeyBoard_Draw();

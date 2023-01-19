@@ -34,6 +34,12 @@ int keyboardimage = 0;        //ƒL[ƒ{[ƒh‰æ‘œ
 int Cursorimage[2] = { 0 };   //ƒm[ƒ}ƒ‹ƒJ[ƒ\ƒ‹‰æ‘œ  0 : ’Êí@@1 : ‰Ÿ‚³‚ê‚½‚Æ‚«
 int Cancelimage[2] = { 0 };   //  u~vƒJ[ƒ\ƒ‹‰æ‘œ
 int OKimage[2] = { 0 };       //  uOKvƒJ[ƒ\ƒ‹‰æ‘œ
+
+//ƒTƒEƒ“ƒh—p
+int KeyboardBGM;
+int ClickKeyboard;
+int CursorMoveKeyboard;
+
 ///////////////////////////////////////////////////////////////////////////////////////
 
 bool pushFlag = false;           //A‚ª@‰Ÿ‚³‚ê‚Ä‚¢‚é/‰Ÿ‚³‚ê‚Ä‚È‚¢ ƒtƒ‰ƒO    TRUE:‰Ÿ‚³‚ê‚Ä‚¢‚é@FALSE:‰Ÿ‚³‚ê‚Ä‚¢‚È‚¢
@@ -50,8 +56,6 @@ char InputName[11];              //“ü—Í‚µ‚½•¶š‚ª“ü‚é”z—ñ 0`9‚É•¶š(10•¶šÏÃŞ)
 int input_Pos;                   //“ü—Í’†‚Ì”z—ñ‚ÌZ”Ô–Ú
 
 /********************************/
-
-
 
 //‰Šúˆ—
 void KeyBoardInit()
@@ -95,9 +99,18 @@ int LoadKeyBoardImgaes()
 	return 0;
 }
 
+//ƒTƒEƒ“ƒh“Ç‚İ‚İ
+int LoadKeyBoardSounds() {
+	if ((KeyboardBGM = LoadSoundMem("sounds/bgm/Ranking.wav")) == -1)return -1;
+	if ((ClickKeyboard = LoadSoundMem("sounds/se/Click.wav")) == -1) return -1;
+	if ((CursorMoveKeyboard = LoadSoundMem("sounds/se/CursorMove.wav")) == -1) return -1;
+}
+
 //ƒL[ƒ{[ƒh•`‰æ
 void KeyBoard_Draw()
 {
+	ChangeNextPlayVolumeSoundMem(110, KeyboardBGM);  //Ÿ‚É—¬‚·‰¹—Ê‚ğ’²®  `‚Q‚T‚T  255‚ª’Êí
+	PlaySoundMem(KeyboardBGM, DX_PLAYTYPE_LOOP, FALSE);
 	//”wŒi
 	DrawGraph(0, 0, backimage, FALSE);
 	//ƒL[ƒ{[ƒh
@@ -144,6 +157,8 @@ void KeyBoard_Update(int nowkey)
 		if (CursorControl() == true)
 		{
 			movekeyX++;     //ƒ^ƒCƒ~ƒ“ƒO’²® + ˆÚ“®
+			ChangeNextPlayVolumeSoundMem(180, CursorMoveKeyboard);
+			PlaySoundMem(CursorMoveKeyboard, DX_PLAYTYPE_BACK);
 		}
 		if (movekeyX > 12) movekeyX = 0;   //‰E’[ˆÈã‚Å¶’[‚Ö
 
@@ -156,6 +171,8 @@ void KeyBoard_Update(int nowkey)
 		if (CursorControl() == true)
 		{
 			movekeyX--;     //ƒ^ƒCƒ~ƒ“ƒO’²® + ˆÚ“®
+			ChangeNextPlayVolumeSoundMem(180, CursorMoveKeyboard);
+			PlaySoundMem(CursorMoveKeyboard, DX_PLAYTYPE_BACK);
 		}
 		if (movekeyX < 0) movekeyX = 12;     //¶’[ˆÈã‚Å‰E’[‚Ö
 
@@ -169,6 +186,8 @@ void KeyBoard_Update(int nowkey)
 		if (CursorControl() == true)
 		{
 			movekeyY--;     //ƒ^ƒCƒ~ƒ“ƒO’²® + ˆÚ“®
+			ChangeNextPlayVolumeSoundMem(180, CursorMoveKeyboard);
+			PlaySoundMem(CursorMoveKeyboard, DX_PLAYTYPE_BACK);
 		}
 		if (movekeyY <= 0) movekeyY = 0;     //ã’[‚ÅƒXƒgƒbƒv
 
@@ -182,6 +201,8 @@ void KeyBoard_Update(int nowkey)
 		if (CursorControl() == true)
 		{
 			movekeyY++;     //ƒ^ƒCƒ~ƒ“ƒO’²® + ˆÚ“®
+			ChangeNextPlayVolumeSoundMem(180, CursorMoveKeyboard);
+			PlaySoundMem(CursorMoveKeyboard, DX_PLAYTYPE_BACK);
 		}
 
 		CURSOR_NOW = CURSOR_TYPE::NORMAL;         //Œ»İ‚ÌƒL[‚Íƒm[ƒ}ƒ‹
@@ -224,6 +245,7 @@ int KeyBoard_PushB(int nowkey, char* name)
 		//’·‰Ÿ‚µ‚Å‚Ì˜A‘±“ü—Í‚Ìƒ^ƒCƒ~ƒ“ƒO‚ğ’²®iPC‚Ì‚æ‚¤‚Èj
 		if (CursorControl() == true)
 		{
+			PlaySoundMem(ClickKeyboard, DX_PLAYTYPE_BACK);
 			// "A`Z","a`z","1`9"‚Ìã‚Å‰Ÿ‚³‚ê‚½
 			if (CURSOR_NOW == CURSOR_TYPE::NORMAL)
 			{
@@ -262,6 +284,7 @@ int KeyBoard_PushB(int nowkey, char* name)
 					//ƒ‰ƒ“ƒLƒ“ƒO‚É“ü—Í“à—e‚ğƒZƒbƒg
 					strcpy_s(name, 11, InputName);
 
+					StopSoundMem(KeyboardBGM);
 					return 1;   //I—¹
 				}
 				else
