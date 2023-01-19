@@ -28,7 +28,7 @@ void DrawHelp2(int key, int& gamemode)
 //ヘルプ画像読み込み
 int LoadHelp2Image()
 {
-	if ((g_HelpImg2 = LoadGraph("images/help2.png")) == -1) return -1;
+	if ((g_HelpImg2 = LoadGraph("images/Help/help2.png")) == -1) return -1;
 }
 
 //ヘルプサウンド読み込み
