@@ -36,6 +36,7 @@ int death_frame = 0;
 //現在のターン
 Turn now_turn;
 
+int image_Back[2];     //背景画像 1,2
 int image_CorO[2];     //Clear or Over  です
 int image_R_area;      //右の描画エリア画像  
 float now_hp = 0.0f;   //現在のHP（右エリア内のゲージで使用）
@@ -52,6 +53,9 @@ int LoadGameMainImages()
 
 	//Clear or Over  です
 	LoadDivGraph("images/Game_CorO.png", 2, 2, 1, 1280, 720, image_CorO);
+
+	//背景
+	LoadDivGraph("images/Back.png", 2, 2, 1, 1280, 720, image_Back);
 
 	return 0;
 }
@@ -263,7 +267,11 @@ void GameMain_Draw()
 	{
 	case Turn::CATCH:
 
-		player->Draw();
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 230);
+		DrawGraph(0, 0, image_Back[0], TRUE);     //背景
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+
+		player->Draw();                           //プレイヤー描画
 
 		//防具の描画
 		for (int i = 0; i < ARMOR_MAX; i++)
@@ -277,7 +285,14 @@ void GameMain_Draw()
 
 	case Turn::ATTACK:
 
-		player->Draw();
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+		DrawGraph(0, 0, image_Back[1], TRUE);     //背景
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+
+		if (frameCount > 120) {}
+		else DrawBox(0, 0, 1280, 720, 0x000000, TRUE);  //暗転
+
+		player->Draw();                           //プレイヤー描画
 
 		//攻撃の描画
 		for (int i = 0; i < ATTACK_MAX; i++)
@@ -288,6 +303,10 @@ void GameMain_Draw()
 		break;
 
 	case Turn::END:
+
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+		DrawGraph(0, 0, image_Back[1], TRUE);     //背景
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 
 		//プレイヤーのHPが0以上
 		if (player->GetHP() > 0)
