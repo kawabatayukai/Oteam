@@ -20,6 +20,12 @@
 //攻撃最大表示数
 #define ATTACK_MAX 15
 
+//制限時間　防具
+#define ARMOR_LIMIT 600
+
+//制限時間　攻撃
+#define ATTACK_LIMIT 1200
+
 //防具の配列
 Flying_object** obj_armor;     //基底クラス型ポインタ
 
@@ -413,6 +419,16 @@ void GameMain_DrawArea() {
 	if (talk_num != 0) DrawGraph(0, 0, image_hukidashi, TRUE);
 	DrawFormatStringToHandle(1010, 412, 0x000000, font_handle, Talk_str[talk_num]);  //しゃべる
 
+	//時間
+	if (now_turn == Turn::CATCH)
+	{
+		DrawFormatStringToHandle(1000, 120, 0xffffff, font_handle, "Time : %d", (ARMOR_LIMIT/60) - (frameCount / 60));
+	}
+	else if (now_turn == Turn::ATTACK)
+	{
+		DrawFormatStringToHandle(1000, 120, 0xffffff, font_handle, "Time : %d", (ATTACK_LIMIT/60) - (frameCount / 60));
+	}
+	else{}
 }
 
 //ゲームメイン ランキング5番目のスコア・スコアを保持する変数をもらう
@@ -433,7 +449,7 @@ void GameMain(int &gamemode,int lowscore, int& g_score)
 	//}
 
 	//Attackターン30秒　または　playerのHPが0以下でターン切り替え　攻撃　→　エンド
-	if (now_turn == Turn::ATTACK && frameCount % 1200 == 0 || player->GetHP() <= 0)
+	if (now_turn == Turn::ATTACK && frameCount % ATTACK_LIMIT == 0 || player->GetHP() <= 0)
 	{
 		//ランキング
 
@@ -447,7 +463,7 @@ void GameMain(int &gamemode,int lowscore, int& g_score)
 	}
 
 	//20秒でターンを切り替え  装備　→　攻撃
-	if (now_turn == Turn::CATCH && frameCount % 600 == 0)
+	if (now_turn == Turn::CATCH && frameCount % ARMOR_LIMIT == 0)
 	{
 		now_turn = Turn::ATTACK;  //攻撃を受けるターン
 		frameCount = 0;           //カウントをリセット
