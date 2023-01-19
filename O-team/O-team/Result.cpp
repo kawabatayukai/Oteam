@@ -16,9 +16,16 @@ int gWaitTime = 0;	//巫女画像切り替え用
 int check = 0;		//巫女画像切り替え用
 int flg = FALSE;	//巫女画像切り替え用
 
+int ResultBGM;
+int ClickResult;
+int CursorMoveResult;
+
 //エンド描画
 void DrawResult(int key, int& gamemode, int score)
 {
+
+	ChangeNextPlayVolumeSoundMem(130, ResultBGM);  //次に流す音量を調整  ～２５５  255が通常
+	PlaySoundMem(ResultBGM, DX_PLAYTYPE_LOOP, FALSE);
 
 	//リザルト画像表示
 	DrawGraph(0, 0, g_ResultImg, FALSE);
@@ -62,6 +69,16 @@ void DrawResult(int key, int& gamemode, int score)
 		if (key & PAD_INPUT_LEFT) {
 			if (--menuNo < 0)menuNo = 2;
 		}
+	ChangeNextPlayVolumeSoundMem(180, CursorMoveResult);  //次に流す音量を調整  ～２５５  255が通常
+	//メニューカーソルの移動処理
+	if (key & PAD_INPUT_RIGHT) {
+		PlaySoundMem(CursorMoveResult, DX_PLAYTYPE_BACK);
+		if (++menuNo > 2)menuNo = 0;
+	}
+	if (key & PAD_INPUT_LEFT) {
+		PlaySoundMem(CursorMoveResult, DX_PLAYTYPE_BACK);
+		if (--menuNo < 0)menuNo = 2;
+	}
 
 
 		//巫女さんの画像切り替え
@@ -89,6 +106,8 @@ void DrawResult(int key, int& gamemode, int score)
 
 		if (key & PAD_INPUT_B)
 		{
+		PlaySoundMem(ClickResult, DX_PLAYTYPE_BACK);
+		StopSoundMem(ResultBGM);
 			switch (menuNo)
 			{
 			case 0:
@@ -104,11 +123,7 @@ void DrawResult(int key, int& gamemode, int score)
 
 		}
 		break;
-
 	}
-
-
-
 }
 
 //リザルト画像読み込み
@@ -212,4 +227,10 @@ void SleepImg(void) {
 		gWaitTime = 0;
 	}
 
+}
+
+int LoadResultSounds() {
+	if ((ResultBGM = LoadSoundMem("sounds/bgm/Result.wav")) == -1) return -1;
+	if ((ClickResult = LoadSoundMem("sounds/se/Click.wav")) == -1) return -1;
+	if ((CursorMoveResult = LoadSoundMem("sounds/se/CursorMove.wav")) == -1) return -1;
 }

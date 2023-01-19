@@ -14,6 +14,8 @@ Player::Player() {
 	Y = MAP_Y / 2 - Hight;
 
 	Speed = 6.5f;
+
+	LoadSounds();
 }
 
 Player::~Player() {
@@ -34,6 +36,10 @@ void Player::LoadImages(){
 	LoadDivGraph("images/GameMain/Mikosan_Win.png", 8, 4, 2, 64, 65, Win_Image);
 }
 
+int Player::LoadSounds() {
+	if ((RankUpSE = LoadSoundMem("sounds/se/RankUp.wav")) == -1) return -1;
+}
+
 void Player::SetHP(int HP) 
 {
 	this->HP += HP;
@@ -42,6 +48,7 @@ void Player::SetHP(int HP)
 
 void Player::Update() {
 	InitPad();
+	RankUp();
 
 	float Vector = 0.71;
 
@@ -81,8 +88,64 @@ void Player::Update() {
 	}
 }
 
-void Player::Draw() {
+void Player::RankUp() {
+	if (HP >= 300 && HP < 600) {
+		if (Rank) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank = false;
+		}
+	}
+	if (HP >= 600 && HP < 900) {
+		if (Rank2) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank2 = false;
+		}
+	}
+	if (HP >= 900 && HP < 1200) {
+		if (Rank3) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank3 = false;
+		}
+	}
+	if (HP >= 1200 && HP < 1500) {
+		if (Rank4) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank4 = false;
+		}
+	}
+	if (HP >= 1500 && HP < 1800) {
+		if (Rank5) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank5 = false;
+		}
+	}
+	if (HP >= 1800 && HP < 2100) {
+		if (Rank6) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank6 = false;
+		}
+	}
+	if (HP >= 2100 && HP < 2400) {
+		if (Rank7) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank7 = false;
+		}
+	}
+	if (HP >= 2400 && HP < 2700) {
+		if (Rank8) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank8 = false;
+		}
+	}
+	if (HP >= 2700 && HP < 3000) {
+		if (Rank9) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank9 = false;
+		}
+	}
+}
 
+void Player::Draw() {
 	if (HP < 300) now = 0;                    //1枚目　（デフォルト）
 	else if (HP >= 300 && HP < 600) now = 1;  //2枚目
 	else if (HP >= 600 && HP < 900) now = 2;  //3枚目
@@ -91,7 +154,7 @@ void Player::Draw() {
 
 	//向きによって画像を変える
 	now = now + (Direction * 4);
-	
+
 	//オーラ
 	if (HP >= 1200){
 		if (HP < 1200) now_aura = 0;                     //1枚目　（デフォルト）
@@ -150,8 +213,6 @@ void Player::Draw_Win()
 //耐えたとき跳ねる
 void Player::Update_Win()
 {
-
-
 	//ジャンプ
 	if (Y == win_pointY)
 	{
