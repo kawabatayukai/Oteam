@@ -42,11 +42,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//問題なければループ
 	while (ProcessMessage() == 0 && GameMode != CLOSE && !(g_KeyFlg & PAD_INPUT_START))
 	{
-		//ESCAPE・ｽL・ｽ[・ｽﾅ終・ｽ・ｽ
+		//ESCAPEキーで終了
 		if (CheckHitKey(KEY_INPUT_ESCAPE) == 1) DxLib_End();
-		//PAD・ｽ・ｽ・ｽ・ｽ
+		//PAD入力
 		PAD_INPUT::UpdateKey();
-		//PAD・ｽ・ｽBACK・ｽL・ｽ[・ｽﾅ終・ｽ・ｽ
+		//PADのBACKキーで終了
 		if (PAD_INPUT::OnClick(XINPUT_BUTTON_BACK)) DxLib_End();
 
 		//キー入力取得 
