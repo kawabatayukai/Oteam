@@ -109,7 +109,7 @@ void DrawGameTitle(int key, int& gamemode)
 //ƒ^ƒCƒgƒ‹‰æ‘œ“Ç‚İ‚İ
 int LoadTitleImage()
 {
-	g_TitleImg = LoadGraph("images/Title/TitleImage3.png");
+	g_TitleImg = LoadGraph("images/Title/TitleImage.png");
 	g_TitleCasol = LoadGraph("images/Title/TitleCasol.png");
 	if(LoadDivGraph("images/Title/TitleFont.png",8,1,8,300,69, g_TitleWhite)==-1)return -1;
 	return 0;
