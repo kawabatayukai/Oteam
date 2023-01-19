@@ -27,6 +27,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//画像読み込み
 	if (LoadImages() == -1) return -1;
 
+	//サウンド読込み
+	if (LoadSounds() == -1) return -1;
+
 	// ランキングデータの読込
 	if (ReadRanking() == -1) return -1;
 
@@ -172,5 +175,9 @@ int LoadImages()
 //音声読み込み
 int LoadSounds()
 {
+	if (LoadTitleSounds() == -1) return -1;      //タイトルサウンド読み込み
+	if (LoadGameMainSounds() == -1) return -1;   //ゲームメインサウンド読み込み
+
+
 	return 0;
 }
