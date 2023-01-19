@@ -85,19 +85,19 @@ void KeyBoardInit()
 //画像読み込み
 int LoadKeyBoardImgaes()
 {
-	//背景
-	if ((backimage = LoadGraph("images/inputname.png")) == -1) return -1;
-	//キーボード
-	if ((keyboardimage = LoadGraph("images/KeyBoard03.png")) == -1) return -1;
+	//�w�i
+	if ((backimage = LoadGraph("images/Ranking/inputname.png")) == -1) return -1;
+	//�L�[�{�[�h
+	if ((keyboardimage = LoadGraph("images/Ranking/KeyBoard03.png")) == -1) return -1;
 
 	//分割読み込み　押したよ/押してない が連結した画像
 
-	//ノーマルカーソル
-	if ((LoadDivGraph("images/Link_Normal1.png", 2, 2, 1, 40, 40, Cursorimage)) == -1) return -1;
-	//「×」カーソル
-	if ((LoadDivGraph("images/Link_Cancel1.png", 2, 2, 1, 70, 40, Cancelimage)) == -1) return -1;
-	//「OK」カーソル
-	if ((LoadDivGraph("images/Link_Space1.png", 2, 2, 1, 200, 40, OKimage)) == -1) return -1;
+	//�m�[�}���J�[�\��
+	if ((LoadDivGraph("images/Ranking/Link_Normal1.png", 2, 2, 1, 40, 40, Cursorimage)) == -1) return -1;
+	//�u�~�v�J�[�\��
+	if ((LoadDivGraph("images/Ranking/Link_Cancel1.png", 2, 2, 1, 70, 40, Cancelimage)) == -1) return -1;
+	//�uOK�v�J�[�\��
+	if ((LoadDivGraph("images/Ranking/Link_Space1.png", 2, 2, 1, 200, 40, OKimage)) == -1) return -1;
 
 	return 0;
 }

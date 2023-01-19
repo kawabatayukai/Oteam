@@ -22,16 +22,16 @@ Player::~Player() {
 
 void Player::LoadImages(){
 	//•ªŠ„“Ç‚İ‚İ
-	LoadDivGraph("images/MikoSan02.png", 8, 4, 2, 64, 65, All_Images);
+	LoadDivGraph("images/GameMain/MikoSan02.png", 8, 4, 2, 64, 65, All_Images);
 
 	//ƒI[ƒ‰
-	LoadDivGraph("images/aura2.png", 14, 7, 2, 70, 70, All_Aura);
+	LoadDivGraph("images/GameMain/aura2.png", 14, 7, 2, 70, 70, All_Aura);
 
 	//€–S
-	LoadDivGraph("images/Mikosan_Death3.png", 4, 2, 2, 60, 55, Death_Image);
+	LoadDivGraph("images/GameMain/Mikosan_Death3.png", 4, 2, 2, 60, 55, Death_Image);
 
 	//UŒ‚‚ğ‘Ï‚¦‚½
-	LoadDivGraph("images/Mikosan_Win.png", 8, 4, 2, 64, 65, Win_Image);
+	LoadDivGraph("images/GameMain/Mikosan_Win.png", 8, 4, 2, 64, 65, Win_Image);
 }
 
 void Player::SetHP(int HP) 

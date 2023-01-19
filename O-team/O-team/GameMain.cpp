@@ -6,50 +6,50 @@
 #include"Player.h"
 
 
-#define DRAWAREA_X 980 //•`‰æƒGƒŠƒAÅ’á’l
+#define DRAWAREA_X 980 //ï¿½`ï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½Å’ï¿½l
 
-//UŒ‚‚ÌƒXƒs[ƒh  5 ` 10
+//ï¿½Uï¿½ï¿½ï¿½ÌƒXï¿½sï¿½[ï¿½h  5 ï¿½` 10
 #define SPEED_ATTACK (GetRand(4) + 1) + 5
 
-//–h‹ï‚ÌƒXƒs[ƒh  5 ` 9
+//ï¿½hï¿½ï¿½ÌƒXï¿½sï¿½[ï¿½h  5 ï¿½` 9
 #define SPEED_ARMOR  (GetRand(3) + 1) + 5
 
-//–h‹ïÅ‘å•\¦”
+//ï¿½hï¿½ï¿½Å‘ï¿½\ï¿½ï¿½ï¿½ï¿½
 #define ARMOR_MAX 25
 
-//UŒ‚Å‘å•\¦”
+//ï¿½Uï¿½ï¿½ï¿½Å‘ï¿½\ï¿½ï¿½ï¿½ï¿½
 #define ATTACK_MAX 15
 
-//§ŒÀŠÔ@–h‹ï
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô@ï¿½hï¿½ï¿½
 #define ARMOR_LIMIT 600
 
-//§ŒÀŠÔ@UŒ‚
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô@ï¿½Uï¿½ï¿½
 #define ATTACK_LIMIT 1200
 
-//–h‹ï‚Ì”z—ñ
-Flying_object** obj_armor;     //Šî’êƒNƒ‰ƒXŒ^ƒ|ƒCƒ“ƒ^
+//ï¿½hï¿½ï¿½Ì”zï¿½ï¿½
+Flying_object** obj_armor;     //ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½^ï¿½|ï¿½Cï¿½ï¿½ï¿½^
 
-//UŒ‚‚Ì”z—ñ
+//ï¿½Uï¿½ï¿½ï¿½Ì”zï¿½ï¿½
 Flying_object** obj_attack;
 
-//ƒvƒŒƒCƒ„[
+//ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[
 Player* player;
 
-//ƒtƒŒ[ƒ€‚ğƒJƒEƒ“ƒg
+//ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½g
 int frameCount = 0;
 int death_frame = 0;
 
-//Œ»İ‚Ìƒ^[ƒ“
+//ï¿½ï¿½ï¿½İ‚Ìƒ^ï¿½[ï¿½ï¿½
 Turn now_turn;
 
-int image_Back[2];     //”wŒi‰æ‘œ 1,2
-int image_CorO[2];     //Clear or Over  ‚Å‚·
-int image_R_area;      //‰E‚Ì•`‰æƒGƒŠƒA‰æ‘œ  
-int image_hukidashi;   //‚«o‚µ
-float now_hp = 0.0f;   //Œ»İ‚ÌHPi‰EƒGƒŠƒA“à‚ÌƒQ[ƒW‚Åg—pj
-int font_handle;       //ƒtƒHƒ“ƒg
+int image_Back[2];     //ï¿½wï¿½iï¿½æ‘œ 1,2
+int image_CorO[2];     //Clear or Over  ï¿½Å‚ï¿½
+int image_R_area;      //ï¿½Eï¿½Ì•`ï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½æ‘œ  
+int image_hukidashi;   //ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½
+float now_hp = 0.0f;   //ï¿½ï¿½ï¿½İ‚ï¿½HPï¿½iï¿½Eï¿½Gï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ÌƒQï¿½[ï¿½Wï¿½Ågï¿½pï¿½j
+int font_handle;       //ï¿½tï¿½Hï¿½ï¿½ï¿½g
 
-//ƒTƒEƒ“ƒh—p•Ï”
+//ï¿½Tï¿½Eï¿½ï¿½ï¿½hï¿½pï¿½Ïï¿½
 int GameMainBGM;
 int GetSE;
 int RankUpSE;
@@ -59,59 +59,59 @@ int IronSE;
 int PoisonSE;
 
 
-//ƒeƒXƒg—p
+//ï¿½eï¿½Xï¿½gï¿½p
 char Turn_str[][7] = { "Catch","Attack","END" };
 
-//‚µ‚á‚×‚é
-char Talk_str[][10] = { " ","‚®‚Ó","‚®‚Í","‚®‚Ö" ,"‚í[‚¢","ƒLƒ^","‚¤‚®‚®","ƒ€ƒ€ƒ€"};
-int talk_num = 0;    //‚µ‚á‚×‚é”Ô†
+//ï¿½ï¿½ï¿½ï¿½×‚ï¿½
+char Talk_str[][10] = { " ","ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½" ,"ï¿½ï¿½[ï¿½ï¿½","ï¿½Lï¿½^","ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"};
+int talk_num = 0;    //ï¿½ï¿½ï¿½ï¿½×‚ï¿½Ôï¿½
 int talk_frame = 0;
 
-//ƒQ[ƒ€ƒƒCƒ“‰æ‘œ“Ç‚İ‚İ
+//ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½æ‘œï¿½Ç‚İï¿½ï¿½ï¿½
 int LoadGameMainImages()
 {
-	//‰E‚Ì•`‰æƒGƒŠƒA‰æ‘œ
+	//ï¿½Eï¿½Ì•`ï¿½ï¿½Gï¿½ï¿½ï¿½Aï¿½æ‘œ
 	if ((image_R_area = LoadGraph("images/RightBox.png")) == -1) return -1;
 	if ((image_hukidashi = LoadGraph("images/RightBox2.png")) == -1) return -1;
 
-	//Clear or Over  ‚Å‚·
-	LoadDivGraph("images/Game_CorO.png", 2, 2, 1, 1280, 720, image_CorO);
+	//Clear or Over  ï¿½Å‚ï¿½
+	LoadDivGraph("images/GameMain/Game_CorO.png", 2, 2, 1, 1280, 720, image_CorO);
 
-	//”wŒi
-	LoadDivGraph("images/BackLink.png", 2, 2, 1, 1280, 720, image_Back);
+	//ï¿½wï¿½i
+	LoadDivGraph("images/GameMain/BackLink.png", 2, 2, 1, 1280, 720, image_Back);
 
 	return 0;
 }
 
-//ƒQ[ƒ€ƒTƒEƒ“ƒh“Ç‚İ
+//ï¿½Qï¿½[ï¿½ï¿½ï¿½Tï¿½Eï¿½ï¿½ï¿½hï¿½Çï¿½ï¿½ï¿½
 int LoadGameMainSounds() {
 	if ((GameMainBGM = LoadSoundMem("sounds/bgm/GameMain.wav")) == -1) return -1;
 	if ((RankUpSE = LoadSoundMem("sounds/se/RankUp.wav")) == -1) return -1;
 	if ((GetSE = LoadSoundMem("sounds/se/Get.wav")) == -1) return -1;
-	if ((SpearSE = LoadSoundMem("sounds/se/’|‘„.wav")) == -1) return -1;
-	if ((IronSE = LoadSoundMem("sounds/se/“S‹….wav")) == -1) return -1;
-	if ((PoisonSE = LoadSoundMem("sounds/se/“Å.wav")) == -1) return -1;
+	if ((SpearSE = LoadSoundMem("sounds/se/ï¿½|ï¿½ï¿½.wav")) == -1) return -1;
+	if ((IronSE = LoadSoundMem("sounds/se/ï¿½Sï¿½ï¿½.wav")) == -1) return -1;
+	if ((PoisonSE = LoadSoundMem("sounds/se/ï¿½ï¿½.wav")) == -1) return -1;
 }
 
-//ƒQ[ƒ€ƒƒCƒ“‰Šúˆ—iƒRƒ“ƒXƒgƒ‰ƒNƒ^‘ã‚í‚èj
+//ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½ï¿½ï¿½ï¿½j
 void GameMain_Init() 
 {
-	//–h‹ï10ŒÂ•ª‚Ìƒƒ‚ƒŠ‚ğŠm•Û
+	//ï¿½hï¿½ï¿½10ï¿½Â•ï¿½ï¿½Ìƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½
 	obj_armor = new Flying_object * [ARMOR_MAX];
 
-	//‰Šú‰»
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	for (int i = 0; i < ARMOR_MAX; i++) obj_armor[i] = nullptr;
 
-	//–h‹ï10ŒÂ•ª‚Ìƒƒ‚ƒŠ‚ğŠm•Û
+	//ï¿½hï¿½ï¿½10ï¿½Â•ï¿½ï¿½Ìƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½
 	obj_attack = new Flying_object * [ATTACK_MAX];
 
-	//‰Šú‰»
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	for (int i = 0; i < ATTACK_MAX; i++) obj_attack[i] = nullptr;
 
-	//ƒvƒŒ[ƒ„[‚Ìƒƒ‚ƒŠ‚ğŠm•ÛEƒRƒ“ƒXƒgƒ‰ƒNƒ^ŒÄ‚Ño‚µ
+	//ï¿½vï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½[ï¿½Ìƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ÛEï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Ä‚Ñoï¿½ï¿½
 	player = new Player();
 
-	//Å‰‚Ìƒ^[ƒ“‚Í‘•”õ
+	//ï¿½Åï¿½ï¿½Ìƒ^ï¿½[ï¿½ï¿½ï¿½Í‘ï¿½ï¿½ï¿½
 	now_turn = Turn::CATCH;
 
 	frameCount = 0;
@@ -121,101 +121,101 @@ void GameMain_Init()
 	talk_num = 0;
 	talk_frame = 0;
 
-	//‰æ‘œ
+	//ï¿½æ‘œ
 	player->LoadImages();
 
-	//ƒQ[ƒ€ƒƒCƒ““à‚Åg‚¤ƒtƒHƒ“ƒg‚ğì¬      NULL ‚Ì‚Æ‚±‚ë‚ÉWindows•W€‘•”õ‚ÌƒtƒHƒ“ƒg‚ªg‚¦‚»‚¤i?j
+	//ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ågï¿½ï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ì¬      NULL ï¿½Ì‚Æ‚ï¿½ï¿½ï¿½ï¿½Windowsï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½i?ï¿½j
 	font_handle = CreateFontToHandle(NULL, 30, 10, DX_FONTTYPE_ANTIALIASING_8X8);
 }
 
-//ƒQ[ƒ€ƒƒCƒ“I—¹ˆ—iƒfƒXƒgƒ‰ƒNƒ^‚Ì‘ã‚í‚èj
+//ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½fï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Ì‘ï¿½ï¿½ï¿½j
 void GameMain_Final() {
 	delete obj_armor;
 	delete obj_attack;
 	delete player;
 
-	//ƒtƒHƒ“ƒg‚ğíœ
+	//ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½ï¿½íœ
 	DeleteFontToHandle(font_handle);
 }
 
-//–h‹ï  ¶¬EXVEíœ
+//ï¿½hï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½Xï¿½Vï¿½Eï¿½íœ
 void Armor_Update(){
-	int armor_count;   //–h‹ï”z—ñ‚ÌZ”Ô–Ú‚ğŒ©‚Ä‚¢‚é‚©
+	int armor_count;   //ï¿½hï¿½ï¿½zï¿½ï¿½ÌZï¿½Ô–Ú‚ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©
 
-	//”z—ñ‚ğˆê‚Â‚¸‚Â‚İ‚é
+	//ï¿½zï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½Â‚İ‚ï¿½
 	for (armor_count = 0; armor_count < ARMOR_MAX; armor_count++)
 	{
-		//nullptr‚æ‚èŒã‚É‚Ínullptr‚µ‚©‚È‚¢‚Ì‚Åƒ‹[ƒv‚ğ”²‚¯‚é
+		//nullptrï¿½ï¿½ï¿½ï¿½É‚ï¿½nullptrï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚Åƒï¿½ï¿½[ï¿½vï¿½ğ”²‚ï¿½ï¿½ï¿½
 		if (obj_armor[armor_count] == nullptr) break;
 
-		//XV@iˆÚ“®j
+		//ï¿½Xï¿½Vï¿½@ï¿½iï¿½Ú“ï¿½ï¿½j
 		obj_armor[armor_count]->Update();
 		if (player->Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])))
 		{
 			//DrawString(0, 20, "Hit", 0xffffff);
 
-			//HP‚ª‘‚¦‚é
+			//HPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			player->SetHP(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])->GetHP());
 
-			//‚µ‚á‚×‚é
+			//ï¿½ï¿½ï¿½ï¿½×‚ï¿½
 			talk_num = 5;
 		}
 
-		//‰æ–ÊŠO‚É“’B,‚Ü‚½‚ÍƒvƒŒƒCƒ„[‚ÆHit‚Åíœ
+		//ï¿½ï¿½ÊŠOï¿½É“ï¿½ï¿½B,ï¿½Ü‚ï¿½ï¿½Íƒvï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½Hitï¿½Åíœ
 		if (obj_armor[armor_count]->CheckScreenOut() == true
 			|| player->Hit(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])) == true)
 		{
-			delete obj_armor[armor_count];         //“’B‚µ‚½ÔÂ‚ğíœ
-			obj_armor[armor_count] = nullptr;      //íœ‚µ‚½”z—ñ‚Ì—v‘f‚ğ‰Šú‰»
+			delete obj_armor[armor_count];         //ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½íœ
+			obj_armor[armor_count] = nullptr;      //ï¿½íœï¿½ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½Ì—vï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-			//”z—ñ‚ğ‹l‚ß‚é
+			//ï¿½zï¿½ï¿½ï¿½ï¿½lï¿½ß‚ï¿½
 			for (int i = armor_count; i < (ARMOR_MAX - 1); i++)
 			{
-				//Ÿ‚Ì—v‘f‚ª nullptr ‚È‚ç‹l‚ß‚é•K—v‚ª‚È‚¢‚Ì‚Å”²‚¯‚é
+				//ï¿½ï¿½ï¿½Ì—vï¿½fï¿½ï¿½ nullptr ï¿½È‚ï¿½lï¿½ß‚ï¿½Kï¿½vï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚Å”ï¿½ï¿½ï¿½ï¿½ï¿½
 				if (obj_armor[i + 1] == nullptr) break;
 
-				obj_armor[i] = obj_armor[i + 1];   //‹l‚ß‚é
-				obj_armor[i + 1] = nullptr;        //‹l‚ß‚ç‚ê‚½—v‘f‚Í‰Šú‰»
+				obj_armor[i] = obj_armor[i + 1];   //ï¿½lï¿½ß‚ï¿½
+				obj_armor[i + 1] = nullptr;        //ï¿½lï¿½ß‚ï¿½ê‚½ï¿½vï¿½fï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½
 			}
 			armor_count--;
 		}
 	}
 
-	//”z—ñ‚É‹ó—v‘f‚ª‚ ‚ê‚ÎƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚é
+	//ï¿½zï¿½ï¿½É‹ï¿½vï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (armor_count < ARMOR_MAX && obj_armor[armor_count] == nullptr)
 	{
-		//ƒ^ƒCƒv
-		int r_type = GetRand(2);       //‚O`‚Q‚Ì—”
+		//ï¿½^ï¿½Cï¿½v
+		int r_type = GetRand(2);       //ï¿½Oï¿½`ï¿½Qï¿½Ì—ï¿½ï¿½ï¿½
 
-		//‘Ï‹v’l
-		int r_dura = 100;   // ‚Æ‚è‚ ‚¦‚¸
+		//ï¿½Ï‹vï¿½l
+		int r_dura = 100;   // ï¿½Æ‚è‚ ï¿½ï¿½ï¿½ï¿½
 
-		//‚™À•Wi‚‚³j@@‚˜À•W‚Í 1300ŒÅ’èi‰æ–ÊŠO‰E‘¤j
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½iï¿½ï¿½ï¿½ï¿½ï¿½jï¿½@ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ 1300ï¿½Å’ï¿½iï¿½ï¿½ÊŠOï¿½Eï¿½ï¿½ï¿½j
 		int r_y = (GetRand(10) * 60) + 60;
 
-		//ƒXƒs[ƒhií‚É 5ˆÈãj
+		//ï¿½Xï¿½sï¿½[ï¿½hï¿½iï¿½ï¿½ï¿½ 5ï¿½Èï¿½j
 		int r_speed = SPEED_ARMOR;//(GetRand(3) + 1) + 5;
 
-		//¶¬‚·‚é@@@@@@@                  ‘Ï‹v’l   ‚˜@@‚™@ ½Ëß°ÄŞ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@                  ï¿½Ï‹vï¿½l   ï¿½ï¿½ï¿½@ï¿½@ï¿½ï¿½ï¿½@ ï¿½ï¿½ß°ï¿½ï¿½
 		obj_armor[armor_count] = new Flying_Armor(static_cast<Armor_Type>(r_type), r_dura, 1300, r_y, r_speed);
 	}
 }
 
-//UŒ‚  ¶¬EXVEíœ
+//ï¿½Uï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½Xï¿½Vï¿½Eï¿½íœ
 void Attack_Update() {
-	int attack_count;   //–h‹ï”z—ñ‚ÌZ”Ô–Ú‚ğŒ©‚Ä‚¢‚é‚©
+	int attack_count;   //ï¿½hï¿½ï¿½zï¿½ï¿½ÌZï¿½Ô–Ú‚ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©
 
-	//”z—ñ‚ğˆê‚Â‚¸‚Â‚İ‚é
+	//ï¿½zï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½Â‚İ‚ï¿½
 	for (attack_count = 0; attack_count < ATTACK_MAX; attack_count++)
 	{
-		//nullptr‚æ‚èŒã‚É‚Ínullptr‚µ‚©‚È‚¢‚Ì‚Åƒ‹[ƒv‚ğ”²‚¯‚é
+		//nullptrï¿½ï¿½ï¿½ï¿½É‚ï¿½nullptrï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚Åƒï¿½ï¿½[ï¿½vï¿½ğ”²‚ï¿½ï¿½ï¿½
 		if (obj_attack[attack_count] == nullptr) break;
 
-		//XV@iˆÚ“®j
+		//ï¿½Xï¿½Vï¿½@ï¿½iï¿½Ú“ï¿½ï¿½j
 		obj_attack[attack_count]->Update();
 		if (player->Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])))
 		{
-			//ƒ_ƒ[ƒW‚ğH‚ç‚¤
+			//ï¿½_ï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½Hï¿½ç‚¤
 			player->SetHP((dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetAttackDamage(player->GetHP())) * -1);
 			switch (dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetType())
 			{
@@ -236,51 +236,51 @@ void Attack_Update() {
 			}
 		}
 
-		//‰æ–ÊŠO‚É“’BA‚Ü‚½‚ÍƒvƒŒƒCƒ„[‚ÆHit‚Åíœ
+		//ï¿½ï¿½ÊŠOï¿½É“ï¿½ï¿½Bï¿½Aï¿½Ü‚ï¿½ï¿½Íƒvï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½Hitï¿½Åíœ
 		if (obj_attack[attack_count]->CheckScreenOut() == true
 			|| player->Hit(dynamic_cast<Flying_Attack*>(obj_attack[attack_count])) == true)
 		{
-			delete obj_attack[attack_count];         //“’B‚µ‚½ÔÂ‚ğíœ
-			obj_attack[attack_count] = nullptr;      //íœ‚µ‚½”z—ñ‚Ì—v‘f‚ğ‰Šú‰»
+			delete obj_attack[attack_count];         //ï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½íœ
+			obj_attack[attack_count] = nullptr;      //ï¿½íœï¿½ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½Ì—vï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-			//”z—ñ‚ğ‹l‚ß‚é
+			//ï¿½zï¿½ï¿½ï¿½ï¿½lï¿½ß‚ï¿½
 			for (int i = attack_count; i < (ATTACK_MAX - 1); i++)
 			{
-				//Ÿ‚Ì—v‘f‚ª nullptr ‚È‚ç‹l‚ß‚é•K—v‚ª‚È‚¢‚Ì‚Å”²‚¯‚é
+				//ï¿½ï¿½ï¿½Ì—vï¿½fï¿½ï¿½ nullptr ï¿½È‚ï¿½lï¿½ß‚ï¿½Kï¿½vï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚Å”ï¿½ï¿½ï¿½ï¿½ï¿½
 				if (obj_attack[i + 1] == nullptr) break;
 
-				obj_attack[i] = obj_attack[i + 1];   //‹l‚ß‚é
-				obj_attack[i + 1] = nullptr;        //‹l‚ß‚ç‚ê‚½—v‘f‚Í‰Šú‰»
+				obj_attack[i] = obj_attack[i + 1];   //ï¿½lï¿½ß‚ï¿½
+				obj_attack[i + 1] = nullptr;        //ï¿½lï¿½ß‚ï¿½ê‚½ï¿½vï¿½fï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½
 			}
 			attack_count--;
 		}
 	}
 
-	//”z—ñ‚É‹ó—v‘f‚ª‚ ‚ê‚ÎƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚é
+	//ï¿½zï¿½ï¿½É‹ï¿½vï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (attack_count < ATTACK_MAX && obj_attack[attack_count] == nullptr)
 	{
-		//ƒ^ƒCƒv
-		int r_type = GetRand(2);       //‚O`‚Q‚Ì—”
+		//ï¿½^ï¿½Cï¿½v
+		int r_type = GetRand(2);       //ï¿½Oï¿½`ï¿½Qï¿½Ì—ï¿½ï¿½ï¿½
 
-		//‚™À•Wi‚‚³j@@‚˜À•W‚Í 1300ŒÅ’èi‰æ–ÊŠO‰E‘¤j
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½iï¿½ï¿½ï¿½ï¿½ï¿½jï¿½@ï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ 1300ï¿½Å’ï¿½iï¿½ï¿½ÊŠOï¿½Eï¿½ï¿½ï¿½j
 		int r_y = (GetRand(10) * 60) + 60;
 
-		//ƒXƒs[ƒhií‚É 5ˆÈãj
+		//ï¿½Xï¿½sï¿½[ï¿½hï¿½iï¿½ï¿½ï¿½ 5ï¿½Èï¿½j
 		int r_speed = SPEED_ATTACK; //(GetRand(3) + 1) + 5;
 
-		//¶¬‚·‚é@@@@@@@                  ƒ^ƒCƒv   ‚˜@@‚™@ ½Ëß°ÄŞ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@ï¿½@                  ï¿½^ï¿½Cï¿½v   ï¿½ï¿½ï¿½@ï¿½@ï¿½ï¿½ï¿½@ ï¿½ï¿½ß°ï¿½ï¿½
 		obj_attack[attack_count] = new Flying_Attack((r_type), 1300, r_y, r_speed);
 	}
 }
 
-//ƒQ[ƒ€ƒƒCƒ“XVEŒvZ
+//ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½Vï¿½Eï¿½vï¿½Z
 void GameMain_Update()
 {
-	//‰EƒGƒŠƒA“àƒQ[ƒW—p
+	//ï¿½Eï¿½Gï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Qï¿½[ï¿½Wï¿½p
 	now_hp = static_cast<float>(player->GetHP() * 0.5);
-	if (now_hp < 0.0f) now_hp = 0.0f;  //0‚æ‚è‰º‚ª‚ç‚È‚¢
+	if (now_hp < 0.0f) now_hp = 0.0f;  //0ï¿½ï¿½è‰ºï¿½ï¿½ï¿½ï¿½È‚ï¿½
 
-	//‚µ‚á‚×‚é
+	//ï¿½ï¿½ï¿½ï¿½×‚ï¿½
 	talk_frame++;
 	if (talk_frame % 120 == 0 && now_turn != Turn::END)
 	{
@@ -301,11 +301,11 @@ void GameMain_Update()
 
 		player->Update();
 
-		//ƒ^[ƒ“Ø‚è‘Ö‚¦ŒãE2•b‘Ò‚Â
+		//ï¿½^ï¿½[ï¿½ï¿½ï¿½Ø‚ï¿½Ö‚ï¿½ï¿½ï¿½E2ï¿½bï¿½Ò‚ï¿½
 		if (frameCount > 120) Attack_Update();
 		else
 		{
-			DrawBox(0, 0, 1280, 720, 0x000000, TRUE);  //ˆÃ“]
+			DrawBox(0, 0, 1280, 720, 0x000000, TRUE);  //ï¿½Ã“]
 			talk_num = 7;
 		}
 		break;
@@ -313,7 +313,7 @@ void GameMain_Update()
 	case Turn::END:
 
 		death_frame++;
-		//ƒvƒŒƒCƒ„[‚ÌHP‚ª0ˆÈã
+		//ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½HPï¿½ï¿½0ï¿½Èï¿½
 		if (player->GetHP() > 0)
 		{
 			player->Update_Win();
@@ -328,7 +328,7 @@ void GameMain_Update()
 	}
 }
 
-//ƒQ[ƒ€ƒƒCƒ“•`‰æ
+//ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½`ï¿½ï¿½
 void GameMain_Draw()
 {
 
@@ -338,16 +338,16 @@ void GameMain_Draw()
 	case Turn::CATCH:
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 230);
-		DrawGraph(0, 0, image_Back[0], TRUE);     //”wŒi
+		DrawGraph(0, 0, image_Back[0], TRUE);     //ï¿½wï¿½i
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 
-		player->Draw();                           //ƒvƒŒƒCƒ„[•`‰æ
+		player->Draw();                           //ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½`ï¿½ï¿½
 
-		//–h‹ï‚Ì•`‰æ
+		//ï¿½hï¿½ï¿½Ì•`ï¿½ï¿½
 		for (int i = 0; i < ARMOR_MAX; i++)
 		{
-			if (obj_armor[i] == nullptr) break;   //nullptr‚æ‚èŒã‚É‚Ínullptr‚µ‚©‚È‚¢‚Ì‚Åƒ‹[ƒv‚ğ”²‚¯‚é
-			obj_armor[i]->Draw();                 //—v‘f‚ª‚ ‚é‚Í•`‰æ
+			if (obj_armor[i] == nullptr) break;   //nullptrï¿½ï¿½ï¿½ï¿½É‚ï¿½nullptrï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚Åƒï¿½ï¿½[ï¿½vï¿½ğ”²‚ï¿½ï¿½ï¿½
+			obj_armor[i]->Draw();                 //ï¿½vï¿½fï¿½ï¿½ï¿½ï¿½ï¿½éï¿½Í•`ï¿½ï¿½
 
 		}
 
@@ -356,33 +356,33 @@ void GameMain_Draw()
 	case Turn::ATTACK:
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-		DrawGraph(0, 0, image_Back[1], TRUE);     //”wŒi
+		DrawGraph(0, 0, image_Back[1], TRUE);     //ï¿½wï¿½i
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 
 		if (frameCount > 120) {}
-		else DrawBox(0, 0, 1280, 720, 0x000000, TRUE);  //ˆÃ“]
+		else DrawBox(0, 0, 1280, 720, 0x000000, TRUE);  //ï¿½Ã“]
 
-		player->Draw();                           //ƒvƒŒƒCƒ„[•`‰æ
+		player->Draw();                           //ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½`ï¿½ï¿½
 
-		//UŒ‚‚Ì•`‰æ
+		//ï¿½Uï¿½ï¿½ï¿½Ì•`ï¿½ï¿½
 		for (int i = 0; i < ATTACK_MAX; i++)
 		{
-			if (obj_attack[i] == nullptr) break;  //nullptr‚æ‚èŒã‚É‚Ínullptr‚µ‚©‚È‚¢‚Ì‚Åƒ‹[ƒv‚ğ”²‚¯‚é
-			obj_attack[i]->Draw();                //—v‘f‚ª‚ ‚é‚Æ‚«‚Í•`‰æ
+			if (obj_attack[i] == nullptr) break;  //nullptrï¿½ï¿½ï¿½ï¿½É‚ï¿½nullptrï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚Åƒï¿½ï¿½[ï¿½vï¿½ğ”²‚ï¿½ï¿½ï¿½
+			obj_attack[i]->Draw();                //ï¿½vï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Í•`ï¿½ï¿½
 		}
 		break;
 
 	case Turn::END:
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-		DrawGraph(0, 0, image_Back[1], TRUE);     //”wŒi
+		DrawGraph(0, 0, image_Back[1], TRUE);     //ï¿½wï¿½i
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 
-		//ƒvƒŒƒCƒ„[‚ÌHP‚ª0ˆÈã
+		//ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½HPï¿½ï¿½0ï¿½Èï¿½
 		if (player->GetHP() > 0)
 		{
 			DrawGraph(0, 0, image_CorO[0], TRUE);    //Game Over
-			player->Draw_Win();       //ƒvƒŒƒCƒ„[‚ğ•`‰æ
+			player->Draw_Win();       //ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½`ï¿½ï¿½
 		}
 		else
 		{
@@ -396,9 +396,9 @@ void GameMain_Draw()
 	}
 }
 
-//ƒQ[ƒ€ƒƒCƒ“•`‰æƒGƒŠƒA
+//ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½`ï¿½ï¿½Gï¿½ï¿½ï¿½A
 void GameMain_DrawArea() {
-	////•`‰æƒGƒŠƒA
+	////ï¿½`ï¿½ï¿½Gï¿½ï¿½ï¿½A
 	//DrawBox(DRAWAREA_X, 0, 1280, 720, 0x00ddbb, TRUE);
 
 	//SetFontSize(20);
@@ -406,20 +406,20 @@ void GameMain_DrawArea() {
 	//DrawFormatString(1130, 100, 0x000000, "Now : %s", Turn_str[static_cast<int>(now_turn)]);
 	//DrawFormatString(1130, 130, 0x000000, "Time : %d", (frameCount / 60));
 
-	DrawBox(1150, 80, 1250, 700, 0x1f1006, TRUE);                            //ƒQ[ƒW‚ÌŒã‚ë
+	DrawBox(1150, 80, 1250, 700, 0x1f1006, TRUE);                            //ï¿½Qï¿½[ï¿½Wï¿½ÌŒï¿½ï¿½
 
-	//(floatŒ^‚ªg‚¦‚éDrawBox‚ç‚µ‚¢‚Å‚·)  ƒQ[ƒW
+	//(floatï¿½^ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½DrawBoxï¿½ç‚µï¿½ï¿½ï¿½Å‚ï¿½)  ï¿½Qï¿½[ï¿½W
 	DrawBoxAA(1150.0f, (690.0f - now_hp), 1250.0f, 690.0f, 0xff0000, TRUE);  
-	DrawGraph(0, 0, image_R_area, TRUE);                                     //‰EƒGƒŠƒA‰æ‘œ
+	DrawGraph(0, 0, image_R_area, TRUE);                                     //ï¿½Eï¿½Gï¿½ï¿½ï¿½Aï¿½æ‘œ
 
 	DrawFormatStringToHandle(1130, 20, 0xffffff, font_handle, "HP : %d", player->GetHP());
 
-	//ƒvƒŒƒCƒ„[
+	//ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[
 	player->Draw_Right(1060, 620);
 	if (talk_num != 0) DrawGraph(0, 0, image_hukidashi, TRUE);
-	DrawFormatStringToHandle(1010, 412, 0x000000, font_handle, Talk_str[talk_num]);  //‚µ‚á‚×‚é
+	DrawFormatStringToHandle(1010, 412, 0x000000, font_handle, Talk_str[talk_num]);  //ï¿½ï¿½ï¿½ï¿½×‚ï¿½
 
-	//ŠÔ
+	//ï¿½ï¿½ï¿½ï¿½
 	if (now_turn == Turn::CATCH)
 	{
 		DrawFormatStringToHandle(1000, 120, 0xffffff, font_handle, "Time : %d", (ARMOR_LIMIT/60) - (frameCount / 60));
@@ -431,16 +431,16 @@ void GameMain_DrawArea() {
 	else{}
 }
 
-//ƒQ[ƒ€ƒƒCƒ“ ƒ‰ƒ“ƒLƒ“ƒO5”Ô–Ú‚ÌƒXƒRƒAEƒXƒRƒA‚ğ•Û‚·‚é•Ï”‚ğ‚à‚ç‚¤
+//ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½O5ï¿½Ô–Ú‚ÌƒXï¿½Rï¿½Aï¿½Eï¿½Xï¿½Rï¿½Aï¿½ï¿½Ûï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç‚¤
 void GameMain(int &gamemode,int lowscore, int& g_score)
 {
-	GameMain_Update();    //ƒQ[ƒ€ƒƒCƒ“XVEŒvZ
+	GameMain_Update();    //ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½Vï¿½Eï¿½vï¿½Z
 
-	GameMain_Draw();      //ƒQ[ƒ€ƒƒCƒ“•`‰æ
+	GameMain_Draw();      //ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½`ï¿½ï¿½
 
-	GameMain_DrawArea();  //ƒQ[ƒ€ƒƒCƒ“•`‰æƒGƒŠƒA
+	GameMain_DrawArea();  //ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½`ï¿½ï¿½Gï¿½ï¿½ï¿½A
 
-	//ƒtƒŒ[ƒ€‚ğ‰ÁZ
+	//ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Z
 	frameCount++;
 
 	//if (now_turn == Turn::END && frameCount % 300 == 0)
@@ -448,42 +448,42 @@ void GameMain(int &gamemode,int lowscore, int& g_score)
 	//	DrawString(100, 100, "end", 0xffffff);
 	//}
 
-	//Attackƒ^[ƒ“30•b@‚Ü‚½‚Í@player‚ÌHP‚ª0ˆÈ‰º‚Åƒ^[ƒ“Ø‚è‘Ö‚¦@UŒ‚@¨@ƒGƒ“ƒh
+	//Attackï¿½^ï¿½[ï¿½ï¿½30ï¿½bï¿½@ï¿½Ü‚ï¿½ï¿½Í@playerï¿½ï¿½HPï¿½ï¿½0ï¿½È‰ï¿½ï¿½Åƒ^ï¿½[ï¿½ï¿½ï¿½Ø‚ï¿½Ö‚ï¿½ï¿½@ï¿½Uï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½@ï¿½Gï¿½ï¿½ï¿½h
 	if (now_turn == Turn::ATTACK && frameCount % ATTACK_LIMIT == 0 || player->GetHP() <= 0)
 	{
-		//ƒ‰ƒ“ƒLƒ“ƒO
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½O
 
 		//if (player->GetHP() < 0)
 		//{
 		//	
 		//}
-		player->SetWin_PointY();  //YÀ•W‚ğ•Û
-		now_turn = Turn::END;     //€–S
+		player->SetWin_PointY();  //Yï¿½ï¿½ï¿½Wï¿½ï¿½Ûï¿½
+		now_turn = Turn::END;     //ï¿½ï¿½ï¿½Sï¿½ï¿½
 		death_frame = frameCount;
 	}
 
-	//20•b‚Åƒ^[ƒ“‚ğØ‚è‘Ö‚¦  ‘•”õ@¨@UŒ‚
+	//20ï¿½bï¿½Åƒ^ï¿½[ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½Ö‚ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½@ï¿½Uï¿½ï¿½
 	if (now_turn == Turn::CATCH && frameCount % ARMOR_LIMIT == 0)
 	{
-		now_turn = Turn::ATTACK;  //UŒ‚‚ğó‚¯‚éƒ^[ƒ“
-		frameCount = 0;           //ƒJƒEƒ“ƒg‚ğƒŠƒZƒbƒg
+		now_turn = Turn::ATTACK;  //ï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½ó‚¯‚ï¿½^ï¿½[ï¿½ï¿½
+		frameCount = 0;           //ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
 	}
 
-	//€–S‚Ü‚½‚Í30Œo‰ß‚µ‚Ä7•bŒo‰ß
+	//ï¿½ï¿½ï¿½Sï¿½Ü‚ï¿½ï¿½ï¿½30ï¿½oï¿½ß‚ï¿½ï¿½ï¿½7ï¿½bï¿½oï¿½ï¿½
 	if (now_turn == Turn::END && death_frame % 480 == 0)
 	{
 		g_score = player->GetHP();
 		
 
-		//ƒ‰ƒ“ƒLƒ“ƒOÅ’áƒXƒRƒA‚Æ”äŠr
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Oï¿½Å’ï¿½Xï¿½Rï¿½Aï¿½Æ”ï¿½r
 		if (g_score > lowscore)
 		{
-			gamemode = 5;  //ƒ‰ƒ“ƒLƒ“ƒO“ü—Í‚Ö
+			gamemode = 5;  //ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Í‚ï¿½
 			GameMain_Final();
 		}
 		else
 		{
-			gamemode = 6; //ƒŠƒUƒ‹ƒg‚Ö
+			gamemode = 6; //ï¿½ï¿½ï¿½Uï¿½ï¿½ï¿½gï¿½ï¿½
 			GameMain_Final();
 		}
 	}
