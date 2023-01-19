@@ -55,7 +55,7 @@ int LoadGameMainImages()
 	LoadDivGraph("images/Game_CorO.png", 2, 2, 1, 1280, 720, image_CorO);
 
 	//îwåi
-	LoadDivGraph("images/BackLink.png", 2, 2, 1, 1280, 720, image_Back);
+	LoadDivGraph("images/Back.png", 2, 2, 1, 1280, 720, image_Back);
 
 	return 0;
 }
