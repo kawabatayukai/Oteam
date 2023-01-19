@@ -5,9 +5,16 @@
 //Result.h‚ÅéŒ¾‚µ‚½ŠÖ”‚Ì’è‹`‚ð‚±‚±‚É‘‚«‚Ü‚·
 int g_ResultImg;
 
+int ResultBGM;
+int ClickResult;
+int CursorMoveResult;
+
 //ƒGƒ“ƒh•`‰æ
 void DrawResult(int key, int& gamemode, int score)
 {
+	ChangeNextPlayVolumeSoundMem(130, ResultBGM);  //ŽŸ‚É—¬‚·‰¹—Ê‚ð’²®  `‚Q‚T‚T  255‚ª’Êí
+	PlaySoundMem(ResultBGM, DX_PLAYTYPE_LOOP, FALSE);
+
 	//ƒŠƒUƒ‹ƒg‰æ‘œ•\Ž¦
 	DrawGraph(0, 0,g_ResultImg,FALSE);
 
@@ -17,16 +24,21 @@ void DrawResult(int key, int& gamemode, int score)
 	//ƒXƒRƒA•\Ž¦
 	DrawFormatString(830, 310, 0xffffff, "%d", score);
 
+	ChangeNextPlayVolumeSoundMem(180, CursorMoveResult);  //ŽŸ‚É—¬‚·‰¹—Ê‚ð’²®  `‚Q‚T‚T  255‚ª’Êí
 	//ƒƒjƒ…[ƒJ[ƒ\ƒ‹‚ÌˆÚ“®ˆ—
 	if (key & PAD_INPUT_RIGHT) {
+		PlaySoundMem(CursorMoveResult, DX_PLAYTYPE_BACK);
 		if (++menuNo > 2)menuNo = 0;
 	}
 	if (key & PAD_INPUT_LEFT) {
+		PlaySoundMem(CursorMoveResult, DX_PLAYTYPE_BACK);
 		if (--menuNo < 0)menuNo = 2;
 	}
 
 	if (key & PAD_INPUT_B)
 	{
+		PlaySoundMem(ClickResult, DX_PLAYTYPE_BACK);
+		StopSoundMem(ResultBGM);
 		switch (menuNo)
 		{
 		case 0:
@@ -51,4 +63,10 @@ int LoadResultImage()
 {
 	if ((g_ResultImg = LoadGraph("images/resurtImg.png")) == -1)return -1;
 	return 0;
+}
+
+int LoadResultSounds() {
+	if ((ResultBGM = LoadSoundMem("sounds/bgm/Result.wav")) == -1) return -1;
+	if ((ClickResult = LoadSoundMem("sounds/se/Click.wav")) == -1) return -1;
+	if ((CursorMoveResult = LoadSoundMem("sounds/se/CursorMove.wav")) == -1) return -1;
 }

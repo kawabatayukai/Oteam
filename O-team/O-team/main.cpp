@@ -177,7 +177,8 @@ int LoadSounds()
 {
 	if (LoadTitleSounds() == -1) return -1;      //タイトルサウンド読み込み
 	if (LoadGameMainSounds() == -1) return -1;   //ゲームメインサウンド読み込み
-	if (LoadKeyBoardSounds() == -1) return -1;   //ランキング入力読み込み
+	if (LoadKeyBoardSounds() == -1) return -1;   //ランキングサウンド読み込み
+	if (LoadResultSounds() == -1) return -1;     //リザルトサウンド読み込み
 	if (LoadHelpSounds() == -1) return -1;       //ヘルプサウンド読み込み
 	if (LoadHelp2Sounds() == -1) return -1;      //ヘルプ2サウンド読み込み
 	if (LoadRankingSounds() == -1) return -1;    //ランキングメインサウンド読み込み

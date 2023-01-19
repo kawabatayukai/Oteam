@@ -7,3 +7,5 @@
 void DrawResult(int key,int& gamemode,int score);       //エンド描画
 
 int LoadResultImage();   //エンド画像読み込み
+
+int LoadResultSounds();   //サウンド読み込み
