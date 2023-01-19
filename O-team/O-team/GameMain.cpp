@@ -59,13 +59,13 @@ char Turn_str[][7] = { "Catch","Attack","END" };
 int LoadGameMainImages()
 {
 	//‰E‚Ì•`‰æƒGƒŠƒA‰æ‘œ
-	if ((image_R_area = LoadGraph("images/RightBox.png")) == -1) return -1;
+	if ((image_R_area = LoadGraph("images/GameMain/RightBox.png")) == -1) return -1;
 
 	//Clear or Over  ‚Å‚·
-	LoadDivGraph("images/Game_CorO.png", 2, 2, 1, 1280, 720, image_CorO);
+	LoadDivGraph("images/GameMain/Game_CorO.png", 2, 2, 1, 1280, 720, image_CorO);
 
 	//”wŒi
-	LoadDivGraph("images/BackLink.png", 2, 2, 1, 1280, 720, image_Back);
+	LoadDivGraph("images/GameMain/BackLink.png", 2, 2, 1, 1280, 720, image_Back);
 
 	return 0;
 }

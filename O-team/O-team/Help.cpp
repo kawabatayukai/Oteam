@@ -41,7 +41,7 @@ void DrawHelp(int key, int& gamemode)
 int LoadHelpImage()
 {
 	// ƒwƒ‹ƒv‰æ‘œ“Ç
-	if ((g_HelpImg = LoadGraph("images/help1.png")) == -1) return -1;
+	if ((g_HelpImg = LoadGraph("images/Help/help1.png")) == -1) return -1;
 
 	return 0;
 }

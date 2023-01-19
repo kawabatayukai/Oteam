@@ -49,6 +49,6 @@ void DrawResult(int key, int& gamemode, int score)
 //ƒGƒ“ƒh‰æ‘œ“Ç‚İ‚İ
 int LoadResultImage()
 {
-	if ((g_ResultImg = LoadGraph("images/resurtImg.png")) == -1)return -1;
+	if ((g_ResultImg = LoadGraph("images/Result/resurtImg.png")) == -1)return -1;
 	return 0;
 }

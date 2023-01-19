@@ -17,6 +17,6 @@ void DrawGameEnd(int key, int& gamemode)
 //ƒGƒ“ƒh‰æ‘œ“Ç
 int LoadEndImage()
 {
-	if ((g_EndImg = LoadGraph("images/EndImage.png")) == -1)return -1;
+	if ((g_EndImg = LoadGraph("images/End/EndImage.png")) == -1)return -1;
 	return 0;
 }

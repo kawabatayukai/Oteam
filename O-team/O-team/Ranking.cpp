@@ -185,7 +185,7 @@ int ReadRanking(void)
 int LoadRankingImage()
 {
 	// ランキング画像読込
-	if ((g_RankingImg = LoadGraph("images/input.png")) == -1) return -1;
+	if ((g_RankingImg = LoadGraph("images/Ranking/input.png")) == -1) return -1;
 
 	//キーボード画像読込
 	if (LoadKeyBoardImgaes() == -1) return -1;
