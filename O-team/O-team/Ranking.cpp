@@ -180,3 +180,5 @@ int LoadRankingImage()
 
 	return 0;
 }
+
+int LoadRankingSounds();

@@ -14,7 +14,6 @@ int TitleBGM;
 int Click;
 int CursorMove;
 
-
 //ゲームタイトル描画
 void DrawGameTitle(int key, int& gamemode)
 {
