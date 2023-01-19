@@ -49,6 +49,8 @@ CURSOR_TYPE CURSOR_NOW = CURSOR_TYPE::NORMAL;  //現在のカーソル
 char InputName[11];              //入力した文字が入る配列 0～9に文字(10文字ﾏﾃﾞ)　10番目には \0 です
 int input_Pos;                   //入力中の配列の〇番目
 
+int key_font = 0;                //キーボードで使用するフォント
+
 /********************************/
 
 
@@ -73,6 +75,7 @@ void KeyBoardInit()
 	input_Pos = -1;           //
 
 	pushFlag = FALSE;         //最初はAボタンは押されていない
+	key_font = CreateFontToHandle(NULL, 30, 10, DX_FONTTYPE_ANTIALIASING_8X8);
 }
 
 //画像読み込み
@@ -288,14 +291,14 @@ void DrawInputInfo()
 	{
 		//SetDrawBlendMode
 
-		SetFontSize(20);
-		DrawString(200 + CENTER_X, 125 + CENTER_Y, "・　・　名前を入力　・　・", 0xffffff);
+		//SetFontSize(20);                                     ↓　文字化け
+		DrawStringToHandle(200 + CENTER_X, 125 + CENTER_Y, "・　・　名前を入力　・　・", 0xffffff, key_font);
 	}
 
 	for (int i = 0; InputName[i] != '\0'; i++)
 	{
-		SetFontSize(30);
-		DrawFormatString((220 + 20 * i) + CENTER_X, 120 + CENTER_Y, 0xffffff, " %c", InputName[i]);
+		//SetFontSize(30);
+		DrawFormatStringToHandle((220 + 20 * i) + CENTER_X, 120 + CENTER_Y, 0xffffff, key_font, " %c", InputName[i]);
 	}
 }
 
