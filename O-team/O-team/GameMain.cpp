@@ -235,6 +235,9 @@ void Attack_Update() {
 //ゲームメイン更新・計算
 void GameMain_Update()
 {
+	ChangeNextPlayVolumeSoundMem(180, GameMainBGM);  //次に流す音量を調整  ～２５５  255が通常
+	PlaySoundMem(GameMainBGM, DX_PLAYTYPE_LOOP, FALSE);
+
 	//右エリア内ゲージ用
 	now_hp = static_cast<float>(player->GetHP() * 0.5);
 	if (now_hp < 0.0f) now_hp = 0.0f;  //0より下がらない
@@ -266,6 +269,7 @@ void GameMain_Update()
 		break;
 
 	default:
+		StopSoundMem(GameMainBGM);
 		break;
 	}
 }
@@ -383,11 +387,13 @@ void GameMain(int &gamemode,int lowscore, int& g_score)
 		//ランキング最低スコアと比較
 		if (g_score > lowscore)
 		{
+			StopSoundMem(GameMainBGM);
 			gamemode = 5;  //ランキング入力へ
 			GameMain_Final();
 		}
 		else
 		{
+			StopSoundMem(GameMainBGM);
 			gamemode = 6; //リザルトへ
 			GameMain_Final();
 		}
