@@ -45,11 +45,16 @@ int font_handle;       //フォント
 //テスト用
 char Turn_str[][7] = { "Catch","Attack","END" };
 
+//しゃべる
+char Talk_str[][10] = { " ","ぐふ","ぐは","ぐへ" ,"わーい","キタ","うぐぐ","ムムム"};
+int talk_num = 0;    //しゃべる番号
+int talk_frame = 0;
+
 //ゲームメイン画像読み込み
 int LoadGameMainImages()
 {
 	//右の描画エリア画像
-	if ((image_R_area = LoadGraph("images/RightBox.png")) == -1) return -1;
+	if ((image_R_area = LoadGraph("images/RightBox2.png")) == -1) return -1;
 
 	//Clear or Over  です
 	LoadDivGraph("images/Game_CorO.png", 2, 2, 1, 1280, 720, image_CorO);
@@ -85,6 +90,8 @@ void GameMain_Init()
 	death_frame = 0;
 
 	now_hp = 0.0f;
+	talk_num = 0;
+	talk_frame = 0;
 
 	//画像
 	player->LoadImages();
@@ -122,7 +129,8 @@ void Armor_Update(){
 			//HPが増える
 			player->SetHP(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])->GetHP());
 
-			//now_hp += 50;      //右エリア内ゲージはいくらでも増える
+			//しゃべる
+			talk_num = 5;
 		}
 
 		//画面外に到達,またはプレイヤーとHitで削除
@@ -181,6 +189,23 @@ void Attack_Update() {
 		{
 			//ダメージを食らう
 			player->SetHP((dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetAttackDamage(player->GetHP())) * -1);
+			switch (dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetType())
+			{
+			case Attack_Type::SPEAR:
+				talk_num = 1;
+				break;
+
+			case Attack_Type::IRON:
+				talk_num = 2;
+				break;
+
+			case Attack_Type::POISON:
+				talk_num = 3;
+				break;
+
+			default:
+				break;
+			}
 		}
 
 		//画面外に到達、またはプレイヤーとHitで削除
@@ -227,6 +252,15 @@ void GameMain_Update()
 	now_hp = static_cast<float>(player->GetHP() * 0.5);
 	if (now_hp < 0.0f) now_hp = 0.0f;  //0より下がらない
 
+	//しゃべる
+	talk_frame++;
+	if (talk_frame % 120 == 0 && now_turn != Turn::END)
+	{
+		talk_num = 0;
+		talk_frame = 0;
+	}
+
+
 	switch (now_turn)
 	{
 	case Turn::CATCH:
@@ -241,15 +275,23 @@ void GameMain_Update()
 
 		//ターン切り替え後・2秒待つ
 		if (frameCount > 120) Attack_Update();
-		else DrawBox(0, 0, 1280,720, 0x000000, TRUE);  //暗転
-
+		else
+		{
+			DrawBox(0, 0, 1280, 720, 0x000000, TRUE);  //暗転
+			talk_num = 7;
+		}
 		break;
 
 	case Turn::END:
 
 		death_frame++;
 		//プレイヤーのHPが0以上
-		if (player->GetHP() > 0) player->Update_Win(); 
+		if (player->GetHP() > 0)
+		{
+			player->Update_Win();
+			talk_num = 4;
+		}
+		else talk_num = 6;
 
 		break;
 
@@ -346,6 +388,7 @@ void GameMain_DrawArea() {
 
 	//プレイヤー
 	player->Draw_Right(1060, 620);
+	DrawFormatStringToHandle(1010, 412, 0x000000, font_handle, Talk_str[talk_num]);
 }
 
 //ゲームメイン ランキング5番目のスコア・スコアを保持する変数をもらう
