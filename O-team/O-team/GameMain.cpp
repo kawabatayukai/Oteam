@@ -64,7 +64,9 @@ char Turn_str[][7] = { "Catch","Attack","END" };
 
 //����ׂ�
 //char Talk_str[][10] = { " ","ぐふ","ぐは","ぐへ" ,"わーい","きた","うぐぐ","ムムム"};
-char Talk_str[][10] = { " ","","","" ,"","","","" };
+//char Talk_str[][10] = { " ","","","" ,"","","","" };
+
+int Talk_images[8];
 int talk_num = 0;    //����ׂ�ԍ�
 int talk_frame = 0;
 
@@ -80,6 +82,8 @@ int LoadGameMainImages()
 
 	//�w�i
 	LoadDivGraph("images/GameMain/BackLink.png", 2, 2, 1, 1280, 720, image_Back);
+
+	LoadDivGraph("images/Strings.png", 8, 8, 1, 120, 40, Talk_images);
 
 	return 0;
 }
@@ -417,8 +421,10 @@ void GameMain_DrawArea() {
 
 	//�v���C���[
 	player->Draw_Right(1060, 620);
-	if (talk_num != 0) DrawGraph(0, 0, image_hukidashi, TRUE);
-	DrawFormatStringToHandle(1010, 412, 0x000000, font_handle, Talk_str[talk_num]);  //����ׂ�
+	//if (talk_num != 0) DrawGraph(0, 0, image_hukidashi, TRUE);
+	//DrawFormatStringToHandle(1010, 412, 0x000000, font_handle, Talk_str[talk_num]);  //����ׂ�
+
+	DrawRotaGraph(1062, 427, 1, 0, Talk_images[talk_num], TRUE);
 
 	//����
 	if (now_turn == Turn::CATCH)

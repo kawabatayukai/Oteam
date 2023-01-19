@@ -324,7 +324,7 @@ void DrawInputInfo()
 		//SetDrawBlendMode
 
 		//SetFontSize(20);                                     ↓　文字化け
-		DrawStringToHandle(200 + CENTER_X, 125 + CENTER_Y, "・　・　名前を入力　・　・", 0xffffff, key_font);
+		DrawStringToHandle(200 + CENTER_X, 125 + CENTER_Y, "Please Your Name", 0xffffff, key_font);
 	}
 
 	for (int i = 0; InputName[i] != '\0'; i++)
