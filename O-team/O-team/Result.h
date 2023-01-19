@@ -4,7 +4,14 @@
 
 //画像変数も書いてください
 
-void DrawResult(int key,int& gamemode,int score);       //エンド描画
+void DrawResult(int key, int& gamemode, int score);       //リザルト描画
+
+//選択画面の巫女さん動き
+void JampImg();
+void WalkImg();
+void SleepImg();
+
+int LoadResultImage();   //リザルト画像読み込み
 
 int LoadResultImage();   //エンド画像読み込み
 
