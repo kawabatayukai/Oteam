@@ -5,6 +5,11 @@
 #include"flying_object.h"
 #include"Player.h"
 
+/***********************************************************************/
+/*  コメント文全部文字化け　→　修正                                   */
+/*　　               があったのでおかしなところがありそうです          */
+/*********************************************************************:*/
+
 
 #define DRAWAREA_X 980 //右側エリア
 
@@ -27,7 +32,7 @@
 #define ATTACK_LIMIT 1200
 
 //防具配列
-Flying_object** obj_armor;     //���N���X�^�|�C���^
+Flying_object** obj_armor;     //基底クラス型
 
 //攻撃配列
 Flying_object** obj_attack;
@@ -84,7 +89,8 @@ int LoadGameMainImages()
 	//背景
 	LoadDivGraph("images/GameMain/BackLink.png", 2, 2, 1, 1280, 720, image_Back);
 
-	LoadDivGraph("images/Strings.png", 8, 8, 1, 120, 40, Talk_images);
+	//おしゃべり
+	LoadDivGraph("images/GameMain/Talk_Strings.png", 8, 8, 1, 120, 40, Talk_images);
 
 	return 0;
 }
@@ -282,11 +288,11 @@ void Attack_Update() {
 //ゲームメイン更新・計算
 void GameMain_Update()
 {
-	//�E�G���A���Q�[�W�p
+	//ゲージの高さを計算
 	now_hp = static_cast<float>(player->GetHP() * 0.5);
-	if (now_hp < 0.0f) now_hp = 0.0f;  //0��艺����Ȃ�
+	if (now_hp < 0.0f) now_hp = 0.0f;  //0より小さくならない
 
-	//����ׂ�
+	//しゃべる時間
 	talk_frame++;
 	if (talk_frame % 120 == 0 && now_turn != Turn::END)
 	{
@@ -307,11 +313,11 @@ void GameMain_Update()
 
 		player->Update();
 
-		//�^�[���؂�ւ���E2�b�҂�
+		//最初の２秒
 		if (frameCount > 120) Attack_Update();
 		else
 		{
-			DrawBox(0, 0, 1280, 720, 0x000000, TRUE);  //�Ó]
+			DrawBox(0, 0, 1280, 720, 0x000000, TRUE);  //暗転
 			talk_num = 7;
 		}
 		break;
@@ -319,10 +325,11 @@ void GameMain_Update()
 	case Turn::END:
 
 		death_frame++;
-		//�v���C���[��HP��0�ȏ�
+
+		//プレイヤーのHPが０以上
 		if (player->GetHP() > 0)
 		{
-			player->Update_Win();
+			player->Update_Win();    //跳ねる
 			talk_num = 4;
 		}
 		else talk_num = 6;
@@ -344,16 +351,16 @@ void GameMain_Draw()
 	case Turn::CATCH:
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 230);
-		DrawGraph(0, 0, image_Back[0], TRUE);     //�w�i
+		DrawGraph(0, 0, image_Back[0], TRUE);     //背景
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 
-		player->Draw();                           //�v���C���[�`��
+		player->Draw();                           //プレイヤー描画
 
-		//�h��̕`��
+		//描画
 		for (int i = 0; i < ARMOR_MAX; i++)
 		{
-			if (obj_armor[i] == nullptr) break;   //nullptr����ɂ�nullptr�����Ȃ��̂Ń��[�v�𔲂���
-			obj_armor[i]->Draw();                 //�v�f�����鎞�͕`��
+			if (obj_armor[i] == nullptr) break;   //nullptrより後はnullptrのみなので抜ける
+			obj_armor[i]->Draw();                 //要素があれば描画
 
 		}
 
@@ -362,33 +369,33 @@ void GameMain_Draw()
 	case Turn::ATTACK:
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-		DrawGraph(0, 0, image_Back[1], TRUE);     //�w�i
+		DrawGraph(0, 0, image_Back[1], TRUE);     //背景
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 
 		if (frameCount > 120) {}
-		else DrawBox(0, 0, 1280, 720, 0x000000, TRUE);  //�Ó]
+		else DrawBox(0, 0, 1280, 720, 0x000000, TRUE);  //暗転(？)
 
-		player->Draw();                           //�v���C���[�`��
+		player->Draw();                           //プレイヤー描画
 
-		//�U���̕`��
+		//描画
 		for (int i = 0; i < ATTACK_MAX; i++)
 		{
-			if (obj_attack[i] == nullptr) break;  //nullptr����ɂ�nullptr�����Ȃ��̂Ń��[�v�𔲂���
-			obj_attack[i]->Draw();                //�v�f������Ƃ��͕`��
+			if (obj_attack[i] == nullptr) break;  //nullptrより後はnullptrのみなので抜ける
+			obj_attack[i]->Draw();                //攻撃描画
 		}
 		break;
 
 	case Turn::END:
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-		DrawGraph(0, 0, image_Back[1], TRUE);     //�w�i
+		DrawGraph(0, 0, image_Back[1], TRUE);     //背景
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 
-		//�v���C���[��HP��0�ȏ�
+		//プレイヤーのHPが0以上
 		if (player->GetHP() > 0)
 		{
 			DrawGraph(0, 0, image_CorO[0], TRUE);    //Game Over
-			player->Draw_Win();       //�v���C���[��`��
+			player->Draw_Win();       //跳ねる（描画）
 		}
 		else
 		{
@@ -404,30 +411,23 @@ void GameMain_Draw()
 
 //ゲームメイン描画エリア
 void GameMain_DrawArea() {
-	////�`��G���A
-	//DrawBox(DRAWAREA_X, 0, 1280, 720, 0x00ddbb, TRUE);
 
-	//SetFontSize(20);
-	////Test
-	//DrawFormatString(1130, 100, 0x000000, "Now : %s", Turn_str[static_cast<int>(now_turn)]);
-	//DrawFormatString(1130, 130, 0x000000, "Time : %d", (frameCount / 60));
+	DrawBox(1150, 80, 1250, 700, 0x1f1006, TRUE);                            //ゲージのうしろ
 
-	DrawBox(1150, 80, 1250, 700, 0x1f1006, TRUE);                            //�Q�[�W�̌��
-
-	//(float�^���g����DrawBox�炵���ł�)  �Q�[�W
+	//(float型のDrawBoxらしいです)  ゲージ
 	DrawBoxAA(1150.0f, (690.0f - now_hp), 1250.0f, 690.0f, 0xff0000, TRUE);  
-	DrawGraph(0, 0, image_R_area, TRUE);                                     //�E�G���A�摜
+	DrawGraph(0, 0, image_R_area, TRUE);                                     //右エリア
 
 	DrawFormatStringToHandle(1130, 20, 0xffffff, font_handle, "HP : %d", player->GetHP());
 
-	//�v���C���[
+	//プレイヤーを右エリア内に
 	player->Draw_Right(1060, 620);
-	//if (talk_num != 0) DrawGraph(0, 0, image_hukidashi, TRUE);
+	if (talk_num != 0) DrawGraph(0, 0, image_hukidashi, TRUE);
 	//DrawFormatStringToHandle(1010, 412, 0x000000, font_handle, Talk_str[talk_num]);  //����ׂ�
 
 	DrawRotaGraph(1062, 427, 1, 0, Talk_images[talk_num], TRUE);
 
-	//����
+	//制限時間
 	if (now_turn == Turn::CATCH)
 	{
 		DrawFormatStringToHandle(1000, 120, 0xffffff, font_handle, "Time : %d", (ARMOR_LIMIT/60) - (frameCount / 60));
@@ -442,56 +442,46 @@ void GameMain_DrawArea() {
 //ゲームメイン  ランキング5番目のスコア・スコアを保持する変数をもらう
 void GameMain(int &gamemode,int lowscore, int& g_score)
 {
-	GameMain_Update();    //�Q�[�����C���X�V�E�v�Z
+	GameMain_Update();    //ゲームメイン更新
 
-	GameMain_Draw();      //�Q�[�����C���`��
+	GameMain_Draw();      //ゲームメイン描画
 
-	GameMain_DrawArea();  //�Q�[�����C���`��G���A
+	GameMain_DrawArea();  //右エリア描画
 
-	//�t���[�������Z
+	//フレームをカウント
 	frameCount++;
 
-	//if (now_turn == Turn::END && frameCount % 300 == 0)
-	//{
-	//	DrawString(100, 100, "end", 0xffffff);
-	//}
-
-	//Attack�^�[��30�b�@�܂��́@player��HP��0�ȉ��Ń^�[���؂�ւ��@�U���@���@�G���h
+	//Attackターンで20秒経過
 	if (now_turn == Turn::ATTACK && frameCount % ATTACK_LIMIT == 0 || player->GetHP() <= 0)
 	{
-		//�����L���O
 
-		//if (player->GetHP() < 0)
-		//{
-		//	
-		//}
-		player->SetWin_PointY();  //Y���W��ێ�
-		now_turn = Turn::END;     //���S��
+		player->SetWin_PointY();  //Y座標を保持
+		now_turn = Turn::END;     //ENDに切り替え
 		death_frame = frameCount;
 	}
 
-	//20�b�Ń^�[����؂�ւ�  �����@���@�U��
+	//CATCHターンで10秒経過
 	if (now_turn == Turn::CATCH && frameCount % ARMOR_LIMIT == 0)
 	{
-		now_turn = Turn::ATTACK;  //�U�����󂯂�^�[��
-		frameCount = 0;           //�J�E���g�����Z�b�g
+		now_turn = Turn::ATTACK;  //ATTACKに切り替え
+		frameCount = 0;           
 	}
 
-	//���S�܂���30�o�߂���7�b�o��
+	//30秒経過
 	if (now_turn == Turn::END && death_frame % 480 == 0)
 	{
 		g_score = player->GetHP();
 		
 
-		//�����L���O�Œ�X�R�A�Ɣ�r
+		//今回のスコアとランキング最低スコアを比較
 		if (g_score > lowscore)
 		{
-			gamemode = 5;  //�����L���O���͂�
+			gamemode = 5;  //ランキング入力へ
 			GameMain_Final();
 		}
 		else
 		{
-			gamemode = 6; //���U���g��
+			gamemode = 6; //リザルトへ
 			GameMain_Final();
 		}
 	}
