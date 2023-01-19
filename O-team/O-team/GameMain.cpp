@@ -151,7 +151,7 @@ void Armor_Update(){
 			//HP‚ª‘‚¦‚é
 			player->SetHP(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])->GetHP());
 
-			//ChangeNextPlayVolumeSoundMem(180, GetSE);  //Ÿ‚É—¬‚·‰¹—Ê‚ğ’²®  `‚Q‚T‚T  255‚ª’Êí
+			//ChangeNextPlayVolumeSoundMem(   , RankUpSE);  //Ÿ‚É—¬‚·‰¹—Ê‚ğ’²®  `‚Q‚T‚T  255‚ª’Êí
 			PlaySoundMem(GetSE, DX_PLAYTYPE_BACK);
 
 			//‚µ‚á‚×‚é

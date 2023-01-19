@@ -46,6 +46,7 @@ void Player::SetHP(int HP)
 
 void Player::Update() {
 	InitPad();
+	RankUp();
 
 	float Vector = 0.71;
 
@@ -85,8 +86,22 @@ void Player::Update() {
 	}
 }
 
-void Player::Draw() {
+void Player::RankUp() {
+	//ChangeNextPlayVolumeSoundMem(   , RankUpSE);  //次に流す音量を調整  ～２５５  255が通常
 
+	if (HP >= 300 && HP < 600) {
+		PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+	}
+	if (HP >= 600 && HP < 900) {
+		PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+	}
+	if (HP >= 900 && HP < 1200) {
+		PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+	}
+
+}
+
+void Player::Draw() {
 	if (HP < 300) now = 0;                    //1枚目　（デフォルト）
 	else if (HP >= 300 && HP < 600) now = 1;  //2枚目
 	else if (HP >= 600 && HP < 900) now = 2;  //3枚目
@@ -95,7 +110,7 @@ void Player::Draw() {
 
 	//向きによって画像を変える
 	now = now + (Direction * 4);
-	
+
 	//オーラ
 	if (HP >= 1200){
 		if (HP < 1200) now_aura = 0;                     //1枚目　（デフォルト）
@@ -154,8 +169,6 @@ void Player::Draw_Win()
 //耐えたとき跳ねる
 void Player::Update_Win()
 {
-
-
 	//ジャンプ
 	if (Y == win_pointY)
 	{

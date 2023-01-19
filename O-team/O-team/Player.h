@@ -6,6 +6,7 @@
 #pragma once
 class Player{
 private:
+	int Rank;                //現在の形態
 	int RankUpSE;            //進化した時のSE
 	int All_Images[8];       //プレイヤーの画像（4段階）
 	int All_Aura[14];        //オーラ
@@ -35,6 +36,7 @@ public:
 	void LoadImages();
 	int LoadSounds();
 
+	void RankUp();
 	void SetHP(int HP);
 	int GetHP() { return HP; }
 	void Update();
