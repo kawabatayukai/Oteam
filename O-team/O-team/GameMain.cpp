@@ -39,6 +39,7 @@ Turn now_turn;
 int image_Back[2];     //背景画像 1,2
 int image_CorO[2];     //Clear or Over  です
 int image_R_area;      //右の描画エリア画像  
+int image_hukidashi;   //吹き出し
 float now_hp = 0.0f;   //現在のHP（右エリア内のゲージで使用）
 int font_handle;       //フォント
 
@@ -54,7 +55,8 @@ int talk_frame = 0;
 int LoadGameMainImages()
 {
 	//右の描画エリア画像
-	if ((image_R_area = LoadGraph("images/RightBox2.png")) == -1) return -1;
+	if ((image_R_area = LoadGraph("images/RightBox.png")) == -1) return -1;
+	if ((image_hukidashi = LoadGraph("images/RightBox2.png")) == -1) return -1;
 
 	//Clear or Over  です
 	LoadDivGraph("images/Game_CorO.png", 2, 2, 1, 1280, 720, image_CorO);
@@ -388,7 +390,9 @@ void GameMain_DrawArea() {
 
 	//プレイヤー
 	player->Draw_Right(1060, 620);
-	DrawFormatStringToHandle(1010, 412, 0x000000, font_handle, Talk_str[talk_num]);
+	if (talk_num != 0) DrawGraph(0, 0, image_hukidashi, TRUE);
+	DrawFormatStringToHandle(1010, 412, 0x000000, font_handle, Talk_str[talk_num]);  //しゃべる
+
 }
 
 //ゲームメイン ランキング5番目のスコア・スコアを保持する変数をもらう
