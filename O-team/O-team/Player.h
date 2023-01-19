@@ -41,7 +41,8 @@ public:
 	void Draw_Death();    //死亡時の描画
 	void Draw_Win();      //耐えたときの描画
 	void Update_Win();    //耐えたとき跳ねる
-	void SetWin_PointY();  //耐えた時の座標を保持する
+	void Draw_Right(int x, int y);    //右エリア内に描画する
+	void SetWin_PointY(); //耐えた時の座標を保持する
 
 	int GetX() { return (int)X; }
 	int GetY() { return (int)Y; }

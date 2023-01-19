@@ -36,7 +36,10 @@ int death_frame = 0;
 //現在のターン
 Turn now_turn;
 
+int image_Back[2];     //背景画像 1,2
+int image_CorO[2];     //Clear or Over  です
 int image_R_area;      //右の描画エリア画像  
+int image_hukidashi;   //吹き出し
 float now_hp = 0.0f;   //現在のHP（右エリア内のゲージで使用）
 int font_handle;       //フォント
 
@@ -53,11 +56,23 @@ int PoisonSE;
 //テスト用
 char Turn_str[][7] = { "Catch","Attack","END" };
 
+//しゃべる
+char Talk_str[][10] = { " ","ぐふ","ぐは","ぐへ" ,"わーい","キタ","うぐぐ","ムムム"};
+int talk_num = 0;    //しゃべる番号
+int talk_frame = 0;
+
 //ゲームメイン画像読み込み
 int LoadGameMainImages()
 {
 	//右の描画エリア画像
 	if ((image_R_area = LoadGraph("images/RightBox.png")) == -1) return -1;
+	if ((image_hukidashi = LoadGraph("images/RightBox2.png")) == -1) return -1;
+
+	//Clear or Over  です
+	LoadDivGraph("images/Game_CorO.png", 2, 2, 1, 1280, 720, image_CorO);
+
+	//背景
+	LoadDivGraph("images/BackLink.png", 2, 2, 1, 1280, 720, image_Back);
 
 	return 0;
 }
@@ -97,6 +112,8 @@ void GameMain_Init()
 	death_frame = 0;
 
 	now_hp = 0.0f;
+	talk_num = 0;
+	talk_frame = 0;
 
 	//画像
 	player->LoadImages();
@@ -134,7 +151,8 @@ void Armor_Update(){
 			//HPが増える
 			player->SetHP(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])->GetHP());
 
-			//now_hp += 50;      //右エリア内ゲージはいくらでも増える
+			//しゃべる
+			talk_num = 5;
 		}
 
 		//画面外に到達,またはプレイヤーとHitで削除
@@ -193,6 +211,23 @@ void Attack_Update() {
 		{
 			//ダメージを食らう
 			player->SetHP((dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetAttackDamage(player->GetHP())) * -1);
+			switch (dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetType())
+			{
+			case Attack_Type::SPEAR:
+				talk_num = 1;
+				break;
+
+			case Attack_Type::IRON:
+				talk_num = 2;
+				break;
+
+			case Attack_Type::POISON:
+				talk_num = 3;
+				break;
+
+			default:
+				break;
+			}
 		}
 
 		//画面外に到達、またはプレイヤーとHitで削除
@@ -242,6 +277,15 @@ void GameMain_Update()
 	now_hp = static_cast<float>(player->GetHP() * 0.5);
 	if (now_hp < 0.0f) now_hp = 0.0f;  //0より下がらない
 
+	//しゃべる
+	talk_frame++;
+	if (talk_frame % 120 == 0 && now_turn != Turn::END)
+	{
+		talk_num = 0;
+		talk_frame = 0;
+	}
+
+
 	switch (now_turn)
 	{
 	case Turn::CATCH:
@@ -256,15 +300,23 @@ void GameMain_Update()
 
 		//ターン切り替え後・2秒待つ
 		if (frameCount > 120) Attack_Update();
-		else DrawBox(0, 0, 1280,720, 0x000000, TRUE);  //暗転
-
+		else
+		{
+			DrawBox(0, 0, 1280, 720, 0x000000, TRUE);  //暗転
+			talk_num = 7;
+		}
 		break;
 
 	case Turn::END:
 
 		death_frame++;
 		//プレイヤーのHPが0以上
-		if (player->GetHP() > 0) player->Update_Win(); 
+		if (player->GetHP() > 0)
+		{
+			player->Update_Win();
+			talk_num = 4;
+		}
+		else talk_num = 6;
 
 		break;
 
@@ -283,7 +335,11 @@ void GameMain_Draw()
 	{
 	case Turn::CATCH:
 
-		player->Draw();
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 230);
+		DrawGraph(0, 0, image_Back[0], TRUE);     //背景
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+
+		player->Draw();                           //プレイヤー描画
 
 		//防具の描画
 		for (int i = 0; i < ARMOR_MAX; i++)
@@ -297,7 +353,14 @@ void GameMain_Draw()
 
 	case Turn::ATTACK:
 
-		player->Draw();
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+		DrawGraph(0, 0, image_Back[1], TRUE);     //背景
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+
+		if (frameCount > 120) {}
+		else DrawBox(0, 0, 1280, 720, 0x000000, TRUE);  //暗転
+
+		player->Draw();                           //プレイヤー描画
 
 		//攻撃の描画
 		for (int i = 0; i < ATTACK_MAX; i++)
@@ -309,11 +372,21 @@ void GameMain_Draw()
 
 	case Turn::END:
 
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+		DrawGraph(0, 0, image_Back[1], TRUE);     //背景
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+
 		//プレイヤーのHPが0以上
-		if (player->GetHP() > 0) player->Draw_Win();       //プレイヤーを描画
-		else player->Draw_Death();
-
-
+		if (player->GetHP() > 0)
+		{
+			DrawGraph(0, 0, image_CorO[0], TRUE);    //Game Over
+			player->Draw_Win();       //プレイヤーを描画
+		}
+		else
+		{
+			DrawGraph(0, 0, image_CorO[1], TRUE);    //Game Over
+			player->Draw_Death();
+		}
 		break;
 
 	default:
@@ -338,6 +411,12 @@ void GameMain_DrawArea() {
 	DrawGraph(0, 0, image_R_area, TRUE);                                     //右エリア画像
 
 	DrawFormatStringToHandle(1130, 20, 0xffffff, font_handle, "HP : %d", player->GetHP());
+
+	//プレイヤー
+	player->Draw_Right(1060, 620);
+	if (talk_num != 0) DrawGraph(0, 0, image_hukidashi, TRUE);
+	DrawFormatStringToHandle(1010, 412, 0x000000, font_handle, Talk_str[talk_num]);  //しゃべる
+
 }
 
 //ゲームメイン ランキング5番目のスコア・スコアを保持する変数をもらう

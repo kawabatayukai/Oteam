@@ -168,6 +168,22 @@ void Player::Update_Win()
 
 }
 
+//右エリア内に描画する
+void Player::Draw_Right(int x, int y)
+{
+	double rate = 2.3;   //拡大率
+
+	//オーラ
+	if (HP >= 1200) 
+	{
+		//オーラの描画                                     左右の向きは考慮しない
+		DrawRotaGraph(x, y, rate, 0, All_Aura[now_aura - (Direction * 7)], TRUE);
+	}
+
+	//プレイヤー　　　　　　　　　　　　　　　左右の向きは考慮しない
+	DrawRotaGraph(x, y, rate, 0, All_Images[now - (Direction * 4)], TRUE);
+}
+
 //耐えた時の座標を保持する
 void Player::SetWin_PointY()
 {
