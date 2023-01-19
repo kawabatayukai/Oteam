@@ -35,7 +35,7 @@ int Cursorimage[2] = { 0 };   //�m�[�}���J�[�\���摜  0 : 
 int Cancelimage[2] = { 0 };   //  �u�~�v�J�[�\���摜
 int OKimage[2] = { 0 };       //  �uOK�v�J�[�\���摜
 
-//�T�E���h�p
+//キーボード音声
 int KeyboardBGM;
 int ClickKeyboard;
 int CursorMoveKeyboard;
@@ -59,7 +59,7 @@ int key_font = 0;                //キーボードで使用するフォント
 
 /********************************/
 
-//��������
+//キーボード初期化
 void KeyBoardInit()
 {
 	//カーソルの初期位置は"A"
@@ -102,19 +102,19 @@ int LoadKeyBoardImgaes()
 	return 0;
 }
 
-//�T�E���h�ǂݍ���
+//音声読み込み
 int LoadKeyBoardSounds() {
 	if ((KeyboardBGM = LoadSoundMem("sounds/bgm/Ranking.wav")) == -1)return -1;
 	if ((ClickKeyboard = LoadSoundMem("sounds/se/Click.wav")) == -1) return -1;
 	if ((CursorMoveKeyboard = LoadSoundMem("sounds/se/CursorMove.wav")) == -1) return -1;
 }
 
-//�L�[�{�[�h�`��
+//描画
 void KeyBoard_Draw()
 {
 	ChangeNextPlayVolumeSoundMem(110, KeyboardBGM);  //���ɗ������ʂ𒲐�  �`�Q�T�T  255���ʏ�
 	PlaySoundMem(KeyboardBGM, DX_PLAYTYPE_LOOP, FALSE);
-	//�w�i
+	//背景
 	DrawGraph(0, 0, backimage, FALSE);
 	//キーボード
 	DrawGraph(45 + CENTER_X, OUT_HEIGHT, keyboardimage, TRUE);
@@ -159,7 +159,7 @@ void KeyBoard_Update(int nowkey)
 	{
 		if (CursorControl() == true)
 		{
-			movekeyX++;     //�^�C�~���O���� + �ړ�
+			movekeyX++;     //タイミング調整 + 移動
 			ChangeNextPlayVolumeSoundMem(180, CursorMoveKeyboard);
 			PlaySoundMem(CursorMoveKeyboard, DX_PLAYTYPE_BACK);
 		}
@@ -173,7 +173,7 @@ void KeyBoard_Update(int nowkey)
 	{
 		if (CursorControl() == true)
 		{
-			movekeyX--;     //�^�C�~���O���� + �ړ�
+			movekeyX--;     //タイミング調整 + 移動
 			ChangeNextPlayVolumeSoundMem(180, CursorMoveKeyboard);
 			PlaySoundMem(CursorMoveKeyboard, DX_PLAYTYPE_BACK);
 		}
@@ -188,7 +188,7 @@ void KeyBoard_Update(int nowkey)
 
 		if (CursorControl() == true)
 		{
-			movekeyY--;     //�^�C�~���O���� + �ړ�
+			movekeyY--;     //タイミング調整 + 移動
 			ChangeNextPlayVolumeSoundMem(180, CursorMoveKeyboard);
 			PlaySoundMem(CursorMoveKeyboard, DX_PLAYTYPE_BACK);
 		}
@@ -204,7 +204,6 @@ void KeyBoard_Update(int nowkey)
 		if (CursorControl() == true)
 		{
 			movekeyY++;     //タイミング調整 + 移動
-			movekeyY++;     //�^�C�~���O���� + �ړ�
 			ChangeNextPlayVolumeSoundMem(180, CursorMoveKeyboard);
 			PlaySoundMem(CursorMoveKeyboard, DX_PLAYTYPE_BACK);
 		}
@@ -290,10 +289,8 @@ int KeyBoard_PushB(int nowkey, char* name)
 					strcpy_s(name, 11, InputName);
 
 					DeleteFontToHandle(key_font);
-
-					return 1;   //終了
 					StopSoundMem(KeyboardBGM);
-					return 1;   //�I��
+					return 1;   //終了
 				}
 				else
 				{

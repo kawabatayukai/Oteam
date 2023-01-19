@@ -18,7 +18,7 @@ void KeyBoardInit();
 //画像読み込み
 int LoadKeyBoardImgaes();
 
-//���ʉ��ǂݍ���
+//音声読み込み
 int LoadKeyBoardSounds();
 
 //描画
