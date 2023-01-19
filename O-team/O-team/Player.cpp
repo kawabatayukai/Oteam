@@ -34,6 +34,10 @@ void Player::LoadImages(){
 	LoadDivGraph("images/Mikosan_Win.png", 8, 4, 2, 64, 65, Win_Image);
 }
 
+int Player::LoadSounds() {
+	if ((RankUpSE = LoadSoundMem("sounds/se/RankUp.wav")) == -1) return -1;
+}
+
 void Player::SetHP(int HP) 
 {
 	this->HP += HP;

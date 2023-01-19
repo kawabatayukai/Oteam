@@ -6,6 +6,7 @@
 #pragma once
 class Player{
 private:
+	int RankUpSE;            //進化した時のSE
 	int All_Images[8];       //プレイヤーの画像（4段階）
 	int All_Aura[14];        //オーラ
 	int Direction;           //方向　0:右　1:左
@@ -32,6 +33,7 @@ public:
 	Player();
 	virtual~Player();
 	void LoadImages();
+	int LoadSounds();
 
 	void SetHP(int HP);
 	int GetHP() { return HP; }

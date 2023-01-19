@@ -46,7 +46,6 @@ int font_handle;       //フォント
 //サウンド用変数
 int GameMainBGM;
 int GetSE;
-int RankUpSE;
 
 int SpearSE;
 int IronSE;
@@ -80,7 +79,6 @@ int LoadGameMainImages()
 //ゲームサウンド読込み
 int LoadGameMainSounds() {
 	if ((GameMainBGM = LoadSoundMem("sounds/bgm/GameMain.wav")) == -1) return -1;
-	if ((RankUpSE = LoadSoundMem("sounds/se/RankUp.wav")) == -1) return -1;
 	if ((GetSE = LoadSoundMem("sounds/se/Get.wav")) == -1) return -1;
 	if ((SpearSE = LoadSoundMem("sounds/se/竹槍.wav")) == -1) return -1;
 	if ((IronSE = LoadSoundMem("sounds/se/鉄球.wav")) == -1) return -1;
@@ -90,6 +88,8 @@ int LoadGameMainSounds() {
 //ゲームメイン初期処理（コンストラクタ代わり）
 void GameMain_Init() 
 {
+	LoadGameMainSounds();
+
 	//防具10個分のメモリを確保
 	obj_armor = new Flying_object * [ARMOR_MAX];
 
@@ -150,6 +150,9 @@ void Armor_Update(){
 
 			//HPが増える
 			player->SetHP(dynamic_cast<Flying_Armor*>(obj_armor[armor_count])->GetHP());
+
+			//ChangeNextPlayVolumeSoundMem(180, GetSE);  //次に流す音量を調整  ～２５５  255が通常
+			PlaySoundMem(GetSE, DX_PLAYTYPE_BACK);
 
 			//しゃべる
 			talk_num = 5;
@@ -214,14 +217,18 @@ void Attack_Update() {
 			switch (dynamic_cast<Flying_Attack*>(obj_attack[attack_count])->GetType())
 			{
 			case Attack_Type::SPEAR:
+				PlaySoundMem(SpearSE, DX_PLAYTYPE_BACK);
 				talk_num = 1;
 				break;
 
 			case Attack_Type::IRON:
+				PlaySoundMem(IronSE, DX_PLAYTYPE_BACK);
 				talk_num = 2;
 				break;
 
 			case Attack_Type::POISON:
+				ChangeNextPlayVolumeSoundMem(200, PoisonSE);  //次に流す音量を調整  ～２５５  255が通常
+				PlaySoundMem(PoisonSE, DX_PLAYTYPE_BACK);
 				talk_num = 3;
 				break;
 
@@ -329,7 +336,6 @@ void GameMain_Update()
 //ゲームメイン描画
 void GameMain_Draw()
 {
-
 
 	switch (now_turn)
 	{
@@ -461,7 +467,6 @@ void GameMain(int &gamemode,int lowscore, int& g_score)
 	if (now_turn == Turn::END && death_frame % 480 == 0)
 	{
 		g_score = player->GetHP();
-		
 
 		//ランキング最低スコアと比較
 		if (g_score > lowscore)

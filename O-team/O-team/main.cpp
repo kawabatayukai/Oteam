@@ -34,7 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (ReadRanking() == -1) return -1;
 
 	//最初はタイトル
-	GameMode = mode::INPUTNAME;
+	GameMode = mode::TITLE;
 
 	//キーボードの初期化
 	KeyBoardInit();
