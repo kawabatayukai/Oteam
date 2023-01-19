@@ -265,6 +265,8 @@ int KeyBoard_PushB(int nowkey, char* name)
 					//ランキングに入力内容をセット
 					strcpy_s(name, 11, InputName);
 
+					DeleteFontToHandle(key_font);
+
 					return 1;   //終了
 				}
 				else
