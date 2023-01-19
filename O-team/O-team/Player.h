@@ -6,7 +6,15 @@
 #pragma once
 class Player{
 private:
-	int Rank;                //現在の形態
+	bool Rank = true;                 //形態1
+	bool Rank2 = true;                //形態2
+	bool Rank3 = true;                //形態3
+	bool Rank4 = true;                //形態4
+	bool Rank5 = true;                //形態5
+	bool Rank6 = true;                //形態6
+	bool Rank7 = true;                //形態7
+	bool Rank8 = true;                //形態8
+	bool Rank9 = true;                //形態9
 	int RankUpSE;            //進化した時のSE
 	int All_Images[8];       //プレイヤーの画像（4段階）
 	int All_Aura[14];        //オーラ

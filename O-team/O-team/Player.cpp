@@ -14,6 +14,8 @@ Player::Player() {
 	Y = MAP_Y / 2 - Hight;
 
 	Speed = 6.5f;
+
+	LoadSounds();
 }
 
 Player::~Player() {
@@ -87,18 +89,60 @@ void Player::Update() {
 }
 
 void Player::RankUp() {
-	//ChangeNextPlayVolumeSoundMem(   , RankUpSE);  //ŽŸ‚É—¬‚·‰¹—Ê‚ð’²®  `‚Q‚T‚T  255‚ª’Êí
-
 	if (HP >= 300 && HP < 600) {
-		PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+		if (Rank) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank = false;
+		}
 	}
 	if (HP >= 600 && HP < 900) {
-		PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+		if (Rank2) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank2 = false;
+		}
 	}
 	if (HP >= 900 && HP < 1200) {
-		PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+		if (Rank3) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank3 = false;
+		}
 	}
-
+	if (HP >= 1200 && HP < 1500) {
+		if (Rank4) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank4 = false;
+		}
+	}
+	if (HP >= 1500 && HP < 1800) {
+		if (Rank5) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank5 = false;
+		}
+	}
+	if (HP >= 1800 && HP < 2100) {
+		if (Rank6) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank6 = false;
+		}
+	}
+	if (HP >= 2100 && HP < 2400) {
+		if (Rank7) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank7 = false;
+		}
+	}
+	if (HP >= 2400 && HP < 2700) {
+		if (Rank8) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank8 = false;
+		}
+	}
+	if (HP >= 2700 && HP < 3000) {
+		if (Rank9) {
+			PlaySoundMem(RankUpSE, DX_PLAYTYPE_BACK);
+			Rank9 = false;
+		}
+	}
 }
 
 void Player::Draw() {
