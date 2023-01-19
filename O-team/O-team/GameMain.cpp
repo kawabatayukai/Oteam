@@ -6,50 +6,49 @@
 #include"Player.h"
 
 
-#define DRAWAREA_X 980 //�`��G���A�Œ�l
+#define DRAWAREA_X 980 //右側エリア
 
-//�U���̃X�s�[�h  5 �` 10
+//攻撃のスピード
 #define SPEED_ATTACK (GetRand(4) + 1) + 5
 
-//�h��̃X�s�[�h  5 �` 9
+//防具のスピード
 #define SPEED_ARMOR  (GetRand(3) + 1) + 5
 
-//�h��ő�\����
+//防具最大出現数
 #define ARMOR_MAX 25
 
-//�U���ő�\����
+//攻撃最大出現数
 #define ATTACK_MAX 15
 
-//�������ԁ@�h��
+//防具タイムリミット
 #define ARMOR_LIMIT 600
 
-//�������ԁ@�U��
+//攻撃タイムリミット
 #define ATTACK_LIMIT 1200
 
-//�h��̔z��
+//防具配列
 Flying_object** obj_armor;     //���N���X�^�|�C���^
 
-//�U���̔z��
+//攻撃配列
 Flying_object** obj_attack;
 
-//�v���C���[
+//プレイヤー
 Player* player;
 
-//�t���[�����J�E���g
-int frameCount = 0;
-int death_frame = 0;
+int frameCount = 0;    //フレームをカウント
+int death_frame = 0;   //死亡時からのフレームをカウント
 
-//���݂̃^�[��
-Turn now_turn;
+Turn now_turn;         //現在のターン
 
-int image_Back[2];     //�w�i�摜 1,2
-int image_CorO[2];     //Clear or Over  �ł�
-int image_R_area;      //�E�̕`��G���A�摜  
-int image_hukidashi;   //�����o��
-float now_hp = 0.0f;   //���݂�HP�i�E�G���A���̃Q�[�W�Ŏg�p�j
-int font_handle;       //�t�H���g
+int image_Back[2];     //背景画像
+int image_CorO[2];     //Clear or Over  画像
+int image_R_area;      //右側エリア画像
+int image_hukidashi;   //吹き出し
 
-//�T�E���h�p�ϐ�
+float now_hp = 0.0f;   //右側ゲージの高さ
+int font_handle;       //ゲームメイン内で使用するフォント
+
+//BGM・SE
 int GameMainBGM;
 int GetSE;
 int RankUpSE;
@@ -59,7 +58,7 @@ int IronSE;
 int PoisonSE;
 
 
-//�e�X�g�p
+//現在のターン
 char Turn_str[][7] = { "Catch","Attack","END" };
 
 //����ׂ�
@@ -67,14 +66,16 @@ char Turn_str[][7] = { "Catch","Attack","END" };
 //char Talk_str[][10] = { " ","","","" ,"","","","" };
 
 int Talk_images[8];
-int talk_num = 0;    //����ׂ�ԍ�
-int talk_frame = 0;
+int talk_num = 0;    //”しゃべる”配列添え字
+int talk_frame = 0;  //しゃべっている時間
 
-//�Q�[�����C���摜�ǂݍ���
+//ゲームメイン画像読み込み
 int LoadGameMainImages()
 {
-	//�E�̕`��G���A�摜
+	//右エリア
 	if ((image_R_area = LoadGraph("images/GameMain/RightBox.png")) == -1) return -1;
+
+	//吹き出し
 	if ((image_hukidashi = LoadGraph("images/GameMain/RightBox2.png")) == -1) return -1;
 
 	//Clear or Over  �ł�
