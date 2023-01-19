@@ -492,6 +492,7 @@ void GameMain(int &gamemode,int lowscore, int& g_score)
 		}
 		else
 		{
+			StopSoundMem(GameMainBGM);
 			gamemode = 6; //リザルトへ
 			GameMain_Final();
 		}
