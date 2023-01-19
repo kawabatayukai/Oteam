@@ -177,6 +177,8 @@ int LoadSounds()
 {
 	if (LoadTitleSounds() == -1) return -1;      //タイトルサウンド読み込み
 	if (LoadGameMainSounds() == -1) return -1;   //ゲームメインサウンド読み込み
+	if (LoadHelpSounds() == -1) return -1;   //ゲームメインサウンド読み込み
+	if (LoadHelp2Sounds() == -1) return -1;   //ゲームメインサウンド読み込み
 
 
 	return 0;

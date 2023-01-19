@@ -7,3 +7,5 @@
 void DrawHelp(int key, int& gamemode);         //ƒwƒ‹ƒv‰æ–Ê•`‰æ
 
 int LoadHelpImage();     //ƒwƒ‹ƒv‰æ‘œ“Ç‚İ‚İ
+
+int LoadHelpSounds();     //ƒwƒ‹ƒv‰æ‘œ“Ç‚İ‚İ

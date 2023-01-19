@@ -4,6 +4,10 @@
 //Help.hで宣言した関数の定義をここに書きます
 int g_HelpImg;
 
+//サウンド用変数
+int ClickHelp;
+int CursorMoveHelp;
+
 //ヘルプ画面描画
 void DrawHelp(int key, int& gamemode)
 {
@@ -12,10 +16,19 @@ void DrawHelp(int key, int& gamemode)
 
 	//キー入力は"key",GameModeを変えたいときは"gamemode"を変更します
 
+	//次に流す音量を調整  ～２５５  255が通常
+	ChangeNextPlayVolumeSoundMem(220, ClickHelp);
+	ChangeNextPlayVolumeSoundMem(200, CursorMoveHelp);
 	// B(2)ボタンチェックマスク(Xキー)でメニューに戻る
-	if (key & PAD_INPUT_B) gamemode = 0;
+	if (key & PAD_INPUT_B) {
+		PlaySoundMem(ClickHelp, DX_PLAYTYPE_BACK);
+		gamemode = 0;
+	}
 
-	if (key & PAD_INPUT_RIGHT) gamemode = 9;
+	if (key & PAD_INPUT_RIGHT) {
+		PlaySoundMem(CursorMoveHelp, DX_PLAYTYPE_BACK);
+		gamemode = 9;
+	}
 
 	// 説明表示
 //SetFontSize(27);
@@ -31,4 +44,10 @@ int LoadHelpImage()
 	if ((g_HelpImg = LoadGraph("images/help1.png")) == -1) return -1;
 
 	return 0;
+}
+
+//ヘルプサウンド読み込み
+int LoadHelpSounds() {
+	if ((ClickHelp = LoadSoundMem("sounds/se/Click.wav")) == -1) return -1;
+	if ((CursorMoveHelp = LoadSoundMem("sounds/se/CursorMove.wav")) == -1) return -1;
 }
