@@ -42,11 +42,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//問題なければループ
 	while (ProcessMessage() == 0 && GameMode != CLOSE && !(g_KeyFlg & PAD_INPUT_START))
 	{
-		//ESCAPE・ｽL・ｽ[・ｽﾅ終・ｽ・ｽ
+		//ESCAPEキーで終了
 		if (CheckHitKey(KEY_INPUT_ESCAPE) == 1) DxLib_End();
-		//PAD・ｽ・ｽ・ｽ・ｽ
+		//PAD入力
 		PAD_INPUT::UpdateKey();
-		//PAD・ｽ・ｽBACK・ｽL・ｽ[・ｽﾅ終・ｽ・ｽ
+		//PADのBACKキーで終了
 		if (PAD_INPUT::OnClick(XINPUT_BUTTON_BACK)) DxLib_End();
 
 		//キー入力取得 
@@ -164,7 +164,7 @@ int LoadImages()
 	if (LoadResultImage() == -1) return -1;   //リザルト画像読み込み
 	if (LoadTitleImage() == -1) return -1;    //タイトル画像読み込み
 	if (LoadEndImage() == -1) return -1;      //エンド画像読み込み
-
+	if (LoadGameMainImages() == -1) return -1;//ゲームメイン画像読み込み
 
 	return 0;
 }

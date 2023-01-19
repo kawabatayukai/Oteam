@@ -83,27 +83,27 @@ void Player::Update() {
 
 void Player::Draw() {
 
-	if (HP < 100) now = 0;                    //1枚目　（デフォルト）
-	else if (HP >= 100 && HP < 200) now = 1;  //2枚目
-	else if (HP >= 200 && HP < 300) now = 2;  //3枚目
-	else if (HP >= 300 && HP < 400) now = 3;  //4枚目
+	if (HP < 300) now = 0;                    //1枚目　（デフォルト）
+	else if (HP >= 300 && HP < 600) now = 1;  //2枚目
+	else if (HP >= 600 && HP < 900) now = 2;  //3枚目
+	else if (HP >= 900 && HP < 1200) now = 3; //4枚目
 	else now = 3;                             //4枚目以降は変わらない
 
 	//向きによって画像を変える
 	now = now + (Direction * 4);
 	
 	//オーラ
-	if (HP >= 400){
-		if (HP < 400) now_aura = 0;                    //1枚目　（デフォルト）
-		else if (HP >= 400 && HP < 500) now_aura = 1;  //2枚目
-		else if (HP >= 500 && HP < 600) now_aura = 2;  //3枚目
-		else if (HP >= 600 && HP < 700) now_aura = 3;  //4枚目
-		else if (HP >= 700 && HP < 800) now_aura = 4;  //5枚目
-		else if (HP >= 800 && HP < 900) now_aura = 5;  //6枚目
-		else if (HP >= 900 && HP < 1000) now_aura = 6; //7枚目
-		else now_aura = 6;                             //7枚目以降は変わらない
+	if (HP >= 1200){
+		if (HP < 1200) now_aura = 0;                     //1枚目　（デフォルト）
+		else if (HP >= 1200 && HP < 1500) now_aura = 1;  //2枚目
+		else if (HP >= 1500 && HP < 1800) now_aura = 2;  //3枚目
+		else if (HP >= 1800 && HP < 2100) now_aura = 3;  //4枚目
+		else if (HP >= 2100 && HP < 2400) now_aura = 4;  //5枚目
+		else if (HP >= 2400 && HP < 2700) now_aura = 5;  //6枚目
+		else if (HP >= 2700 && HP < 3000) now_aura = 6;  //7枚目
+		else now_aura = 6;                               //7枚目以降は変わらない
 
-		now_aura = now_aura + (Direction * 7);         //向きによって画像を変える(オーラも)
+		now_aura = now_aura + (Direction * 7);           //向きによって画像を変える(オーラも)
 
 		//オーラの描画
 		DrawRotaGraph(X + (Width / 2), Y + (Width / 2), 1, 0, All_Aura[now_aura], TRUE);
@@ -166,6 +166,22 @@ void Player::Update_Win()
 
 	if (Y > win_pointY) Y = win_pointY;
 
+}
+
+//右エリア内に描画する
+void Player::Draw_Right(int x, int y)
+{
+	double rate = 2.3;   //拡大率
+
+	//オーラ
+	if (HP >= 1200) 
+	{
+		//オーラの描画                                     左右の向きは考慮しない
+		DrawRotaGraph(x, y, rate, 0, All_Aura[now_aura - (Direction * 7)], TRUE);
+	}
+
+	//プレイヤー　　　　　　　　　　　　　　　左右の向きは考慮しない
+	DrawRotaGraph(x, y, rate, 0, All_Images[now - (Direction * 4)], TRUE);
 }
 
 //耐えた時の座標を保持する
