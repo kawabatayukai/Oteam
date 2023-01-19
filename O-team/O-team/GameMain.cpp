@@ -314,6 +314,9 @@ void GameMain_DrawArea() {
 	DrawGraph(0, 0, image_R_area, TRUE);                                     //右エリア画像
 
 	DrawFormatStringToHandle(1130, 20, 0xffffff, font_handle, "HP : %d", player->GetHP());
+
+	//プレイヤー
+	player->Draw_Right(1060, 620);
 }
 
 //ゲームメイン ランキング5番目のスコア・スコアを保持する変数をもらう
