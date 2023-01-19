@@ -36,6 +36,7 @@ int death_frame = 0;
 //現在のターン
 Turn now_turn;
 
+int image_CorO[2];     //Clear or Over  です
 int image_R_area;      //右の描画エリア画像  
 float now_hp = 0.0f;   //現在のHP（右エリア内のゲージで使用）
 int font_handle;       //フォント
@@ -48,6 +49,9 @@ int LoadGameMainImages()
 {
 	//右の描画エリア画像
 	if ((image_R_area = LoadGraph("images/RightBox.png")) == -1) return -1;
+
+	//Clear or Over  です
+	LoadDivGraph("images/Game_CorO.png", 2, 2, 1, 1280, 720, image_CorO);
 
 	return 0;
 }
@@ -286,10 +290,16 @@ void GameMain_Draw()
 	case Turn::END:
 
 		//プレイヤーのHPが0以上
-		if (player->GetHP() > 0) player->Draw_Win();       //プレイヤーを描画
-		else player->Draw_Death();
-
-
+		if (player->GetHP() > 0)
+		{
+			DrawGraph(0, 0, image_CorO[0], TRUE);    //Game Over
+			player->Draw_Win();       //プレイヤーを描画
+		}
+		else
+		{
+			DrawGraph(0, 0, image_CorO[1], TRUE);    //Game Over
+			player->Draw_Death();
+		}
 		break;
 
 	default:
