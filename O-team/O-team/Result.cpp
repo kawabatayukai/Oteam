@@ -106,6 +106,8 @@ void DrawResult(int key, int& gamemode, int score)
 
 		if (key & PAD_INPUT_B)
 		{
+		PlaySoundMem(ClickResult, DX_PLAYTYPE_BACK);
+		StopSoundMem(ResultBGM);
 			switch (menuNo)
 			{
 			case 0:
@@ -121,28 +123,7 @@ void DrawResult(int key, int& gamemode, int score)
 
 		}
 		break;
-	if (key & PAD_INPUT_B)
-	{
-		PlaySoundMem(ClickResult, DX_PLAYTYPE_BACK);
-		StopSoundMem(ResultBGM);
-		switch (menuNo)
-		{
-		case 0:
-			gamemode = 1;	//ゲームメインに飛ぶ
-			break;
-		case 1:
-			gamemode = 0;	//タイトル
-			break;
-		case 2:
-			gamemode = 7;	//エンドに飛ぶ
-			break;
-		}
 	}
-
-	}
-
-
-
 }
 
 //リザルト画像読み込み
@@ -246,7 +227,6 @@ void SleepImg(void) {
 		gWaitTime = 0;
 	}
 
-}
 }
 
 int LoadResultSounds() {
