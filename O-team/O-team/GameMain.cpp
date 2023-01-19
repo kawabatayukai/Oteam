@@ -63,7 +63,8 @@ int PoisonSE;
 char Turn_str[][7] = { "Catch","Attack","END" };
 
 //����ׂ�
-char Talk_str[][10] = { " ","����","����","����" ,"��[��","�L�^","������","������"};
+//char Talk_str[][10] = { " ","ぐふ","ぐは","ぐへ" ,"わーい","きた","うぐぐ","ムムム"};
+char Talk_str[][10] = { " ","","","" ,"","","","" };
 int talk_num = 0;    //����ׂ�ԍ�
 int talk_frame = 0;
 
@@ -71,8 +72,8 @@ int talk_frame = 0;
 int LoadGameMainImages()
 {
 	//�E�̕`��G���A�摜
-	if ((image_R_area = LoadGraph("images/RightBox.png")) == -1) return -1;
-	if ((image_hukidashi = LoadGraph("images/RightBox2.png")) == -1) return -1;
+	if ((image_R_area = LoadGraph("images/GameMain/RightBox.png")) == -1) return -1;
+	if ((image_hukidashi = LoadGraph("images/GameMain/RightBox2.png")) == -1) return -1;
 
 	//Clear or Over  �ł�
 	LoadDivGraph("images/GameMain/Game_CorO.png", 2, 2, 1, 1280, 720, image_CorO);
@@ -88,9 +89,9 @@ int LoadGameMainSounds() {
 	if ((GameMainBGM = LoadSoundMem("sounds/bgm/GameMain.wav")) == -1) return -1;
 	if ((RankUpSE = LoadSoundMem("sounds/se/RankUp.wav")) == -1) return -1;
 	if ((GetSE = LoadSoundMem("sounds/se/Get.wav")) == -1) return -1;
-	if ((SpearSE = LoadSoundMem("sounds/se/�|��.wav")) == -1) return -1;
-	if ((IronSE = LoadSoundMem("sounds/se/�S��.wav")) == -1) return -1;
-	if ((PoisonSE = LoadSoundMem("sounds/se/��.wav")) == -1) return -1;
+	if ((SpearSE = LoadSoundMem("sounds/se/Takeyari.wav")) == -1) return -1;
+	if ((IronSE = LoadSoundMem("sounds/se/Tekkyu.wav")) == -1) return -1;
+	if ((PoisonSE = LoadSoundMem("sounds/se/Doku.wav")) == -1) return -1;
 }
 
 //�Q�[�����C�����������i�R���X�g���N�^����j
