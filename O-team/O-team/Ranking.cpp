@@ -7,15 +7,24 @@
 //Ranking.hで宣言した関数の定義をここに書きます
 int g_RankingImg;   // ランキング画像
 
+//サウンド用変数
+int RankingBGM;
+
 struct RankingData g_Ranking[RANKING_DATA];    // ランキングデータの変数宣言
 
 //ランキング描画
 void DrawRanking(int key, int& gamemode)
 {
+	
+
 	//キー入力は"key",GameModeを変えたいときは"gamemode"を変更します
 	// スペースキーでメニューに戻る
-	if (key & PAD_INPUT_B) gamemode = 0;
-
+	if (key & PAD_INPUT_B)
+	{
+		StopSoundMem(RankingBGM);
+		gamemode = 0;
+	}
+	
 	// ランキング画像表示
 	DrawGraph(0, 0, g_RankingImg, FALSE);
 
@@ -33,6 +42,9 @@ void DrawRanking(int key, int& gamemode)
 //ランキング入力
 void InputRanking(int nowkey, int& gamemode, int score)
 {
+	if (CheckSoundMem(RankingBGM) == FALSE) {
+		PlaySoundMem(RankingBGM, DX_PLAYTYPE_LOOP, FALSE);
+	}
 	//キー入力は"key",GameModeを変えたいときは"gamemode"を変更します
 	// ランキング画像表示
 	DrawGraph(0, 0, g_RankingImg, FALSE);
@@ -182,6 +194,6 @@ int LoadRankingImage()
 }
 
 //ランキングサウンド読み込み
-//int LoadRankingSounds() {
-//
-//}
+int LoadRankingSounds() {
+	if ((RankingBGM = LoadSoundMem("sounds/bgm/Ranking.wav")) == -1)return -1;
+}
