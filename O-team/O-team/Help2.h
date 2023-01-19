@@ -7,3 +7,5 @@
 void DrawHelp2(int key, int& gamemode);         //ヘルプ画面描画
 
 int LoadHelp2Image();     //ヘルプ画像読み込み
+
+int LoadHelp2Sounds();     //ヘルプサウンド読み込み

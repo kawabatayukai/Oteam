@@ -42,6 +42,7 @@ void DrawGameTitle(int key, int& gamemode)
 
 	//DrawGraph(0, 30, gNumberImg[tempScore % 10], TRUE);
 
+	ChangeNextPlayVolumeSoundMem(200, CursorMove);  //次に流す音量を調整  ～２５５  255が通常
 	//メニューカーソルの移動処理
 	if (key & PAD_INPUT_DOWN) {
 		PlaySoundMem(CursorMove, DX_PLAYTYPE_BACK);
@@ -75,23 +76,28 @@ void DrawGameTitle(int key, int& gamemode)
 		}
 	
 
+	ChangeNextPlayVolumeSoundMem(220, Click);  //次に流す音量を調整  ～２５５  255が通常
 	if (key & PAD_INPUT_B)
 	{
 		PlaySoundMem(Click, DX_PLAYTYPE_BACK);
-		StopSoundMem(TitleBGM);
-		LoadTitleSounds();
 		switch (menuNo)
 		{
 		case 0:
+			StopSoundMem(TitleBGM);
+			LoadTitleSounds();       //もう一度読み込んで　曲最初から始めるようにする
 			gamemode = 1;	//ゲームメインに飛ぶ
 			break;
 		case 1:
 			gamemode = 4;	//ヘルプに飛ぶ
 			break;
 		case 2:
+			StopSoundMem(TitleBGM);
+			LoadTitleSounds();
 			gamemode = 3;	//ランキングに飛ぶ
 			break;
 		case 3:
+			StopSoundMem(TitleBGM);
+			LoadTitleSounds();
 			gamemode = 7;	//エンドに飛ぶ
 			break;
 		}
