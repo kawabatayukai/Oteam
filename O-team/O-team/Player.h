@@ -25,6 +25,8 @@ private:
 	int now = 0;        //現在の画像No.
 	int now_aura = 0;   //現在の画像No.(オーラ)
 	int win_pointY = 0; //耐えた時のY座標を保持
+	int frame = 0;
+	int death_now = 0;
 	
 	//ジャンプに使用
 	float y_add = 0;          //落下距離

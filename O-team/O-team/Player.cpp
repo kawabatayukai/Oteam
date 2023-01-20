@@ -15,11 +15,14 @@ Player::Player() {
 
 	Speed = 6.5f;
 
+	frame = 0;
+	death_now = 0;
+
 	LoadSounds();
 }
 
 Player::~Player() {
-
+	frame = 0;
 }
 
 void Player::LoadImages(){
@@ -182,15 +185,15 @@ void Player::Draw_Death() {
 
 	// ﬂ¿ØÅ@ ﬁ¿›
 
-	static int frame;
+	//static int frame;
 	frame++;
-	static int now = 0;
-	if (frame % 60 == 0 && now == 0) now++;
+	//static int now = 0;
+	if (frame % 60 == 0 && death_now == 0) death_now++;
 
 	//ç∂âE
 	//now = now + (Direction * 1);
 
-	DrawRotaGraph(X + (Width / 2), Y + (Width / 2), 1, 0, Death_Image[now + (Direction * 2)], TRUE);
+	DrawRotaGraph(X + (Width / 2), Y + (Width / 2), 1, 0, Death_Image[death_now + (Direction * 2)], TRUE);
 }
 
 //ëœÇ¶ÇΩÇ∆Ç´ÇÃï`âÊ
