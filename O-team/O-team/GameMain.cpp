@@ -23,7 +23,7 @@
 #define ARMOR_MAX 25
 
 //攻撃最大出現数
-#define ATTACK_MAX 15
+#define ATTACK_MAX 17
 
 //防具タイムリミット
 #define ARMOR_LIMIT 600
@@ -282,7 +282,7 @@ void Attack_Update() {
 		int r_type = GetRand(2);       //�O�`�Q�̗���
 
 		//高さ
-		int r_y = (GetRand(10) * 60) + 60;
+		int r_y = (GetRand(11) * 60) + 50;
 
 		//スピード
 		int r_speed = SPEED_ATTACK; //(GetRand(3) + 1) + 5;
